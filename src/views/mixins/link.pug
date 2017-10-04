@@ -1,0 +1,4 @@
+mixin imgLink(className, name, src, url)
+	-if (typeof(url) === 'undefined') url = '#'
+	a(href = url, class = className, title = name)&attributes(attributes)
+		img(src = src, alt = name)&attributes(attributes)

@@ -1,0 +1,20 @@
+mixin img(src1, alt1, src2, alt2)
+	-var hasSndImg = true
+	- if (typeof(src2) === 'undefined') hasSndImg = false
+	- if (typeof(alt2) === 'undefined') alt2 = alt1
+	if (hasSndImg)
+		img(src = src1, alt = alt1)&attributes(attributes)
+		|
+		img(src = src2, alt = alt2)&attributes(attributes)
+	else
+		img(src = src1, alt = alt1)&attributes(attributes)
+
+mixin imgText(src, alt, text)
+	-var hasText = true
+	- if (typeof(text) === 'undefined') hasText = false
+	if (hasText)
+		+img(src = src, alt = alt)
+		.text
+			p!=text
+	else
+		+img(src = src, alt = alt)

@@ -1,0 +1,13 @@
+header.mainHeader
+	.headerTop
+		+imgLink('companyLogo', 'Company Logo', './images/upload/logo.png')
+		.phoneNumber
+			p.num Hotline +123456789
+	.headerBottom
+		nav.menu
+			+navbar([{'text': 'Trang chủ', 'link': '#', 'title': 'Home page'},{'text': 'Khách sạn', 'link': '#', 'title': 'Khách sạn'},{'text': 'Khuyến mãi', 'link': '#', 'title': 'Khuyến mãi'},{'text': 'Thông tin công ty', 'link': '#', 'title': 'Thông tin'}])
+		nav.utility
+			+navbar([{'text': 'Đăng ký thành viên', 'link': '#', 'title': 'Đăng ký thành viên'},{'text': 'Liên hệ', 'link': '#', 'title': 'Liên hệ'},{'text': 'Đánh giá KH', 'link': '#', 'title': 'Đánh giá'}])
+			+form('searchForm')
+				+button('btnSearch')
+				+input('keyword')(class="hide")

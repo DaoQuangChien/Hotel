@@ -1,0 +1,35 @@
+.companyPartners
+  ul
+    li
+      +imgText('./images/upload/doi-tac-1.png', 'Doi tac 1', 'Cung cấp các Tour nước ngoài và nội địa')
+    li
+      +imgText('./images/upload/doi-tac-2.png', 'Doi tac 2', 'Đặt vé máy bay trực tuyến')
+footer.mainFooter
+  +imgLink('companyLogo2', 'Company Logo', './images/upload/logo-2.png')
+  .fixedWidth1
+    ul.companyInfo
+      li
+        strong Địa chỉ:
+        span 56 Nguyen Cu Trinh, Dist 1, HCMC, VN
+      li
+        strong Hotline:
+        span +84 - 908 039 699
+      li
+        strong Email:
+        span info@tmuaphong.com
+    .socialMedia
+      ul
+        li
+          +imgLink('socialImg', 'Facebook', './images/upload/fb-icon.png')
+        li
+          +imgLink('socialImg', 'Google+', './images/upload/google-icon.png')
+        li
+          +imgLink('socialImg', 'Linkin', './images/upload/linkin-icon.png')
+        li
+          +imgLink('socialImg', 'Youtube', './images/upload/youtube-icon.png')
+        li
+          +imgLink('socialImg', 'Instagram', './images/upload/instagram-icon.png')
+      a(href="#", title="Copyright") copyright Transoceanservice
+    +form('newsletter')
+      +input('emailInput', 'Newsletter sign up here')
+      +button('btnEmail',undefined , 'Submit')

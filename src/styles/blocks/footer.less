@@ -1,0 +1,110 @@
+.companyPartners {
+	padding: 51px;
+	ul {
+		.clearfix();
+		margin: auto;
+		display: table;
+	}
+	li {
+		float: left;
+    margin-right: 115px;
+    width: 193px;
+    height: 193px;
+    background: #edeef2;
+    border-radius: 50%;
+    position: relative;
+    text-align: center;
+    &:last-child {
+    	margin-right: 0;
+    }
+    &:before {
+    	content: '';
+	    display: inline-block;
+	    height: 104%;
+	    vertical-align: middle;
+    }
+    img {
+    	vertical-align: middle;
+    }
+	}
+	.text {
+    position: absolute;
+    top: 109%;
+		left: -25%;
+    width: 150%;
+    text-align: center;
+    font-size: 15px;
+	}
+}
+.mainFooter {
+	.clearfix();
+	margin-top: 42px;
+  background: #045294;
+  text-align: center;
+  padding-top: 45px;
+  padding-bottom: 100px;
+  font-size: @font-size-medium2;
+  .fixedWidth1 {
+  	padding: 0 125px;
+    margin-top: 50px;
+  }
+}
+.companyInfo, .socialMedia, #newsletter {
+  float: left;
+  width: calc(100%/3);
+}
+.companyInfo {
+	text-align: left;
+  color: #fff;
+  li {
+  	margin-bottom: 5px;
+  }
+	span {
+		padding-left: 3px;
+	}
+}
+.socialMedia {
+	ul {
+		margin: 3px auto 11px;
+    display: table;
+	}
+	li {
+		float: left;
+		margin-right: 10px;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+	a {
+		display: block;
+    clear: both;
+    color: #fff;
+    font-size: 11px;
+    font-family: @roboto;
+    text-decoration: underline;
+	}
+}
+#newsletter {
+  text-align: right;
+  padding-right: 7px;
+  padding-top: 26px;
+  font-size: 9px;
+  .btnEmail {
+  	width: 45px;
+    height: 20px;
+    background: @red1;
+    border: solid 1px #97a8b7;
+    color: #fff;
+    box-sizing: border-box;
+    margin-left: -4px;
+    padding-top: 0;
+  }
+}
+#emailInput {
+	width: 143px;
+	height: 20px;
+	border: solid 1px #97a8b7;
+	box-sizing: border-box;
+	line-height: 20px;
+	padding-left: 6px;
+}
