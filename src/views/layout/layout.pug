@@ -2,7 +2,7 @@ include ../mixins/all
 
 block vars
   -title = 'Site'
-
+  -classBody = ''
 doctype html
 html(class="no-js", lang="en")
   head
@@ -18,8 +18,8 @@ html(class="no-js", lang="en")
     link(rel="stylesheet", href="style/libs.css", type="text/css")
     link(rel="stylesheet", href="style/style.css", type="text/css")
     script(src="js/modernizr.js")
-  body
-    .container
+  body(class=classBody)
+    .contentContainer
       include ../blocks/header
       block container
       include ../blocks/footer
