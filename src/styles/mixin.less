@@ -2,10 +2,13 @@
 	background: url(../images/bg-line.png) bottom repeat-x;
 }
 .cssreset(){
-	padding: 0;
+	padding: 15px;
 	margin: 0;
 	list-style: none;
 	font-weight: normal;
+}
+.noPadding() {
+	padding: 0;
 }
 .clearfix() {
 	&:after {
@@ -13,4 +16,16 @@
 		display: table;
 		clear: both;
 	}
+}
+.standardShadow() {
+	box-shadow: 0px 1px 4px #757575;
+}
+.standardHoverShadow() {
+	box-shadow: 0px 2px 8px #757575;
+}
+.standardBorderRadius() {
+	border-radius: 2px;
+}
+.standardPadding() {
+  padding: 10px 15px;
 }

@@ -1,0 +1,14 @@
+block vars
+  -classForm = ''
+
+form(class=classForm).search-form.control-form
+  .default-action
+  .control-group
+    label.time Từ
+    input(class='date-picker input', type='text', name='from')
+    span.fa.fa-calendar
+  .control-group
+    label.time Đến
+    input(class='date-picker input', type='text', name='to')
+    span.fa.fa-calendar
+  button.btn.flat(type='submit') Tìm

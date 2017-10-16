@@ -1,22 +1,35 @@
 mixin navbar(menus)
-	ul
-		each menu, key in menus
-			-var active = ''
-			-if(menuIndex === key) active = 'active'
-			li
-				a(class= active,href = menu.link, title = menu.title)
-					!=menu.text
-				if (typeof(menu.itemsMenu) !== 'undefined')
-					+navbar(menu.itemsMenu)
+  ul.nav
+    each menu, key in menus
+      -var active = ''
+      -if(menuIndex === key) active = 'active'
+      li
+        a(class= menu.class + ' ' + active, href = menu.link, title = menu.title)
+          span(class=menu.icon)
+          span
+            !=menu.text
+        if (typeof(menu.itemsMenu) !== 'undefined')
+          +navbar(menu.itemsMenu)
 mixin customSelect(defaultTxt, clList, options)
-	-var hasOptions = true
-	- if(typeof(options) === 'undefined') hasOptions = false
-	- if(typeof(defaultTxt) === 'undefined') defaultTxt = 'Select'
-	.customSelect
-		p 
-			!=defaultTxt
-		-if(hasOptions)
-			ul(class=clList)
-				each option in options
-					li
-						!=option
+  -var hasOptions = true
+  - if(typeof(options) === 'undefined') hasOptions = false
+  - if(typeof(defaultTxt) === 'undefined') defaultTxt = 'Select'
+  .customSelect
+    p
+      !=defaultTxt
+    -if(hasOptions)
+      ul(class=clList)
+        each option in options
+          li
+            !=option
+mixin side(menus)
+  ul.menu
+    each menu, key in menus
+      -var active = ''
+      -if(activeIndex === key) active = 'active'
+      li(class='menu-item ' + active)
+        a(href = menu.link, title = menu.title)
+          span(class='menu-icon ' + menu.icon)
+          span.menu-title
+            !=menu.text
+

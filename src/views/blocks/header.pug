@@ -1,13 +1,8 @@
 header.mainHeader
-	.headerTop
-		+imgLink('companyLogo', 'Company Logo', './images/upload/logo.png')
-		.phoneNumber
-			p.num Hotline +123456789
-	.headerBottom
-		nav.menu
-			+navbar([{'text': 'Trang chủ', 'link': '#', 'title': 'Home page'},{'text': 'Khách sạn', 'link': '#', 'title': 'Khách sạn'},{'text': 'Khuyến mãi', 'link': '#', 'title': 'Khuyến mãi'},{'text': 'Thông tin công ty', 'link': '#', 'title': 'Thông tin'}])
-		nav.utility
-			+navbar([{'text': 'Đăng ký thành viên', 'link': '#', 'title': 'Đăng ký thành viên'},{'text': 'Liên hệ', 'link': '#', 'title': 'Liên hệ'},{'text': 'Đánh giá KH', 'link': '#', 'title': 'Đánh giá'}])
-			+form('searchForm')
-				+button('btnSearch')
-				+input('keyword')(class="hide")
+  .container
+    h1 Hotel Booking
+    +form('search')
+      div.control-group
+        span.icon.right.fa.fa-search
+        +input('input')
+    +navbar([{'link': 'dashboard.html', 'title': 'Dashboard', 'text': 'Dashboard', 'class':'st', 'icon':'fa fa-tachometer'},{'link': 'customer.html', 'title': 'Khách hàng', 'text': 'Khách hàng', 'class':'st', 'icon':'fa fa-users'},{'link': 'hotel.html', 'title': 'Khách sạn', 'text': 'Khách sạn', 'class':'st', 'icon':'fa fa-bed'},{'link': 'rss.html', 'title': 'Tin tức', 'text': 'Tin tức', 'class':'st', 'icon':'fa fa-rss'},{'link': 'userManagement.html', 'title': 'Người dùng', 'text': 'Người dùng', 'class':'st', 'icon':'fa fa-users'},{'link': 'layoutManagement.html', 'title': 'Giao diện', 'text': 'Giao diện', 'class':'st', 'icon':'fa fa-columns'}])

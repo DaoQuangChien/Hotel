@@ -1,0 +1,55 @@
+extends layout/hotel-layout.pug
+
+block vars
+  -title = 'Khách sạn'
+  -menuIndex = 2
+  -isLoggedIn = true
+  -summaryClass = 'active'
+  -activeIndex = 0
+block content-side
+  h2.hotel-name.no-padding Khách sạn Mường Thanh
+  form.hotel-form.form-control
+    .slide-pictures.no-padding
+      .scroll-left.fa.fa-chevron-left(onclick="$('.slide-view').animate({ scrollLeft: $('.slide-view').scrollLeft() - $('.slide-view').width()}, 1000)")
+      .slide-view
+        ul.pictures.no-padding
+          li.picture
+            +sampleImg()
+          li.picture
+            +sampleImg()
+          li.picture
+            +sampleImg()
+          li.picture
+            +sampleImg()
+          li.picture.no-padding.uploader
+            input(type="file" accept="image/*,camera")
+      .scroll-right.fa.fa-chevron-right(onclick="$('.slide-view').animate({ scrollLeft: $('.slide-view').scrollLeft() + $('.slide-view').width()}, 1000)")
+    .control-group
+      label.label Giới thiệu
+      textarea.input(id="editor1")
+        include blocks/home-summary-description.txt
+    .control-group.inline
+      label.label Thành phố
+      .select.no-padding
+        select.input
+          option(value="Hồ Chí Minh") Hồ Chí Minh
+          option(value="Đà Nẵng") Đà Nẵng
+          option(value="Hà Nội") Hà Nội
+
+    .control-group.inline
+      label.label Quận
+      .select.no-padding
+        select.input
+          option(value="Quận 9") 9
+          option(value="Quận Thủ Đức") Thủ Đức
+          option(value="Quận Bình Thạnh") Bình Thạnh
+
+    .control-group.inline
+      label.label Địa chỉ
+      input.input(type='text', placeholder='4A/1 Đường Xô Viết Nghệ Tĩnh Phường 25')
+    .btn-group
+      button.btn.btn-primary Lưu
+      button.btn.btn-primary Preview
+      button.btn.btn-negative.pull-right Xóa
+    script
+      include blocks/home-summary-script.js

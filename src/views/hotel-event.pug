@@ -1,0 +1,29 @@
+extends layout/hotel-layout.pug
+
+block vars
+  -title = 'Khuyến mãi'
+  -menuIndex = 2
+  -isLoggedIn = true
+  -summaryClass = 'active'
+  -activeIndex = 2
+  -hasFormTime = true
+  -classForm = 'block-event'
+block content-side
+  .block-event.block-group
+    .block-content.rich-text
+      h2 Từ 12/10/2017 đến 16/11/2017 Giảm 40%
+      span 1 lần
+      p Đặt 01 đêm - Đón sân bay + Tặng voucher ẩm thực 500.000 vnđ/ 02 đêm - Đưa đón sân bay + 01 bữa tối - Miễn phí nâng cấp hạng phòng (tháng 9-12)
+      p Áp dụng: Tất cả phòng
+    .block-action
+      a.fa.fa-edit(href='userManagement-Edit.html', title='Edit')
+      a.fa.fa-trash(href='#', title='Block')
+  .block-event.block-group
+    .block-content.rich-text
+      h2 Từ 12/10/2017 đến 16/11/2017 Giảm 10%
+      span Hàng năm
+      p Đặt 01 đêm - Đón sân bay + Tặng voucher ẩm thực 500.000 vnđ/ 02 đêm - Đưa đón sân bay + 01 bữa tối - Miễn phí nâng cấp hạng phòng (tháng 9-12)
+      p Áp dụng: The King Room
+    .block-action
+      a.fa.fa-edit(href='userManagement-Edit.html', title='Edit')
+      a.fa.fa-trash(href='#', title='Block')

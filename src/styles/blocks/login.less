@@ -1,0 +1,38 @@
+.panel {
+  position: relative;
+  background: #FFF;
+  width: 300px;
+  margin: auto;
+  padding: 0;
+  margin-top: calc(~'50vh - 150px');
+  .standardBorderRadius();
+  .standardShadow();
+	h1 {
+		text-align: center;
+    text-transform: uppercase;
+		padding: 15px;
+    font-size: 2rem;
+	}
+}
+.message.error {
+  width: 300px;
+  margin: auto;
+  margin-top: 15px;
+}
+#loginForm {
+	padding-top: 0;
+	p {
+		font-weight: bold;
+	}
+	.btn {
+		width: 100%;
+		text-align: center;
+    background: @primaryColor;
+    color: #FFF;
+    text-transform: uppercase;
+		margin-top: 15px;
+    &:hover {
+      background: @tertiaryColor;
+    }
+	}
+}

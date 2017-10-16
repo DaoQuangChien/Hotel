@@ -1,0 +1,17 @@
+extends ./layout.pug
+
+block vars
+  -title = 'Khách sạn'
+  -menuIndex = 2
+  -isLoggedIn = true
+  -hasFormTime = false
+
+block container
+  div.left-side
+    ul.menu
+      +side([{'link': 'hotel-summary.html', 'title': 'Thông tin chung', 'text': 'Thông tin chung', undefined, 'icon':'fa fa-home'}, {'link': 'hotel-room.html', 'title': 'Thông tin phòng', 'text': 'Thông tin phòng', undefined, 'icon':'fa fa-bed'}, {'link': 'hotel-event.html', 'title': 'Khuyễn mãi', 'text': 'Khuyễn mãi', undefined, 'icon':'fa fa-calendar'}, {'link': 'hotel-price.html', 'title': 'Thời giá', 'text': 'Thời giá', undefined, 'icon':'fa fa-usd'}])
+  div.content-side.main-content
+    -if(hasFormTime)
+      include ../blocks/form-time.pug
+    block content-side
+    .clearfix

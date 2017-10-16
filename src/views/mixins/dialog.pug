@@ -1,0 +1,84 @@
+mixin hotelDialog(did, title, hotel)
+
+  .modal-background(style="display:none;")
+  .modal-dialog(id=did style="display:none;").no-padding
+    .modal-title.no-padding
+      h2
+        !=title
+    .model-content.no-padding
+      form.hotel-form.form-control
+        .scrollable-content
+          .control-group.single-line
+            label.label Tên khách sạn
+            input.input(type="text", value=hotel.name)
+          .control-group
+            label.label Giới thiệu
+            textarea.input(id="editor1")
+              !=hotel.description
+          .control-group.inline
+            label.label Tỉnh/Thành Phố
+            .select.no-padding
+              select.input
+                option Hồ Chí Minh
+          .control-group.inline
+            label.label Quận/Huyện
+            .select.no-padding
+              select.input
+                option Bình Thạnh
+          .control-group.single-line
+            label.label Địa chỉ
+            input.input(type="text", value=hotel.location)
+        .btn-group.no-padding
+          button.btn.flat.pull-right(onclick="hide('#"+did+"');return false;") Hủy
+          button.btn.flat.pull-right(onclick="hide('#"+did+"');return false;") Lưu
+          .clearfix.no-padding
+  script
+    include ../blocks/dialog.js
+    include ../blocks/home-summary-script.js
+
+mixin roomDialog(did, title, room)
+
+  .modal-background(style="display:none;")
+  .modal-dialog(id=did style="display:none;").no-padding
+    .modal-title.no-padding
+      h2
+        !=title
+    .model-content.no-padding
+      form.room-form.form-control
+        .scrollable-content
+          .control-group
+            span.picture.uploader
+              input(type="file" accept="image/*,camera")
+          .control-group.single-line
+            label.label Tên
+            input.input(type="text", value=room.name)
+          .control-group.single-line
+            label.label Loại phòng
+            input.input(type="text", value=room.kind)
+          .control-group.single-line
+            label.label Tiện ích
+              span.optional (Không bắt buộc)
+            input.input(type="text")
+            ul.items
+              each fal in room.facilities
+                li.item
+                  span
+                    !=fal
+                  span.fa.fa-trash
+          .control-group
+            label.label Chi tiết
+            textarea.input(id="editor1")
+              !=room.description
+          .control-group.single-line
+            label.label Giá
+            input.input(type="text", value=room.price)
+          .control-group.single-line
+            label.label Số phòng
+            input.input(type="text", value=room.quantity)
+        .btn-group.no-padding
+          button.btn.flat.pull-right(onclick="hide('#"+did+"');return false;") Hủy
+          button.btn.flat.pull-right(onclick="hide('#"+did+"');return false;") Lưu
+          .clearfix.no-padding
+  script
+    include ../blocks/dialog.js
+    include ../blocks/home-summary-script.js

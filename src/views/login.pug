@@ -1,0 +1,18 @@
+extends layout/layout.pug
+
+block vars
+  -title = 'LogIn'
+  -isLoggedIn = false
+
+block container
+  .panel
+    h1 Đăng Nhập
+    +form('loginForm', undefined, undefined)
+      div.control-group
+        span.icon.right.fa.fa-user-secret
+        +input('input', 'Username', 'username')
+      div.control-group
+        span.icon.right.fa.fa-lock
+        +input('input', 'Password', 'password', 'password')
+      +button('btn', undefined, 'Login')
+  .message.error Username hoặc mật khẩu không đúng, vui lòng kiểm tra và thử lại.

@@ -1,6 +1,15 @@
-.contentContainer {
-	max-width: 1366px;
+* {
+  transition: all 0.5s;
+}
+html, body {
+	padding: 0;
+}
+.containerContent {
 	margin: auto;
+	padding: 0;
+}
+.container {
+  position: relative;
 }
 .hide {
 	display: none !important;
@@ -9,13 +18,344 @@
 img {
 	max-width: 100%;
 }
-.fixedWidth1 {
-	.clearfix();
-	max-width: 1040px;
-	margin: auto;
+
+.message.positive {
+  background: @positiveColor;
+  color: #fff;
 }
-.fixedWidth2 {
-	.clearfix();
-	max-width: 1210px;
-	margin: auto;
+.message.negative {
+  background: @negativeColor;
+  color: #fff;
+}
+.message.info {
+  background: @infoColor;
+  color: #fff;
+}
+.message.warning {
+  background: @warningColor;
+  color: #fff;
+}
+.message.error {
+	color: #FFF;
+  background: @negativeColor;
+}
+.positive {
+  color: @positiveColor;
+  &input,input{
+    border-color: @positiveColor !important;
+  }
+}
+.negative {
+  color: @negativeColor;
+  &input,input{
+    border-color: @negativeColor !important;
+  }
+}
+.info {
+  color: @infoColor;
+  &input,input{
+    border-color: @infoColor !important;
+  }
+}
+.warning {
+  color: @warningColor;
+  &input,input{
+    border-color: @warningColor !important;
+  }
+}
+.error {
+  color: @negativeColor;
+  &input,input{
+    border-color: @negativeColor !important;
+  }
+}
+.section {
+  padding: 0px 15px;
+}
+.select {
+  position: relative;
+}
+.select::after {
+  content: "";
+  display: inline-block;
+  height: 5px;
+  width: 5px;
+  position: absolute;
+  right: 5px;
+  top: 15px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid @primaryColor;
+}
+.select:focus~* {
+  border-top: 5px solid @warningColor;
+}
+.input {
+  background: transparent;
+  width: 100%;
+  padding: 5px 10px;
+  border: none;
+  border-bottom: 1px solid @primaryColor;
+  &.error {
+    border-bottom: 1px solid @negativeColor;
+  }
+  &.readonly {
+    border-bottom-color: @lightColor;
+  }
+  &:focus {
+    border-bottom-color: @warningColor;
+  }
+}
+input::placeholder {
+  color: lighten(@darkColor, 30%);
+}
+.btn-group {
+  .btn {
+    margin: 5px;
+  }
+}
+.btn {
+  text-transform: uppercase;
+  .standardPadding();
+  .standardBorderRadius();
+  .btn-icon {
+    padding: 0px;
+    margin: 0px 5px;
+  }
+  .btn-label {
+    padding: 0px;
+  }
+  &.flat {
+    border: none;
+    background: transparent;
+    color: @darkColor;
+    &:hover {
+      background: @lightColor;
+    }
+  }
+  &.raise {
+    .standardShadow();
+    &:hover {
+      .standardHoverShadow();
+    }
+  }
+  &.btn-primary {
+    background: @primaryColor;
+    color: #FFF;
+    &:hover {
+      background: darken(@primaryColor, 15%);
+    }
+  }
+  &.btn-secondary {
+    background: @secondaryColor;
+    color: #FFF;
+    &:hover {
+      background: darken(@secondaryColor, 15%);
+    }
+  }
+  &.btn-tertiary {
+    background: @tertiaryColor;
+    color: #FFF;
+    &:hover {
+      background: darken(@tertiaryColor, 15%);
+    }
+  }
+  &.btn-positive {
+    background: @positiveColor;
+    color: #FFF;
+    &:hover {
+      background: darken(@positiveColor, 15%);
+    }
+  }
+  &.btn-negative {
+    background: @negativeColor;
+    color: #FFF;
+    &:hover {
+      background: darken(@negativeColor, 15%);
+    }
+  }
+  &.btn-warning {
+    background: @warningColor;
+    color: #FFF;
+    &:hover {
+      background: darken(@warningColor, 15%);
+    }
+  }
+  &.btn-info {
+    background: @infoColor;
+    color: #FFF;
+    &:hover {
+      background: darken(@infoColor, 15%);
+    }
+  }
+}
+.control-group {
+  padding: 0px;
+  margin: 10px 0px;
+  position: relative;
+  .icon.right {
+    position: absolute;
+    right: 0px;
+    padding: 5px;
+  }
+  &.inline {
+    margin: 0px 10px;
+    max-width: 400px;
+    display: inline-block;
+    width: 100%;
+  }
+}
+
+.default-action {
+  position: fixed;
+  bottom: 15px;
+  right: 15px;
+	height: 48px;
+  width: 48px;
+  display: inline-block;
+  border-radius: 50%;
+  background: @secondaryColor;
+  color: #FFF;
+  font-size: 1.3rem;
+  .standardShadow();
+  cursor: pointer;
+  &:before {
+  	content: '\f067';
+  	font-family: @fontawesome;
+  }
+  &:hover {
+    color: #FFF;
+    background: darken(@secondaryColor, 15%);
+    box-shadow: 0px 2px 8px @darkColor;
+  }
+  &:active {
+  	transform: rotateZ(45deg);
+  }
+}
+.no-padding {
+  padding: 0px;
+}
+.main-content {
+    min-height: calc(~'100vh - 167px');
+}
+.text-right {
+  text-align: right;
+}
+.text-center {
+  text-align: center;
+}
+.ql-toolbar,.ql-container {
+  display: inline-block;
+  min-width: 100%;
+  * {
+    padding: 0px;
+  }
+}
+.modal-background {
+  z-index: 999;
+  background: @darkColor;
+  opacity: 0.5;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+.modal-dialog {
+  z-index: 9999;
+  margin: auto;
+  position: fixed;
+  background: #FFF;
+  opacity: 1;
+  .modal-title {
+    border-bottom: 1px solid @lightColor;
+  }
+  .control-group {
+    .picture {
+      display: inline-block;
+      width: 200px;
+      img {
+        .standardBorderRadius();
+        padding: 0px;
+      }
+      input[type=file] {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+      }
+      &.uploader {
+        .standardBorderRadius();
+        width: 170px;
+        position: relative;
+        background: #FFF;
+        border: 1px solid @lightColor;
+        height: 95px;
+        margin: auto;
+        padding: 0px;
+        display: block;
+        &::before {
+          content: 'Upload Image';
+          position: absolute;
+          text-transform: uppercase;
+          width: 100%;
+          text-align: center;
+          top: 40px;
+        }
+      }
+    }
+    .label {
+      font-weight: bold;
+    }
+    &.inline{
+      margin: 10px 0px;
+      width: auto;
+      >* {
+        display: inline-block;
+        &:nth-child(1) {
+          width: 150px;
+        }
+        &:nth-child(2) {
+          width: 150px;
+        }
+      }
+    }
+    &.single-line ul.items {
+      margin-left: 150px;
+      padding: 0px;
+      li.item {
+        padding: 0px;
+        display: inline;
+        span {
+          padding: 5px;
+          .standardBorderRadius();
+        }
+      }
+    }
+    &.single-line>* {
+      display: inline-block;
+      &:nth-child(1) {
+        width: 150px;
+        position: relative;
+        .optional {
+          padding: 5px 0px;
+          font-size: 0.8rem;
+          position: absolute;
+          display: block;
+        }
+      }
+      &:nth-child(2) {
+        width: calc(~'100% - 160px');
+      }
+    }
+  }
+}
+.rich-text {
+  span {
+    padding: 15px;
+    display: inline-block;
+  }
+  h1, h2, h3, h4, h5, h6, p, span {
+    padding-top: 0
+  }
 }

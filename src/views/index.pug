@@ -5,83 +5,145 @@ block vars
   -menuIndex = 0
   -classBody = 'index'
 block container
-  main
-    .fullWidth.searchHotel
-      article.contentLeft
-        blockquote
-          span Xin chào
-          | Tại muaphong.com, Chúng tối giúp bạn tìm kiếm hàng trăm phòng khách sạn tốt nhật trên mọi miền đất nước
-        +customSelect('Tên khách sạn', 'hide', ['KS A', 'KS B', 'KS C'])
-        +customSelect('Ngày nhận phòng')
-        +customSelect('Ngày trả phòng')
-        +form('findHotel')
-          +input('placesInput', 'Khu vực')
-          +button('btnFind', undefined, 'Tìm kiếm')
-      article.contentRight
-        +img('./images/upload/bgd-1.jpg', 'Voucher image')
-        a(href="#", title="Voucher") Voucher
-    .fixedWidth1
-      article.product
-        +img('./images/upload/img-1.jpg', 'Product 1')
-        a(href='#', title="Product 1") Mùa hè rực lửa tại Nha Trang
-      article.product
-        +img('./images/upload/img-2.jpg', 'Product 2')
-        a(href='#', title="Product 2") Ưu đãi hàng ngày
-      article.product
-        +img('./images/upload/img-3.jpg', 'Product 3')
-        a(href='#', title="Product 3") Ưu đãi phút chót
-    .fullWidth.bgdOverlay
-      .featuredHotel
-        .advertisedHotel
-          a(class="hot", href="#", title="Khách sạn hot") Khách sạn hot
-          .adDetail
-            .adInfo
-              p Pilgrimage Village, Huế
-              span.rated
-              p Số 5, Đường Duy Tân, phường Hòa Thuận Đông, Huế
-              p 50
-                |
-                span %
-                |
-                span off
-                |
-                span sale
-              a(href="#", title="Đặt mua") Đặt ngay
-            +img('./images/upload/img-4.jpg', 'Featured Hotel')
-        ul.listPlaces
-          li 
-            a(href="#" title="Côn Đảo") Côn Đảo
-          li 
-            a(href="#" title="Hạ Long") Hạ Long
-          li 
-            a(href="#" title="Hà Nội") Hà Nội
-          li 
-            a(href="#" title="Hồ Chí Minh") Hồ Chí Minh
-          li 
-            a(href="#" title="Hội An") Hội An
-          li 
-            a(href="#" title="Huế") Huế
-          li 
-            a(href="#" title="Nha Trang") Nha Trang
-          li 
-            a(href="#" title="Đà Lạt") Đà Lạt
-          li 
-            a(href="#" title="Đà Nẵng") Đà Nẵng
-          li 
-            a(href="#" title="Côn Đảo") Côn Đảo
-          li 
-            a(href="#" title="Hạ Long") Hạ Long
-          li 
-            a(href="#" title="Hà Nội") Hà Nội
-          li 
-            a(href="#" title="Hồ Chí Minh") Hồ Chí Minh
-          li 
-            a(href="#" title="Hội An") Hội An
-          li 
-            a(href="#" title="Huế") Huế
-          li 
-            a(href="#" title="Nha Trang") Nha Trang
-          li 
-            a(href="#" title="Đà Lạt") Đà Lạt
-          li 
-            a(href="#" title="Đà Nẵng") Đà Nẵng
+  main.contentWrapper
+    .sliderWrapper
+      .sliderItem
+        +imgLink('sliderImg', 'Image 1', '../images/upload/bgd-1.jpg')
+      .sliderItem
+        +imgLink('sliderImg', 'Image 2', '../images/upload/bgd-1.jpg')
+      .sliderItem
+        +imgLink('sliderImg', 'Image 3', '../images/upload/bgd-1.jpg')
+      .bulletWrapper
+        a(href='#', class='active')
+        a(href='#')
+        a(href='#')
+    .blockContent
+      h2 Top điểm đến
+      .containerCol.fixedWidth1
+        .col-md-3.col-sm-6.col-xs-6
+          .hotelContent
+            +imgLink('hotelImg', 'Hotel 1', '../images/upload/attenioned-hotel-1.jpg')
+            a(href='#', title='TP Vũng tàu') TP Vũng tàu
+          .more
+            a(href='#', title='Xem thêm') Xem thêm
+        .col-md-3.col-sm-6.col-xs-6
+          .hotelContent
+            +imgLink('hotelImg', 'Hotel 2', '../images/upload/attentioned-hotel-2.jpg')
+            a(href='#', title='TP Vũng tàu') TP Vũng tàu
+          .more
+            a(href='#', title='Xem thêm') Xem thêm
+        .col-md-3.col-sm-6.col-xs-6
+          .hotelContent
+            +imgLink('hotelImg', 'Hotel 3', '../images/upload/attentioned-hotel-3.jpg')
+            a(href='#', title='TP Vũng tàu') TP Vũng tàu
+          .more
+            a(href='#', title='Xem thêm') Xem thêm
+        .col-md-3.col-sm-6.col-xs-6
+          .hotelContent
+            +imgLink('hotelImg', 'Hotel 1', '../images/upload/attenioned-hotel-1.jpg')
+            a(href='#', title='TP Vũng tàu') TP Vũng tàu
+          .more
+            a(href='#', title='Xem thêm') Xem thêm
+        .col-md-3.col-sm-6.col-xs-6
+          .hotelContent
+            +imgLink('hotelImg', 'Hotel 2', '../images/upload/attentioned-hotel-2.jpg')
+            a(href='#', title='TP Vũng tàu') TP Vũng tàu
+          .more
+            a(href='#', title='Xem thêm') Xem thêm
+        .col-md-3.col-sm-6.col-xs-6
+          .hotelContent
+            +imgLink('hotelImg', 'Hotel 3', '../images/upload/attentioned-hotel-3.jpg')
+            a(href='#', title='TP Vũng tàu') TP Vũng tàu
+          .more
+            a(href='#', title='Xem thêm') Xem thêm
+        .col-md-3.col-sm-6.col-xs-6
+          .hotelContent
+            +imgLink('hotelImg', 'Hotel 1', '../images/upload/attenioned-hotel-1.jpg')
+            a(href='#', title='TP Vũng tàu') TP Vũng tàu
+          .more
+            a(href='#', title='Xem thêm') Xem thêm
+        .col-md-3.col-sm-6.col-xs-6
+          .hotelContent
+            +imgLink('hotelImg', 'Hotel 2', '../images/upload/attentioned-hotel-2.jpg')
+            a(href='#', title='TP Vũng tàu') TP Vũng tàu
+          .more
+            a(href='#', title='Xem thêm') Xem thêm
+    //- .fullWidth.searchHotel
+    //-   article.contentLeft
+    //-     blockquote
+    //-       span Xin chào
+    //-       | Tại muaphong.com, Chúng tối giúp bạn tìm kiếm hàng trăm phòng khách sạn tốt nhật trên mọi miền đất nước
+    //-     +customSelect('Tên khách sạn', 'hide', ['KS A', 'KS B', 'KS C'])
+    //-     +customSelect('Ngày nhận phòng')
+    //-     +customSelect('Ngày trả phòng')
+    //-     +form('findHotel')
+    //-       +input('placesInput', 'Khu vực')
+    //-       +button('btnFind', undefined, 'Tìm kiếm')
+    //-   article.contentRight
+    //-     +img('./images/upload/bgd-1.jpg', 'Voucher image')
+    //-     a(href="#", title="Voucher") Voucher
+    //- .fixedWidth1
+    //-   article.product
+    //-     +img('./images/upload/img-1.jpg', 'Product 1')
+    //-     a(href='#', title="Product 1") Mùa hè rực lửa tại Nha Trang
+    //-   article.product
+    //-     +img('./images/upload/img-2.jpg', 'Product 2')
+    //-     a(href='#', title="Product 2") Ưu đãi hàng ngày
+    //-   article.product
+    //-     +img('./images/upload/img-3.jpg', 'Product 3')
+    //-     a(href='#', title="Product 3") Ưu đãi phút chót
+    //- .fullWidth.bgdOverlay
+    //-   .featuredHotel
+    //-     .advertisedHotel
+    //-       .adDetail
+    //-         .adInfo
+    //-           p Pilgrimage Village, Huế
+    //-           span.rated
+    //-           p Số 5, Đường Duy Tân, phường Hòa Thuận Đông, Huế
+    //-           p 50
+    //-             |
+    //-             span %
+    //-             |
+    //-             span off
+    //-             |
+    //-             span sale
+    //-           a(class="hot", href="#", title="Khách sạn hot") Khách sạn hot
+    //-           a(href="#", title="Đặt mua") Đặt ngay
+    //-         +img('./images/upload/img-4.jpg', 'Featured Hotel')
+    //-     ul.listPlaces
+    //-       li 
+    //-         a(href="#" title="Côn Đảo") Côn Đảo
+    //-       li 
+    //-         a(href="#" title="Hạ Long") Hạ Long
+    //-       li 
+    //-         a(href="#" title="Hà Nội") Hà Nội
+    //-       li 
+    //-         a(href="#" title="Hồ Chí Minh") Hồ Chí Minh
+    //-       li 
+    //-         a(href="#" title="Hội An") Hội An
+    //-       li 
+    //-         a(href="#" title="Huế") Huế
+    //-       li 
+    //-         a(href="#" title="Nha Trang") Nha Trang
+    //-       li 
+    //-         a(href="#" title="Đà Lạt") Đà Lạt
+    //-       li 
+    //-         a(href="#" title="Đà Nẵng") Đà Nẵng
+    //-       li 
+    //-         a(href="#" title="Côn Đảo") Côn Đảo
+    //-       li 
+    //-         a(href="#" title="Hạ Long") Hạ Long
+    //-       li 
+    //-         a(href="#" title="Hà Nội") Hà Nội
+    //-       li 
+    //-         a(href="#" title="Hồ Chí Minh") Hồ Chí Minh
+    //-       li 
+    //-         a(href="#" title="Hội An") Hội An
+    //-       li 
+    //-         a(href="#" title="Huế") Huế
+    //-       li 
+    //-         a(href="#" title="Nha Trang") Nha Trang
+    //-       li 
+    //-         a(href="#" title="Đà Lạt") Đà Lạt
+    //-       li 
+    //-         a(href="#" title="Đà Nẵng") Đà Nẵng

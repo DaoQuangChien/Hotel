@@ -1,0 +1,55 @@
+extends layout/layout.pug
+
+block vars
+  -title = 'Edit user'
+  -menuIndex = 4
+  -isLoggedIn = true
+
+block container
+  main.body-content.container
+    +form('addUser')(novalidate)
+      label(class='image' for='uploadImg')
+        +img('../images/default-user.png', 'Default user')
+        input(class='upImg hide' type='file' id='uploadImg' accept='image/*,camera')
+      .list-group
+        span.label Username
+        .inputGroup
+          p.input.readonly tvlong
+      .list-group
+        span.label Họ Tên
+        .inputGroup
+          +input('input', 'VD: Nguyễn Thị Hồng Hạnh')
+          p.hide.errorText Vui lòng nhập họ tên
+      .list-group
+        span.label Email
+        .inputGroup
+          +input('input', 'VD: nthhanh@domain.com')
+          p.hide.errorText Vui lòng nhập email
+      .list-group
+        span.label Role
+        .inputGroup
+          +input('input', 'VD: Quản lý khách sạn')
+          p.hide.errorText Vui lòng nhập role
+      span.label Quyền quản lý:
+      ul.containerPanel
+        li
+          +input('hide', undefined, undefined, 'checkbox', 'customerCheck')
+          label(class='fa fa-users' for='customerCheck') Khách hàng
+        li
+          +input('hide', undefined, undefined, 'checkbox', 'hotelCheck')
+          label(class='fa fa-bed' for='hotelCheck') Khách sạn
+        li
+          +input('hide', undefined, undefined, 'checkbox', 'newsCheck')
+          label(class='fa fa-rss' for='newsCheck') Tin tức
+        li
+          +input('hide', undefined, undefined, 'checkbox', 'userCheck')
+          label(class='fa fa-users' for='userCheck') Người dùng
+        li
+          +input('hide', undefined, undefined, 'checkbox', 'interface')
+          label(class='fa fa-columns' for='interface') Giao diện
+      +button('btn btn-primary', undefined, 'Lưu')
+      +button('btn btn-primary', 'reset', 'Hủy')
+      +button('btn btn-tertiary', 'button', 'Reset')
+        span.btn-label Reset
+        span.btn-icon.fa.fa-lock
+      +button('btn btn-secondary', 'button', 'Khóa')

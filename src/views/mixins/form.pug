@@ -1,20 +1,20 @@
 mixin form(id, method, action, name)
-	-if (typeof(method) === 'undefined') method = 'post'
-	-if (typeof(action) === 'undefined') action = '#'
-	-if (typeof(name) === 'undefined') name = id
-	form(method = method, action = action, name = name, id = id)&attributes(attributes)
-		block
-mixin input(id, placeholder, name, type)
-	-if (typeof(type) === 'undefined') type = 'text'
-	-if (typeof(placeholder) === 'undefined') placeholder = null
-	-if (typeof(name) === 'undefined') name = id
-	input(type = type, name = name, id = id, placeholder = placeholder, required)&attributes(attributes)
+  -if (typeof(method) === 'undefined') method = 'post'
+  -if (typeof(action) === 'undefined') action = '#'
+  -if (typeof(name) === 'undefined') name = id
+  form(method = method, action = action, name = name, id = id)&attributes(attributes)
+    block
+mixin input(cl, placeholder, name, type, id)
+  -if (typeof(type) === 'undefined') type = 'text'
+  -if (typeof(placeholder) === 'undefined') placeholder = null
+  -if (typeof(name) === 'undefined') name = cl
+  input(id = id type = type, name = name, class = cl, placeholder = placeholder, required)&attributes(attributes)
 
 mixin button(cl, type, text)
-	-if (typeof(text) === 'undefined') text = null
-	-if (typeof(type) === 'undefined') type = 'submit'
-	button(type = type, class = cl)&attributes(attributes)
-		if block
-			block
-		else 
-			!=text
+  -if (typeof(text) === 'undefined') text = null
+  -if (typeof(type) === 'undefined') type = 'submit'
+  button(type = type, class = cl)&attributes(attributes)
+    if block
+      block
+    else
+      !=text

@@ -1,0 +1,41 @@
+extends layout/hotel-layout.pug
+
+block vars
+  -title = 'Thời giá'
+  -menuIndex = 2
+  -isLoggedIn = true
+  -summaryClass = 'active'
+  -activeIndex = 3
+  -hasFormTime = true
+  -classForm = 'block-price'
+block content-side
+  .block-price.block-group
+    .block-content
+      h2 Từ thứ 6 - Chủ Nhật
+      p Hàng tuần
+      p Áp dụng: Tất cả phòng
+    .price-text
+      p +500.000VND
+    .block-action
+      a.fa.fa-edit(href='hotel-price-edit.html', title='Edit')
+      a.fa.fa-trash(href='#', title='Block')
+  .block-price.block-group
+    .block-content
+      h2 Từ 1/6/2017 - 1/7/2017
+      p 1 lần
+      p Áp dụng: Tất cả phòng
+    .price-text
+      p +800.000VND
+    .block-action
+      a.fa.fa-edit(href='hotel-price-edit.html', title='Edit')
+      a.fa.fa-trash(href='#', title='Block')
+  .block-price.block-group
+    .block-content
+      h2 Từ thứ 6 - Chủ Nhật
+      p Hàng tuần
+      p Áp dụng: Tất cả phòng
+    .price-text
+      p +500.000VND
+    .block-action
+      a.fa.fa-edit(href='hotel-price-edit.html', title='Edit')
+      a.fa.fa-trash(href='#', title='Block')

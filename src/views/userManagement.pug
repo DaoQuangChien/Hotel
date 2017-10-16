@@ -1,0 +1,85 @@
+extends layout/layout.pug
+
+block vars
+  -title = 'Edit user'
+  -menuIndex = 4
+  -isLoggedIn = true
+
+block container
+  .section.container
+    +form('searchUser')(novalidate)
+      +input('input', 'Username, Tên hoặc quền')
+      +button('btn flat', undefined, 'Search')
+  main.body-content.container
+    .list-user
+      .list-group
+        +imgLink('user-img', 'User image', '../images/default-user.png')
+        .block-name
+          .main-name adminstrator
+          .role Adminstrator
+        .block-role
+          span.fa.fa-users
+          span.fa.fa-bed
+          span.fa.fa-rss
+          span.fa.fa-users
+          span.fa.fa-columns
+        .block-action
+          a(href='userManagement-Edit.html' title='Edit' class='fa fa-edit')
+          a(href='#' title='Block' class='fa fa-trash')
+      .list-group
+        +imgLink('user-img', 'User image', '../images/default-user.png')
+        .block-name
+          .main-name adminstrator
+          .role Adminstrator
+        .block-role
+          span.fa.fa-users
+          span.fa.fa-bed
+          span.fa.fa-rss
+          span.fa.fa-users
+          span.fa.fa-columns
+        .block-action
+          a(href='#' title='Edit' class='fa fa-edit')
+          a(href='#' title='Block' class='fa fa-trash')
+      .list-group
+        +imgLink('user-img', 'User image', '../images/default-user.png')
+        .block-name
+          .main-name adminstrator
+          .role Adminstrator
+        .block-role
+          span.fa.fa-users
+          span.fa.fa-bed
+          span.fa.fa-rss
+          span.fa.fa-users
+          span.fa.fa-columns
+        .block-action
+          a(href='#' title='Edit' class='fa fa-edit')
+          a(href='#' title='Block' class='fa fa-trash')
+      .list-group
+        +imgLink('user-img', 'User image', '../images/default-user.png')
+        .block-name
+          .main-name adminstrator
+          .role Adminstrator
+        .block-role
+          span.fa.fa-users
+          span.fa.fa-bed
+          span.fa.fa-rss
+          span.fa.fa-users
+          span.fa.fa-columns
+        .block-action
+          a(href='#' title='Edit' class='fa fa-edit')
+          a(href='#' title='Block' class='fa fa-trash')
+      .list-group
+        +imgLink('user-img', 'User image', '../images/default-user.png')
+        .block-name
+          .main-name adminstrator
+          .role Adminstrator
+        .block-role
+          span.fa.fa-users
+          span.fa.fa-bed
+          span.fa.fa-rss
+          span.fa.fa-users
+          span.fa.fa-columns
+        .block-action
+          a(href='#' title='Edit' class='fa fa-edit')
+          a(href='#' title='Block' class='fa fa-trash')
+      a(href='userManagement-Add.html' class='default-action')

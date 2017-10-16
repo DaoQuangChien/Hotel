@@ -1,0 +1,45 @@
+extends layout/hotel-layout.pug
+
+block vars
+  -title = 'Khách sạn'
+  -menuIndex = 2
+  -isLoggedIn = true
+  -activeIndex = 1
+block content-side
+  form.room-form.control-form
+    .control-group.inline
+      .select.no-padding
+        select.input
+          option(value="event") Event
+          option(value="kindOfRoom") Loại
+          option(value="facilities") Tiện Ích
+    .control-group.inline
+      input.input(type="text")
+    button.btn.flat Search
+    .grid.no-padding
+      .col-lg-4.col-md-6.col-xs-12
+        .room-card.no-padding
+          +sampleRoomCard()
+      .col-lg-4.col-md-6.col-xs-12
+        .room-card.no-padding
+          +sampleRoomCard()
+      .col-lg-4.col-md-6.col-xs-12
+        .room-card.no-padding
+          +sampleRoomCard()
+      .col-lg-4.col-md-6.col-xs-12
+        .room-card.no-padding
+          +sampleRoomCard()
+      .col-lg-4.col-md-6.col-xs-12
+        .room-card.no-padding
+          +sampleRoomCard()
+      .col-lg-4.col-md-6.col-xs-12
+        .room-card.no-padding
+          +sampleRoomCard()
+      .col-lg-4.col-md-6.col-xs-12
+        .room-card.no-padding
+          +sampleRoomCard()
+      .clearfix.no-padding
+      .btn-group
+        button.btn.raise.btn-negative Xóa Hết
+  button.default-action(onclick="show('#add-room')")
+  +roomDialog("add-room","Thêm Phòng", {name:"", description:"", facilities:["Wifi", "TV"], price:1000000, quantity: 30})

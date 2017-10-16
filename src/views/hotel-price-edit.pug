@@ -1,0 +1,55 @@
+extends layout/hotel-layout.pug
+
+block vars
+  -title = 'Khách sạn'
+  -menuIndex = 2
+  -isLoggedIn = true
+  -summaryClass = 'active'
+  -activeIndex = 3
+  -hasFormTime = false
+block content-side
+  .block-price-edit
+    h2 Thời giá
+    .block-group
+      span Thời gian
+      ul
+        li
+          input(type='checkbox', id='once', name='once')
+          label(for='once') 1 lần
+        li
+          input(type='checkbox', id='annual', name='annual')
+          label(for='annual') Hàng năm
+        li
+          input(type='checkbox', id='monthly', name='monthly')
+          label(for='monthly') Hàng tháng
+        li
+          input(type='checkbox', id='weekly', name='weekly')
+          label(for='weekly') Hàng tuần
+      form.edit-price-form.control-form(date-time='once')
+        .control-group
+          label.time Từ
+          input(class='date-picker input', type='text', name='from')
+          span.fa.fa-calendar
+        .control-group
+          label.time Đến
+          input(class='date-picker input', type='text', name='to')
+          span.fa.fa-calendar
+        .line-group
+          span Thay đổi
+          input(type='text', class='input', name='change')
+          .block-common
+            select
+              option ...
+              option %
+            span VND
+        .line-group
+          span Áp dụng
+          .block-common
+            input(type='text', class='input', name='change')
+            span The king room x The queen room x
+          .block-common
+            input(type='checkbox', id='all-selected', name='all-selected')
+            label(for='all-selected') Tất cả
+        .line-group
+          button.btn.btn-flat(type='reset') Hủy
+          button.btn.btn-flat(type='submit') Lưu

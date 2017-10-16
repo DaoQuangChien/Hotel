@@ -1,0 +1,238 @@
+extends layout/layout.pug
+
+block vars
+  -title = 'Dashboard'
+  -menuIndex = 0
+  -isLoggedIn = true
+
+block container
+  main.dash-board
+    .block.no-padding
+      .block-container.no-padding
+        .block-content.no-padding
+          .no-padding.tabs.active
+            .title
+              span.no-padding Top blog
+              span.btn.fa.fa-chevron-circle-right.no-padding.pull-right(onclick='$(".tabs").toggleClass("active")')
+            .content.no-padding
+              table.truntcase
+                thead
+                  tr
+                    td(style="width:6%") ID
+                    td(style="width:44%") Tên
+                    td(style="width:25%") Lần thay đổi <br/> cuối cùng
+                    td(style="width:25%") Người thay đổi
+                tbody
+                  tr
+                    td 1
+                    td Vũng Tàu - Miền Đất hứa
+                    td 11/09/2017 11:15
+                    td lhthanh
+                  tr
+                    td 2
+                    td Tại sao phải đến Đà Nẵng
+                    td 12/10/2017 12:15
+                    td ttlam
+                  tr
+                    td 3
+                    td Phú Quốc - Ngọc đảo VN
+                    td 12/10/2017 12:15
+                    td tvlong
+                  tr
+                    td 4
+                    td Vũng Tàu - Miền Đất hứa
+                    td 11/09/2017 11:15
+                    td lhthanh
+                  tr
+                    td 5
+                    td Tại sao phải đến Đà Nẵng
+                    td 12/10/2017 12:15
+                    td ttlam
+              .table-footer
+                p.page-info.no-padding 5 trong 10 blogs
+                ul.pages.no-padding
+                  li
+                    a.active 1
+                  li
+                    a 2
+          .no-padding.tabs
+            .title
+              span.no-padding Top event
+              span.btn.fa.fa-chevron-circle-left.no-padding.pull-right(onclick='$(".tabs").toggleClass("active")')
+            .content.no-padding
+              table.truntcase
+                thead
+                  tr
+                    td(style="width:6%") ID
+                    td(style="width:44%") Tên
+                    td(style="width:25%") Lần thay đổi <br/> cuối cùng
+                    td(style="width:25%") Người thay đổi
+                tbody
+                  tr
+                    td 1
+                    td KS Mai vàng giảm 50%
+                    td 11/09/2017 11:15
+                    td lhthanh
+                  tr
+                    td 2
+                    td Phong đôi giá đơn tại VinHotel
+                    td 12/10/2017 12:15
+                    td ttlam
+                  tr
+                    td 3
+                    td Ưu đãi lớn, giảm đến 80% giá thuê phòng. Bỏ lỡ dịp này bạn sẽ tiếc nuối. rất nhiều.
+                    td 12/10/2017 12:15
+                    td tvlong
+                  tr
+                    td 4
+                    td Phong đôi giá đơn tại VinHotel
+                    td 12/10/2017 12:15
+                    td ttlam
+                  tr
+                    td 5
+                    td Ưu đãi lớn, giảm đến 80% giá thuê phòng. Bỏ lỡ dịp này bạn sẽ tiếc nuối. rất nhiều.
+                    td 12/10/2017 12:15
+                    td tvlong
+              .table-footer
+                p.page-info.no-padding 5 trong 10 blogs
+                ul.pages.no-padding
+                  li
+                    a.active 1
+                  li
+                    a 2
+      .block-container.no-padding
+        .block-content
+          .title Khách sạn
+          .content.no-padding
+            table.truntcase
+              thead
+                tr
+                  td(style="width:6%") ID
+                  td(style="width:24%") Tên
+                  td(style="width:20%") Địa chỉ
+                  td(style="width:25%") Lần thay đổi <br/> cuối cùng
+                  td(style="width:25%") Người thay đổi
+              tbody
+                tr
+                  td 1
+                  td Sao Mai Vàng
+                  td Vũng Tàu
+                  td 11/09/2017 11:15
+                  td lhthanh
+                tr
+                  td 2
+                  td Cỏ xanh
+                  td TPHCM
+                  td 12/10/2017 12:15
+                  td ttlam
+                tr
+                  td 3
+                  td Green House
+                  td Đà Nẵng
+                  td 12/10/2017 12:15
+                  td tvlong
+                tr
+                  td 4
+                  td Green House
+                  td Đà Nẵng
+                  td 12/10/2017 12:15
+                  td tvlong
+                tr
+                  td 5
+                  td Green House
+                  td Đà Nẵng
+                  td 12/10/2017 12:15
+                  td tvlong
+            .table-footer
+              p.page-info.no-padding 5 trong 10 blogs
+              ul.pages.no-padding
+                li
+                  a.active 1
+                li
+                  a 2
+    .block.no-padding
+      .block-container.no-padding
+        .block-content.no-padding
+          .title Khách hàng
+          .content.no-padding
+            table.truntcase
+              thead
+                tr
+                  td(style="width:6%") ID
+                  td(style="width:24%") Họ Tên
+                  td(style="width:20%") SĐT
+                  td(style="width:25%") Email
+              tbody
+                tr
+                  td 1
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+                tr
+                  td 2
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+                tr
+                  td 3
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+                tr
+                  td 4
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+                tr
+                  td 5
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+                tr
+                  td 6
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+                tr
+                  td 7
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+                tr
+                  td 8
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+                tr
+                  td 9
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+                tr
+                  td 10
+                  td Nguyễn Văn B
+                  td 0164458456
+                  td vnb@gmail.com
+            .table-footer
+              p.page-info.no-padding 10 trong 100 blogs
+              ul.pages.no-padding
+                li
+                  a.active 1
+                li
+                  a 2
+                li
+                  a 3
+                li
+                  a 4
+                li
+                  a 5
+                li
+                  a 6
+                li
+                  a 7
+                li
+                  a 8
+                li
+                  a 9
+                li
+                  a 10
