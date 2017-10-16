@@ -5,10 +5,10 @@ form(class=classForm).search-form.control-form
   .default-action
   .control-group
     label.time Từ
-    input(class='date-picker input', type='text', name='from')
-    span.fa.fa-calendar
+    input(class='date-picker input', type='text', name='from')(data-time-picker)
+    span.fa.fa-calendar(data-icon-picker)
   .control-group
     label.time Đến
-    input(class='date-picker input', type='text', name='to')
-    span.fa.fa-calendar
+    input(class='date-picker input', type='text', name='to')(data-time-picker)
+    span.fa.fa-calendar(data-icon-picker)
   button.btn.flat(type='submit') Tìm

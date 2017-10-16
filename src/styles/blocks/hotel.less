@@ -334,3 +334,138 @@
     }
   }
 }
+.block-price-edit {
+  padding: 0 0 0 15px;
+  .block-container {
+    padding: 0;
+    &>ul, &>ul>li {
+      padding: 0;
+    }
+  }
+  .block-group {
+    max-width: 500px;
+  }
+  .label-text {
+    display: inline-block;
+    width: 70px;
+  }
+  .select-form {
+    display: inline-flex;
+    flex-wrap: wrap;
+    padding: 0;
+    li {
+      padding: 0 0 0 20px;
+    }
+  }
+  label {
+    padding: 0;
+  }
+  input[type='radio'] {
+    margin: 0;
+    -webkit-appearance: radio;
+    appearance: radio;
+  }
+  input[type='checkbox'] {
+    -webkit-appearance: checkbox;
+    appearance: checkbox;
+  }
+}
+.edit-price-form {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 0 0 0;
+  &[data-time='monthly'] {
+    .line-group:first-child {
+      padding-right: 10px;
+    }
+    .control-group {
+      display: flex;
+      justify-content: flex-end;
+      .time {
+        width: 70px;
+        margin-right: 10px;
+      }
+    }
+  }
+  &[data-time='weekly'] {
+    ul.line-group {
+      align-self: flex-start;
+      li {
+        padding: 0 0 0 10px;
+        &:first-child {
+          padding: 0;
+        }
+      }
+    }
+  }
+  .control-group {
+    width: 185px;
+    margin: 0 0 0 15px;
+    .time {
+      display: inline-block;
+      width: 35px;
+    }
+    .date-picker.input {
+      width: 110px;
+    }
+    .fa {
+      font-size: 20px;
+      margin-left: 5px;
+    }
+  }
+  .line-group {
+    padding: 15px 0 0 0;
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    &:first-child {
+      align-self: flex-end;
+    }
+    .input:not(.date-picker) {
+      width: 300px;
+      margin-left: 15px;
+    }
+    &:nth-child(2) {
+      .block-common {
+        width: 90px;
+        padding: 0 0 0 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    &:nth-child(3) {
+      .block-common {
+        padding: 0;
+        display: flex;
+        &:nth-child(2) {
+          flex-direction: column;
+          align-items: center;
+          .input {
+            margin-bottom: 10px;
+            margin-right: 8px;
+          }
+        }
+      }
+      input[type='checkbox'] {
+        width: initial;
+      }
+    }
+    select {
+      -webkit-appearance: menulist;
+      width: 65%;
+      text-indent: 10px;
+      margin-bottom: 10px;
+      &.day-select {
+        width: initial;
+        text-indent: 0;
+      }
+    }
+    &:last-child {
+      justify-content: flex-end;
+    }
+  }
+}
+@media (max-width: ) {
+  
+}

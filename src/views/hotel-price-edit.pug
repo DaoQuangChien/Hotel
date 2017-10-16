@@ -7,35 +7,37 @@ block vars
   -summaryClass = 'active'
   -activeIndex = 3
   -hasFormTime = false
+
 block content-side
   .block-price-edit
     h2 Thời giá
-    .block-group
-      span Thời gian
-      ul
+    .block-group(data-switch-form)
+      span.label-text Thời gian
+      ul.select-form
         li
-          input(type='checkbox', id='once', name='once')
+          input(type='radio', id='once', name='time', checked)
           label(for='once') 1 lần
         li
-          input(type='checkbox', id='annual', name='annual')
+          input(type='radio', id='annual', name='time')
           label(for='annual') Hàng năm
         li
-          input(type='checkbox', id='monthly', name='monthly')
+          input(type='radio', id='monthly', name='time')
           label(for='monthly') Hàng tháng
         li
-          input(type='checkbox', id='weekly', name='weekly')
+          input(type='radio', id='weekly', name='time')
           label(for='weekly') Hàng tuần
-      form.edit-price-form.control-form(date-time='once')
-        .control-group
-          label.time Từ
-          input(class='date-picker input', type='text', name='from')
-          span.fa.fa-calendar
-        .control-group
-          label.time Đến
-          input(class='date-picker input', type='text', name='to')
-          span.fa.fa-calendar
+      form.edit-price-form.control-form(data-time='once')
         .line-group
-          span Thay đổi
+          .control-group
+            label.time Từ
+            input(class='date-picker input', type='text', name='from')(data-time-picker)
+            span.fa.fa-calendar(data-icon-picker)
+          .control-group
+            label.time Đến
+            input(class='date-picker input', type='text', name='to')(data-time-picker)
+            span.fa.fa-calendar(data-icon-picker)
+        .line-group
+          span.label-text Thay đổi
           input(type='text', class='input', name='change')
           .block-common
             select
@@ -43,13 +45,117 @@ block content-side
               option %
             span VND
         .line-group
-          span Áp dụng
+          span.label-text Áp dụng
           .block-common
             input(type='text', class='input', name='change')
             span The king room x The queen room x
           .block-common
-            input(type='checkbox', id='all-selected', name='all-selected')
-            label(for='all-selected') Tất cả
+            input(type='checkbox', id='all-selected-once', name='all-selected-once')
+            label(for='all-selected-once') Tất cả
+        .line-group
+          button.btn.btn-flat(type='reset') Hủy
+          button.btn.btn-flat(type='submit') Lưu
+      form.edit-price-form.control-form(data-time='annual')
+        .line-group
+          .control-group
+            label.time Từ
+            input(class='date-picker input', type='text', name='from')(data-time-picker data-month-year='true')
+            span.fa.fa-calendar(data-icon-picker)
+          .control-group
+            label.time Đến
+            input(class='date-picker input', type='text', name='to')(data-time-picker data-month-year='true')
+            span.fa.fa-calendar(data-icon-picker)
+        .line-group
+          span.label-text Thay đổi
+          input(type='text', class='input', name='change')
+          .block-common
+            select
+              option ...
+              option %
+            span VND
+        .line-group
+          span.label-text Áp dụng
+          .block-common
+            input(type='text', class='input', name='change')
+            span The king room x The queen room x
+          .block-common
+            input(type='checkbox', id='all-selected-annual', name='all-selected-annual')
+            label(for='all-selected-annual') Tất cả
+        .line-group
+          button.btn.btn-flat(type='reset') Hủy
+          button.btn.btn-flat(type='submit') Lưu
+      form.edit-price-form.control-form(data-time='monthly')
+        .line-group
+          .control-group
+            label.time Từ ngày
+            - var n = 1;
+            select(name='started-day').day-select
+              while n <= 31
+                option(value=n)= n++
+          .control-group
+            label.time Đến ngày
+            - var n = 1;
+            select(name='ended-day').day-select
+              while n <= 31
+                option(value=n)= n++
+        .line-group
+          span.label-text Thay đổi
+          input(type='text', class='input', name='change')
+          .block-common
+            select
+              option ...
+              option %
+            span VND
+        .line-group
+          span.label-text Áp dụng
+          .block-common
+            input(type='text', class='input', name='change')
+            span The king room x The queen room x
+          .block-common
+            input(type='checkbox', id='all-selected-monthly', name='all-selected-monthly')
+            label(for='all-selected-monthly') Tất cả
+        .line-group
+          button.btn.btn-flat(type='reset') Hủy
+          button.btn.btn-flat(type='submit') Lưu
+      form.edit-price-form.control-form(data-time='weekly')
+        ul.line-group
+          li
+            input(type='checkbox', id='sun', name='Sunday')
+            label(for='sun') CN
+          li
+            input(type='checkbox', id='mon', name='Monday')
+            label(for='mon') Thứ 2
+          li
+            input(type='checkbox', id='tue', name='Tuesday')
+            label(for='tue') Thứ 3
+          li
+            input(type='checkbox', id='wed', name='Wednesday')
+            label(for='wed') Thứ 4
+          li
+            input(type='checkbox', id='thu', name='Thursday')
+            label(for='thu') Thứ 5
+          li
+            input(type='checkbox', id='fri', name='Friday')
+            label(for='fri') Thứ 6
+          li
+            input(type='checkbox', id='sat', name='Saturday')
+            label(for='sat') Thứ 7
+        .line-group
+          span.label-text Thay đổi
+          input(type='text', class='input', name='change')
+          .block-common
+            select
+              option ...
+              option %
+            span VND
+        .line-group
+          span.label-text Áp dụng
+          .block-common
+            input(type='text', class='input', name='change')
+            span The king room x The queen room x
+          .block-common
+            input(type='checkbox', id='all-selected-weekly', name='all-selected-weekly')
+            label(for='all-selected-weekly') Tất cả
         .line-group
           button.btn.btn-flat(type='reset') Hủy
           button.btn.btn-flat(type='submit') Lưu
