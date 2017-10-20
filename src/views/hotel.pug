@@ -1,163 +1,88 @@
 extends layout/layout.pug
 
 block vars
-  -title = 'Edit user'
-  -menuIndex = 2
-  -isLoggedIn = true
+  -title = 'Hotel Page'
+  -menuIndex = 1
 
 block container
-  .main-content.container
-    form.search-form(novalidate)
-      .control-group.multiline
-        label.label Thành Phố
-        .select.no-padding
-          select(class="control-input input")
-            option(value="") Select
-            option(value="Hồ Chí Minh") Hồ Chí Minh
-
-      .control-group.multiline
-        label.label Khách sạn
-        input(type="text" class="control-input input")
-      button.btn.btn-primary Search
-    .hotels.no-padding
-      table.truntcase
-        thead
-          tr
-            td(class="desc" style="width:45px") ID
-            td Tên
-            td(style="width:125px") Địa điểm
-            td(style="width:100px") Tiêu chuẩn
-            td(style="width:100px") Đánh giá
-            td(style="width:125px") Giá thấp nhất
-            td(style="width:125px") Giá cao nhất
-            td(style="width:45px") Số phòng
-        tbody
-          tr(onclick="window.location='hotel-summary.html'")
-            td 1
-            td Bitesco
-            td Hồ Chí Minh
-            td.text-center 4
-              span.fa.fa-star.no-padding
-            td.text-center 4.9
-              span.fa.fa-star.no-padding
-            td.text-right 300000
-            td.text-right 10000000
-            td.text-right 35
-          tr
-            td 2
-            td Mường Thanh
-            td Cần Thơ
-            td.text-center 4
-              span.fa.fa-star.no-padding
-            td.text-center 6.9
-              span.fa.fa-star.no-padding
-            td.text-right 1000000
-            td.text-right 20000000
-            td.text-right 300
-          tr
-            td 3
-            td Green House
-            td Đà Nẵng
-            td.text-center 3
-              span.fa.fa-star.no-padding
-            td.text-center 7.9
-              span.fa.fa-star.no-padding
-            td.text-right 3000000
-            td.text-right 5000000
-            td.text-right 45
-          tr
-            td 4
-            td Tên
-            td Hồ Chí Minh
-            td.text-center 3
-              span.fa.fa-star.no-padding
-            td.text-center 4.9
-              span.fa.fa-star.no-padding
-            td.text-right 300000
-            td.text-right 10000000
-            td.text-right 35
-          tr
-            td 5
-            td Tên
-            td Hồ Chí Minh
-            td.text-center 3
-              span.fa.fa-star.no-padding
-            td.text-center 4.9
-              span.fa.fa-star.no-padding
-            td.text-right 300000
-            td.text-right 10000000
-            td.text-right 35
-          tr
-            td 6
-            td Bitesco
-            td Hồ Chí Minh
-            td.text-center 4
-              span.fa.fa-star.no-padding
-            td.text-center 4.9
-              span.fa.fa-star.no-padding
-            td.text-right 300000
-            td.text-right 10000000
-            td.text-right 35
-          tr
-            td 7
-            td Mường Thanh
-            td Cần Thơ
-            td.text-center 4
-              span.fa.fa-star.no-padding
-            td.text-center 6.9
-              span.fa.fa-star.no-padding
-            td.text-right 1000000
-            td.text-right 20000000
-            td.text-right 300
-          tr
-            td 8
-            td Green House
-            td Đà Nẵng
-            td.text-center 3
-              span.fa.fa-star.no-padding
-            td.text-center 7.9
-              span.fa.fa-star.no-padding
-            td.text-right 3000000
-            td.text-right 5000000
-            td.text-right 45
-          tr
-            td 9
-            td Tên
-            td Hồ Chí Minh
-            td.text-center 3
-              span.fa.fa-star.no-padding
-            td.text-center 4.9
-              span.fa.fa-star.no-padding
-            td.text-right 300000
-            td.text-right 10000000
-            td.text-right 35
-          tr
-            td 10
-            td Tên
-            td Hồ Chí Minh
-            td.text-center 3
-              span.fa.fa-star.no-padding
-            td.text-center 4.9
-              span.fa.fa-star.no-padding
-            td.text-right 300000
-            td.text-right 10000000
-            td.text-right 35
-      .table-footer
-        p.page-info.no-padding 10 trong 500 khách sạn
-        ul.pages.no-padding
-          li
-            a.active 1
-          li
-            a 2
-          li
-            a 3
-          li
-            a 4
-          li
-            a 5
-          li
-            a ...
-          li
-            a 50
-    button(onclick='show("#add-hotel")' class='default-action')
-  +hotelDialog("add-hotel","Thêm khách sạn", {name:"", description:"", location: ""})
+  main
+    .col-md-3.col-sm-6 a
+    .fullWidth.searchHotel
+      article.contentLeft
+        blockquote
+          span Xin chào
+          | Tại muaphong.com, Chúng tối giúp bạn tìm kiếm hàng trăm phòng khách sạn tốt nhật trên mọi miền đất nước
+        +customSelect('Tên khách sạn', 'hide', ['KS A', 'KS B', 'KS C'])
+        +customSelect('Ngày nhận phòng')
+        +customSelect('Ngày trả phòng')
+        +form('findHotel')
+          +input('placesInput', 'Khu vực')
+          +button('btnFind', undefined, 'Tìm kiếm')
+      article.contentRight
+        +img('./images/upload/bgd-1.jpg', 'Voucher image')
+        a(href="#", title="Voucher") Voucher
+    .fixedWidth1
+      article.product
+        +img('./images/upload/img-1.jpg', 'Product 1')
+        a(href='#', title="Product 1") Mùa hè rực lửa tại Nha Trang
+      article.product
+        +img('./images/upload/img-2.jpg', 'Product 2')
+        a(href='#', title="Product 2") Ưu đãi hàng ngày
+      article.product
+        +img('./images/upload/img-3.jpg', 'Product 3')
+        a(href='#', title="Product 3") Ưu đãi phút chót
+    .fullWidth.bgdOverlay
+      .featuredHotel
+        .advertisedHotel
+          a(class="hot", href="#", title="Khách sạn hot") Khách sạn hot
+          .adDetail
+            .adInfo
+              p Pilgrimage Village, Huế
+              span.rated
+              p Số 5, Đường Duy Tân, phường Hòa Thuận Đông, Huế
+              p 50
+                |
+                span %
+                |
+                span off
+                |
+                span sale
+              a(href="#", title="Đặt mua") Đặt ngay
+            +img('./images/upload/img-4.jpg', 'Featured Hotel')
+        ul.listPlaces
+          li 
+            a(href="#" title="Côn Đảo") Côn Đảo
+          li 
+            a(href="#" title="Hạ Long") Hạ Long
+          li 
+            a(href="#" title="Hà Nội") Hà Nội
+          li 
+            a(href="#" title="Hồ Chí Minh") Hồ Chí Minh
+          li 
+            a(href="#" title="Hội An") Hội An
+          li 
+            a(href="#" title="Huế") Huế
+          li 
+            a(href="#" title="Nha Trang") Nha Trang
+          li 
+            a(href="#" title="Đà Lạt") Đà Lạt
+          li 
+            a(href="#" title="Đà Nẵng") Đà Nẵng
+          li 
+            a(href="#" title="Côn Đảo") Côn Đảo
+          li 
+            a(href="#" title="Hạ Long") Hạ Long
+          li 
+            a(href="#" title="Hà Nội") Hà Nội
+          li 
+            a(href="#" title="Hồ Chí Minh") Hồ Chí Minh
+          li 
+            a(href="#" title="Hội An") Hội An
+          li 
+            a(href="#" title="Huế") Huế
+          li 
+            a(href="#" title="Nha Trang") Nha Trang
+          li 
+            a(href="#" title="Đà Lạt") Đà Lạt
+          li 
+            a(href="#" title="Đà Nẵng") Đà Nẵng

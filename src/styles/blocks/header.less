@@ -1,53 +1,245 @@
 .mainHeader {
-	background: @primaryColor;
-	padding: 0;
-	position: relative;
-	color: #fff;
-  .standardShadow();
-  ul.nav {
-    padding: 5px 15px 0px;
-    li {
-      display: inline-block;
-      padding: 0px;
-      position: relative;
-      a {
-        color: #FFF;
-        display: inline-block;
-        .standardPadding();
-        &.active,&:active,&:hover {
-          border-bottom: 1px solid @warningColor;
-        }
-        @media (min-width: @screen-sm-min) {
-          span {
-            padding: 0px;
-            &.fa {
-              position: absolute;
-              top: -5px;
-              left: calc(~'50% - 7px');
-            }
-          }
-        }
-        @media (max-width: @screen-xs-max) {
-          span {
-            padding: 0px;
-            display: none;
-            &.fa {
-              display: inline-block;
-            }
-          }
+  position: relative;
+  .fixedWidth1:nth-child(2) {
+    margin-top: 25px;
+  }
+}
+.headerTop {
+  background: @primaryColor;
+  padding: 10px 0;
+  color: #fff;
+  h1 {
+    float: left;
+    text-transform: uppercase;
+  }
+  a {
+    color: #fff;
+    &:hover {
+      color: @warningColor;
+    }
+  }
+  .pullRight a:last-child {
+    margin-left: 15px;
+  }
+}
+.companyLogo {
+  display: block;
+  float: left;
+  margin-top: -10px;
+  margin-right: 25px;
+}
+.phoneNumber {
+  position: relative;
+  float: right;
+  color: @red1;
+  font-size: @font-size-medium1;
+  font-family: @kanit-light;
+  margin-top: 20px;
+  margin-right: 1px;
+  &:before {
+    content: url(../images/icon-time.png);
+    margin-right: 10px;
+    position: absolute;
+    left: -33px;
+    top: -4px;
+  }
+}
+.num {
+  margin-left: 5px;
+}
+.headerBottom {
+  .clearfix();
+  border-top: solid 3px @primaryColor;
+  font-size: @font-size-medium2;
+}
+.menu {
+  float: left;
+  padding-top: 5px;
+  li {
+    float: left;
+    text-transform: uppercase;
+    margin-right: 25px;
+    height: 28px;
+    position: relative;
+    box-sizing: border-box;
+    &:last-child {
+      margin-right: 0;
+    }
+    a {
+      color: @primaryColor;
+      &.active, &:hover {
+        color: @warningColor;
+        &:before {
+          content: '';
+          display: block;
+          position: absolute;
+          width: 100%;
+          height: 3px;
+          background: @warningColor;
+          bottom: -3px;
         }
       }
     }
   }
-  #search {
+}
+.activeMenu {
+  height: 20px;
+  margin-bottom: 8px;
+  border-bottom: solid 1px;
+  text-transform: uppercase;
+  position: relative;
+  display: none;
+  &:after {
+    content: '\f107';
+    font-family: 'fontawesome';
     position: absolute;
-    top: 0px;
-    right: 0px;
-    padding: 0px 15px;
-    margin: 15px 0px;
-    width: 50%;
-    .input {
-      border-bottom: 1px solid #FFF;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    transform: rotateZ(90deg);
+  }
+  &.open:after {
+    transform: rotateZ(0);
+  }
+}
+.utility {
+  display: inline-block;
+  vertical-align: middle;
+  ul {
+    display: table;
+  }
+  li {
+    position: relative;
+    float: left;
+    text-transform: uppercase;
+    font-family: @kanit-light;
+    margin-left: 15px;
+    &:first-child {
+      margin-left: 0;
+    }
+    &:last-child {
+      padding-top: 22px;
+      input#keyword {
+        padding: 6px 25px 6px 5px;
+        box-sizing: border-box;
+      }
+      button.btnSearch {
+        position: absolute;
+        right: 6px;
+        top: 30px;
+      }
+    }
+  }
+  a {
+    color: @gray1;
+    &:hover {
+      color: @red1;
+    }
+  }
+  select {
+    width: 110px;
+    padding: 6px 5px;
+    border: solid 1px;
+  }
+}
+.contactInfo {
+  display: inline-block;
+  margin-left: 90px;
+  font-size: 16px;
+  color: @primaryColor;
+  .titleLabel {
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+    &:before {
+      content: '';
+      width: 1px;
+      height: 40px;
+      position: absolute;
+      right: -5px;
+      top: -10px;
+      background: @primaryColor;
+    }
+  }
+  .infoContainer {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+#searchForm {
+  position: relative;
+  margin-top: 25px;
+  input {
+    display: block;
+    border: solid 1px;
+    padding: 5px;
+    &[type='text'] {
+      width: 110px;
+      padding: 6px 5px;
+    }
+  }
+  button {
+    display: block;
+    padding: 0;
+    background: none;
+    border: none;
+    height: 18px;
+    &:before {
+      content: url('../images/icon-search.png');
+    }
+  }
+  .navLabel {
+    margin-bottom: 10px;
+  }
+}
+@media screen and (max-width: 882px) {
+  .mainHeader {
+    padding: 14px 14px 0 14px;
+  }
+  .menu, .utility {
+    width: 49%;
+  }
+  .menu {
+    ul {
+      display: none;
+    }
+    li {
+      float: none;
+      height: 20px;
+      margin-right: 0;
+      margin-bottom: 8px;
+      border-bottom: solid 1px;
+      &:last-child {
+        border-bottom: none;
+      }
+      a.active:before, a:hover:before {
+        display: none;
+      }
+    }
+  }
+  .activeMenu {
+    display: block;
+  }
+  .utility {
+    ul, li, #searchForm {
+      float: none;
+    }
+    ul {
+      display: none;
+    }
+    li {
+      margin-left: 0;
+      height: 20px;
+      border-bottom: solid 1px;
+      margin-bottom: 8px;
+    }
+    #searchForm {
+      top: 4px;
+      input {
+        top: -3px;
+        left: 18px;
+      }
     }
   }
 }

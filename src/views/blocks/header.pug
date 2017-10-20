@@ -1,8 +1,60 @@
-header.mainHeader
-  .container
-    h1 Hotel Booking
-    +form('search')
-      div.control-group
-        span.icon.right.fa.fa-search
-        +input('input')
-    +navbar([{'link': 'dashboard.html', 'title': 'Dashboard', 'text': 'Dashboard', 'class':'st', 'icon':'fa fa-tachometer'},{'link': 'customer.html', 'title': 'Khách hàng', 'text': 'Khách hàng', 'class':'st', 'icon':'fa fa-users'},{'link': 'hotel.html', 'title': 'Khách sạn', 'text': 'Khách sạn', 'class':'st', 'icon':'fa fa-bed'},{'link': 'rss.html', 'title': 'Tin tức', 'text': 'Tin tức', 'class':'st', 'icon':'fa fa-rss'},{'link': 'userManagement.html', 'title': 'Người dùng', 'text': 'Người dùng', 'class':'st', 'icon':'fa fa-users'},{'link': 'layoutManagement.html', 'title': 'Giao diện', 'text': 'Giao diện', 'class':'st', 'icon':'fa fa-columns'}])
+header.main-header
+  .top-header.content-container
+    ul.inline
+      li
+        a(href='#', title='Đặt phòng nhanh') Đặt phòng nhanh
+      li
+        a(href='#', title='Đặt phòng đoàn') Đặt phòng đoàn
+      li
+        a(href='#', title='Đặt vé nhanh') Đặt vé nhanh
+    ul.inline
+      li
+        a(href='#', title='Đăng ký thành viên') Đăng ký thành viên
+      li
+        a(href='#', title='Đăng nhập') Đăng nhập
+      li
+        a(href='#', title='Quên mật khẩu') Quên mật khẩu
+  .bottom-header.content-container
+    a(href='index.html', title='Trang chủ')
+      img(src='../images/upload/logo.png', alt='Logo Company')
+    +navbar('inline', [{'text': 'Trang chủ', 'link': '#', 'title': 'Home page'},{'text': 'Khách sạn', 'link': '#', 'title': 'Khách sạn'},{'text': 'Khuyến mãi', 'link': '#', 'title': 'Khuyến mãi'},{'text': 'Thông tin công ty', 'link': '#', 'title': 'Thông tin'}])
+      h1 
+        a(href='#' title='Hotel Booking') Hotel booking
+      .pullRight
+        a(href='#', title='Đăng ký thành viên') Đăng ký thành viên
+        a(href='#', title='Đăng nhập') Đăng nhập
+  .fixedWidth1
+    +imgLink('companyLogo', 'Company Logo', './images/upload/logo.png')
+    nav.menu
+      p.activeMenu Trang chủ
+      +navbar([{'text': 'Trang chủ', 'link': '#', 'title': 'Home page'},{'text': 'Khách sạn', 'link': '#', 'title': 'Khách sạn'},{'text': 'Khuyến mãi', 'link': '#', 'title': 'Khuyến mãi'},{'text': 'Thông tin công ty', 'link': '#', 'title': 'Thông tin'}])
+  .headerBottom
+    +form('searchForm')(class='fixedWidth1')
+      nav.utility
+        ul
+          li
+            p.navLabel Thành Phố
+            select
+              option Chọn thành phố
+              option Tp Hồ Chí Minh
+              option Hà Nội
+              option Đà Nẵng
+              option Vũng Tàu
+          li
+            p.navLabel Thành Phố
+            +input('txtInput', 'Khách sạn')
+          li
+            p.navLabel Ngày nhận phòng
+            +input('dateInput', undefined, undefined, 'date')
+          li
+            p.navLabel Ngày trả phòng
+            +input('dateInput', undefined, undefined, 'date')
+          li
+            +input('keyword')
+            +button('btnSearch')
+      .contactInfo
+        span.titleLabel Liên hệ
+        .infoContainer
+          p.num +123456789
+          p.num +123456789
+          p.num +123456789

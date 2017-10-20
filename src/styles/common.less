@@ -8,6 +8,10 @@ html, body {
 	margin: auto;
 	padding: 0;
 }
+.inline {
+  display: flex;
+  flex-wrap: wrap;
+}
 .container {
   position: relative;
 }
@@ -217,6 +221,7 @@ input::placeholder {
   background: @secondaryColor;
   color: #FFF;
   font-size: 1.3rem;
+  z-index: 999;
   .standardShadow();
   cursor: pointer;
   &:before {
