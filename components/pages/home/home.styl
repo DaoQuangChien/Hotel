@@ -4,7 +4,8 @@ body
   font-size 16px
 [class^=slider-container]
   display flex
-  transition transform .5s
+  position relative
+  transition all .5s
   [class^=slider-item]
     position relative
     flex-basis 100%
@@ -29,13 +30,16 @@ body
       font-weight: lighter;
 .slider-container-sync
   margin-top 15px
+  .slider-sync
+    display flex
+    position relative
+    transition all .5s
   .slider-item-sync
     flex-basis calc(100%/3 - 6px)
-    flex-grow 1
     margin-right 10px
     cursor pointer
     user-select none
-    &:nth-child(3n), &:last-child
+    &:last-child
       margin-right 0
     &.active
       border solid 2px $warning
@@ -56,14 +60,24 @@ body
     width 100%
     height 100%
     background-color rgba(0, 0, 0, .4)
-  .nav
+  .nav, .nav-slide-item
     position absolute
     width 100%
     top 40%
     display flex
     justify-content space-between
+    z-index 5
     button
       cursor pointer
+  .nav-slide-item
+    top 50%
+    transform translateY(-50%)
+    .prev
+      left 0
+    .next
+      right 0
+    button
+      position absolute
 .block-trending
   padding 15px 0
   .title-trending
@@ -80,3 +94,18 @@ body
     margin 0px 20px
 .top-news
   width 50%
+.slider-enter-active, .slider-leave-active
+  transition transform .5s
+.slider-enter
+  transform translateX(-200%)
+.slider-leave-to
+  transform translateX(100%)
+.slider-enter-to
+  transform translateX(-100%)
+.slider-leave
+  transform translateX(0)
+.slide-next
+  .slider-enter
+    transform translateX(0)
+  .slider-leave-to
+    transform translateX(-100%)
