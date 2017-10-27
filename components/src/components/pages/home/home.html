@@ -1,0 +1,33 @@
+<div>
+  <imageSlider :items="blogs" @read="readhome" wrapper-class="slider-container-top"></imageSlider>
+  <div class="container">
+    <hotelFilterBox layout="inline" @filter="filter"></hotelFilterBox>
+  </div>
+  <section class="block-trending">
+    <div class="container">
+      <h3 class="title-trending">top điểm đến</h3>
+      <sliderBlock :items="topPlaces" @read="readhome" wrapper-class="slider-container-places" book-button=true nav-button=true></sliderBlock>
+    </div>
+  </section>
+  <section class="block-trending">
+    <div class="container">
+      <h3 class="title-trending">Top khách sạn</h3>
+      <div class="top-hotels">
+        <hotel-card v-for="hotel in topHotels" :key="hotel.id" :hid="hotel.id" :name="hotel.name" :summary="hotel.summary" :price="hotel.minPrice" :rating="hotel.rate" :image="hotel.images[0]"/>
+      </div>
+    </div>
+  </section>
+  <section class="block-trending">
+    <div class="container">
+      <h3 class="title-trending">Top bài viết</h3>
+      <md-layout>
+        <div class="top-news">
+          <blog-card v-if="firstTopNews" :news="firstTopNews" layout="block" />
+        </div>
+        <div class="top-news">
+          <blog-card v-for="news in topNews" :key="news.id" :news="news" />
+        </div>
+      </md-layout>
+    </div>
+  </section>
+</div>

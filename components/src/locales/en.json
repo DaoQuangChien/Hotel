@@ -1,0 +1,14 @@
+{
+  "nav": {
+    "link": {
+      "home": "Home",
+      "hotel": "Hotel",
+      "feedback": "Feedback",
+      "about": "About"
+    }
+  },
+  "button": {
+    "details": "More details",
+    "search": "Search"
+  }
+}

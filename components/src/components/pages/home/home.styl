@@ -1,0 +1,111 @@
+@import '~src/themes/quasar.variables.styl'
+body
+  background white
+  font-size 16px
+[class^=slider-container]
+  display flex
+  position relative
+  transition all .5s
+  [class^=slider-item]
+    position relative
+    flex-basis 100%
+    flex-shrink 0
+    img
+      display block
+      margin auto
+    .block-center
+      position absolute
+      width 65%
+      top 50%
+      left 50%
+      transform translate(-50%, -50%)
+      text-align center
+      color #ffffff
+    .blog-title
+      text-transform uppercase
+      font-size 2.5rem
+      line-height 1.5
+    .blog-description
+      margin-bottom 15px
+      font-weight: lighter;
+.slider-container-sync
+  margin-top 15px
+  .slider-sync
+    display flex
+    position relative
+    transition all .5s
+  .slider-item-sync
+    flex-basis calc(100%/3 - 6px)
+    margin-right 10px
+    cursor pointer
+    user-select none
+    &:last-child
+      margin-right 0
+    &.active
+      border solid 2px $warning
+      &:before
+        opacity 0
+    img
+      width 100%
+      height 200px
+    .blog-title
+      font-size 25px
+.frame
+  position relative
+  overflow hidden
+  [class^=slider-item]:before
+    content ''
+    display block
+    position absolute
+    width 100%
+    height 100%
+    background-color rgba(0, 0, 0, .4)
+  .nav, .nav-slide-item
+    position absolute
+    width 100%
+    top 40%
+    display flex
+    justify-content space-between
+    z-index 5
+    button
+      cursor pointer
+  .nav-slide-item
+    top 50%
+    transform translateY(-50%)
+    .prev
+      left 0
+    .next
+      right 0
+    button
+      position absolute
+.block-trending
+  padding 15px 0
+  .title-trending
+    text-transform uppercase
+    font-weight bold
+    margin-bottom 10px
+    font-size 1.5rem
+    margin-bottom 35px
+  &:nth-child(2n)
+    background #f6f6f6
+.top-hotels
+  display flex
+  .card:not(:first-child):not(:last-child)
+    margin 0px 20px
+.top-news
+  width 50%
+.slider-enter-active, .slider-leave-active
+  transition transform .5s
+.slider-enter
+  transform translateX(-200%)
+.slider-leave-to
+  transform translateX(100%)
+.slider-enter-to
+  transform translateX(-100%)
+.slider-leave
+  transform translateX(0)
+.slide-next
+  .slider-enter
+    transform translateX(0)
+  .slider-leave-to
+    transform translateX(-100%)
