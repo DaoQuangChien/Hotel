@@ -33,6 +33,18 @@ const router = new VueRouter({
           name: 'dashboard',
           path: 'dashboard',
           component: load('dashboard')
+        },
+        {
+          name: 'hotel',
+          path: 'hotel',
+          component: load('hotel'),
+          children: [
+            {
+              name: 'hotel-summary',
+              path: 'summary',
+              component: load('summary')
+            }
+          ]
         }
       ]
     },
