@@ -1,12 +1,13 @@
-@media (min-width $screen-sm-min)
-  .control-group
-    width: 300px
-    display: inline-block
-@media (max-width $screen-xs-max)
-  .control-group
-    width: 100%
+@import '~src/themes/quasar.variables.styl'
 .search-form
   padding: 0px
+  @media (min-width $screen-sm-min)
+    .control-group
+      width: 300px
+      display: inline-block
+  @media (max-width $screen-xs-max)
+    .control-group
+      width: 100%
 .hotels
   padding-top: 15px
   table.truntcase
