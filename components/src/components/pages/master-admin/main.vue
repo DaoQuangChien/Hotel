@@ -17,7 +17,7 @@
             </router-link>
           </li>
           <li>
-            <router-link :to="{name: 'customer'}">
+            <router-link :to="{name: 'hotel-event'}">
               <q-icon name="fa-users"></q-icon>
               <span>Khách hàng</span>
             </router-link>
