@@ -41,7 +41,7 @@ const router = new VueRouter({
         },
         {
           name: 'hotel-summary',
-          path: 'hotel-summary',
+          path: 'hotel/hotel-summary/:hotelID',
           component: load('hotel-summary')
         },
         {
@@ -60,9 +60,19 @@ const router = new VueRouter({
           component: load('hotel-price')
         },
         {
-          name: 'users',
-          path: 'users',
-          component: load('users')
+          name: 'userManagement',
+          path: 'userManagement',
+          component: load('userManagement')
+        },
+        {
+          name: 'rss',
+          path: 'rss',
+          component: load('rss')
+        },
+        {
+          name: 'layoutManagement',
+          path: 'layoutManagement',
+          component: load('layoutManagement')
         }
       ]
     },
