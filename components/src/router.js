@@ -40,24 +40,31 @@ const router = new VueRouter({
           component: load('hotel')
         },
         {
-          name: 'hotel-summary',
-          path: 'hotel/hotel-summary/:hotelID',
-          component: load('hotel-summary')
-        },
-        {
-          name: 'hotel-event',
-          path: 'hotel-event',
-          component: load('hotel-event')
-        },
-        {
-          name: 'hotel-room',
-          path: 'hotel-room',
-          component: load('hotel-room')
-        },
-        {
-          name: 'hotel-price',
-          path: 'hotel-price',
-          component: load('hotel-price')
+          name: 'hotel-menu',
+          path: 'hotel/hotel-menu',
+          component: load('hotel-menu'),
+          children: [
+            {
+              name: 'hotel-summary',
+              path: 'hotel-summary/:hotelID',
+              component: load('hotel-summary')
+            },
+            {
+              name: 'hotel-event',
+              path: 'hotel-event',
+              component: load('hotel-event')
+            },
+            {
+              name: 'hotel-room',
+              path: 'hotel-room',
+              component: load('hotel-room')
+            },
+            {
+              name: 'hotel-price',
+              path: 'hotel-price',
+              component: load('hotel-price')
+            }
+          ]
         },
         {
           name: 'userManagement',

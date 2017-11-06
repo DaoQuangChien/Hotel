@@ -140,6 +140,210 @@ function getTopNews () {
       ]
     })
 }
+
+function getListHotel () {
+  return http.get('/content/listHotel')
+    .then(res => res.data)
+    .catch(error => {
+      console.debug(error)
+      return {
+        selectOpt: [
+          {
+            label: 'Hồ Chí Minh',
+            value: 'HCM'
+          },
+          {
+            label: 'Hà Nội',
+            value: 'HN'
+          },
+          {
+            label: 'Đà Nẵng',
+            value: 'DN'
+          },
+          {
+            label: 'Qui Nhơn',
+            value: 'QN'
+          },
+          {
+            label: 'Cần Thơ',
+            value: 'CT'
+          },
+          {
+            label: 'Nha Trang',
+            value: 'NT'
+          }
+        ],
+        list: [
+          {
+            'id': 1,
+            'name': 'Bitesco',
+            'location': 'Hồ Chí Minh',
+            'value': 'HCM',
+            'standard': 4.9,
+            'rated': 4,
+            'lowestPrice': '300000',
+            'highestPrice': '10000000',
+            'roomQuantity': 35
+          },
+          {
+            'id': 2,
+            'name': 'Mường Thanh',
+            'location': 'Cần Thơ',
+            'value': 'CT',
+            'standard': 4,
+            'rated': 6.9,
+            'lowestPrice': '1000000',
+            'highestPrice': '20000000',
+            'roomQuantity': 300
+          },
+          {
+            'id': 3,
+            'name': 'Green House',
+            'location': 'Đà Nẵng',
+            'value': 'DN',
+            'standard': 3,
+            'rated': 7.9,
+            'lowestPrice': '3000000',
+            'highestPrice': '5000000',
+            'roomQuantity': 45
+          },
+          {
+            'id': 4,
+            'name': 'Bitescoooo',
+            'location': 'Hà Nội',
+            'value': 'HN',
+            'standard': 4.9,
+            'rated': 5,
+            'lowestPrice': '3000000',
+            'highestPrice': '10000000',
+            'roomQuantity': 55
+          },
+          {
+            'id': 5,
+            'name': 'Mường Thanh',
+            'location': 'Đà Nẵng',
+            'value': 'DN',
+            'standard': 4,
+            'rated': 6.9,
+            'lowestPrice': '1000000',
+            'highestPrice': '20000000',
+            'roomQuantity': 300
+          },
+          {
+            'id': 6,
+            'name': 'Green House',
+            'location': 'Đà Nẵng',
+            'value': 'DN',
+            'standard': 7,
+            'rated': 7.9,
+            'lowestPrice': '3000000',
+            'highestPrice': '5000000',
+            'roomQuantity': 45
+          },
+          {
+            'id': 7,
+            'name': 'Bitesco',
+            'location': 'Hồ Chí Minh',
+            'value': 'HCM',
+            'standard': 4.9,
+            'rated': 4,
+            'lowestPrice': '300000',
+            'highestPrice': '10000000',
+            'roomQuantity': 35
+          },
+          {
+            'id': 8,
+            'name': 'Mường Thanh',
+            'location': 'Nha Trang',
+            'value': 'NT',
+            'standard': 4,
+            'rated': 6.9,
+            'lowestPrice': '1000000',
+            'highestPrice': '20000000',
+            'roomQuantity': 300
+          },
+          {
+            'id': 9,
+            'name': 'Green House',
+            'location': 'Qui Nhơn',
+            'value': 'QN',
+            'standard': 3,
+            'rated': 7.9,
+            'lowestPrice': '3000000',
+            'highestPrice': '5000000',
+            'roomQuantity': 45
+          },
+          {
+            'id': 10,
+            'name': 'Bitesco',
+            'location': 'Hồ Chí Minh',
+            'value': 'HCM',
+            'standard': 4.9,
+            'rated': 4,
+            'lowestPrice': '300000',
+            'highestPrice': '10000000',
+            'roomQuantity': 35
+          },
+          {
+            'id': 11,
+            'name': 'Mường Thanh',
+            'location': 'Cần Thơ',
+            'value': 'CT',
+            'standard': 4,
+            'rated': 6.9,
+            'lowestPrice': '1000000',
+            'highestPrice': '20000000',
+            'roomQuantity': 300
+          },
+          {
+            'id': 12,
+            'name': 'Green House',
+            'location': 'Đà Nẵng',
+            'value': 'DN',
+            'standard': 3,
+            'rated': 7.9,
+            'lowestPrice': '3000000',
+            'highestPrice': '5000000',
+            'roomQuantity': 45
+          },
+          {
+            'id': 13,
+            'name': 'Bitesco',
+            'location': 'Hồ Chí Minh',
+            'value': 'HCM',
+            'standard': 4.9,
+            'rated': 4,
+            'lowestPrice': '300000',
+            'highestPrice': '10000000',
+            'roomQuantity': 35
+          },
+          {
+            'id': 14,
+            'name': 'Mường Thanh',
+            'location': 'Cần Thơ',
+            'value': 'CT',
+            'standard': 4,
+            'rated': 6.9,
+            'lowestPrice': '1000000',
+            'highestPrice': '20000000',
+            'roomQuantity': 300
+          },
+          {
+            'id': 15,
+            'name': 'Green House',
+            'location': 'Đà Nẵng',
+            'value': 'DN',
+            'standard': 3,
+            'rated': 7.9,
+            'lowestPrice': '3000000',
+            'highestPrice': '5000000',
+            'roomQuantity': 45
+          }
+        ]
+      }
+    })
+}
+
 export default {
   async getLogo () {
     let logo = await getLogo()
@@ -156,5 +360,9 @@ export default {
   async getTopNews () {
     let news = await getTopNews()
     return news
+  },
+  async getListHotel () {
+    let listHotel = await getListHotel()
+    return listHotel
   }
 }

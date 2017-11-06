@@ -16,7 +16,7 @@ standardBorderRadius()
   color #FFF
   font-size 1.3rem
   z-index 999
-  box-shadow 0px 1px 4px #757575
+  box-shadhoow 0px 1px 4px #757575
   cursor pointer
   border none
   transition all .5s
@@ -62,10 +62,12 @@ table.truntcase
       cursor pointer
       padding 5px
       display inline
+      &.active a
+        color $primary
       a
         padding 0px
         color $dark
-        &.active, &:hover
+        &:hover
           color $primary
 .btn
   border none
@@ -79,3 +81,34 @@ table.truntcase
   color #FFF
   &:hover
     background #007888
+.btn-negative
+  background $negative
+  color #FFF
+  &:hover
+    background #a92900
+.btn-group
+  padding 15px
+.control-group
+  .q-select
+    top -4px
+  &.inline
+    margin 0px 10px
+    max-width 400px
+    display inline-block
+    width 100%
+.md-theme-default a:not(.md-button):hover
+  color $primary
+h1, h2, h3, h4, h5, h6
+  margin 0
+h1
+  font-size 1.45rem
+h2
+  font-size 1.30rem
+h3
+  font-size 1.15rem
+h4
+  font-size 1rem
+h5
+  font-size 0.85rem
+h6
+  font-size 0.7rem
