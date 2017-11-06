@@ -36,6 +36,7 @@
   @import '~src/themes/quasar.variables.styl'
   main.hotel-container
     padding 0
+    font-size 14px
   .left-side
     height: calc(100vh - 123px)
     float: left

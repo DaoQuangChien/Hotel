@@ -27,19 +27,7 @@
           <list-hotel v-for="hotel in listHotels" :key="hotel.id" :hotel="hotel"/>
         </tbody>
       </table>
-      <paginate :total="totalPages" @changePage="setPage"/>
-      <!-- <div class="table-footer">
-        <p class="page-info">10 trong 500 khách sạn</p>
-        <ul class="pages">
-          <li><a class="active">1</a></li>
-          <li><a>2</a></li>
-          <li><a>3</a></li>
-          <li><a>4</a></li>
-          <li><a>5</a></li>
-          <li><a>...</a></li>
-          <li><a>50</a></li>
-        </ul>
-      </div> -->
+      <paginate :totalPages="totalPages" :result="result" :totalHotels="totalHotels" @changePage="setPage" />
     </div>
     <button class="default-action"></button>
   </div>

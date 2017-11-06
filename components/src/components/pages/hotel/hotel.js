@@ -24,6 +24,7 @@ export default {
         vm.listHotels = vm.getFirstList(values[0]['list'])
         vm.mainList = values[0]['list']
         vm.selectOptions = values[0]['selectOpt']
+        vm.totalHotels = vm.mainList.length
       })
     })
   },
@@ -32,6 +33,8 @@ export default {
       hotelPerPage: 10,
       currentPage: 0,
       resultCount: 0,
+      totalHotels: 0,
+      result: 0,
       text: '',
       select: '',
       listHotels: [],
@@ -47,11 +50,7 @@ export default {
   methods: {
     setPage: function (current) {
       this.currentPage = current
-      if(this.select === '' && this.text === '' || this.text === '') {
-        this.getCurrentList(this.mainList)
-      } else {
-        this.getCurrentList(this.listHotels)
-      }
+      this.getCurrentList(this.mainList)
     },
     getFirstList: function (list) {
       this.resultCount = list.length
@@ -59,43 +58,57 @@ export default {
         this.currentPage = this.totalPages - 1
       }
       var index = this.currentPage * this.hotelPerPage
+      this.result = list.slice(index, index + this.hotelPerPage).length
       return list.slice(index, index + this.hotelPerPage)
     },
     getCurrentList: function (list) {
-      this.resultCount = list.length
-      this.currentPage--
-      var index = this.currentPage * this.hotelPerPage
-      this.listHotels = list.slice(index, index + this.hotelPerPage)
-    },
-    filteredList: function (list, e) {
-      e.preventDefault()
-      if (this.select !== '' && this.text !== '') {
-        this.listHotels = list.filter((item) => {
-          if (item.name.toLowerCase().indexOf(this.text.toLowerCase()) > -1 && item.value === this.select) {
+      let tmpList = list
+      if (this.select !== '') {
+        tmpList = list.filter((item) => {
+          if (item.value === this.select) {
             return item
           }
         })
-      } else {
-        if (this.select !== '') {
-          this.listHotels = list.filter((item) => {
-            if (item.value === this.select) {
-              return item
-            }
-          })
-        }
-        if (this.text !== '') {
-          this.listHotels = list.filter((item) => {
-            if (item.name.toLowerCase().indexOf(this.text.toLowerCase()) > -1) {
-              return item
-            }
-          })
-        }
       }
+      if (this.text !== '') {
+        tmpList = list.filter((item) => {
+          if (item.name.toLowerCase().indexOf(this.text.toLowerCase()) > -1) {
+            return item
+          }
+        })
+      }
+      this.resultCount = list.length
+      this.currentPage--
+      var index = this.currentPage * this.hotelPerPage
+      this.result = tmpList.slice(index, index + this.hotelPerPage).length
+      this.listHotels = tmpList.slice(index, index + this.hotelPerPage)
+    },
+    filteredList: function (list, e) {
+      if(e) {
+        e.preventDefault()
+      }
+      let tmpList = list
+      if (this.select !== '') {
+        tmpList = list.filter((item) => {
+          if (item.value === this.select) {
+            return item
+          }
+        })
+      }
+      if (this.text !== '') {
+        tmpList = list.filter((item) => {
+          if (item.name.toLowerCase().indexOf(this.text.toLowerCase()) > -1) {
+            return item
+          }
+        })
+      }
+      this.resultCount = tmpList.length
       if (this.currentPage >= this.totalPages) {
         this.currentPage = this.totalPages
       }
       var index = this.currentPage * this.hotelPerPage
-      this.listHotels = this.listHotels.slice(index, index + this.hotelPerPage)
+      this.result = tmpList.slice(index, index + this.hotelPerPage).length
+      this.listHotels = tmpList.slice(index, index + this.hotelPerPage)
     }
   },
 }
