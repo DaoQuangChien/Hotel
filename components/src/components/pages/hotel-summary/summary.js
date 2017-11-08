@@ -1,4 +1,5 @@
 import ckEditor from '@/controls/ckeditor'
+// import hotel from 'src/services/hotel-service'
 import { QInput, QSelect } from 'quasar'
 export default {
   components: { ckEditor, QInput, QSelect },
@@ -45,4 +46,11 @@ export default {
       ]
     }
   }
+  // beforeRouteEnter: (to, from, next) => {
+  //   hotel.getHotelDetails(to.params.hotelId).then(result => {
+  //     next(vm => {
+  //       vm.hotelDetail = result
+  //     })
+  //   })
+  // }
 }

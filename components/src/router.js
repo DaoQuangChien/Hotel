@@ -41,27 +41,27 @@ const router = new VueRouter({
         },
         {
           name: 'hotel-menu',
-          path: 'hotel/hotel-menu',
+          path: 'hotel/:hotelId',
           component: load('hotel-menu'),
           children: [
             {
               name: 'hotel-summary',
-              path: 'hotel-summary/:hotelID',
+              path: 'summary',
               component: load('hotel-summary')
             },
             {
               name: 'hotel-event',
-              path: 'hotel-event',
+              path: 'event',
               component: load('hotel-event')
             },
             {
               name: 'hotel-room',
-              path: 'hotel-room',
+              path: 'room',
               component: load('hotel-room')
             },
             {
               name: 'hotel-price',
-              path: 'hotel-price',
+              path: 'price',
               component: load('hotel-price')
             }
           ]
