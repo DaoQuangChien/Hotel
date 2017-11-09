@@ -1,4 +1,13 @@
 @import '~src/themes/quasar.variables.styl'
+.search-form
+  padding: 0px
+  @media (min-width $screen-sm-min)
+    .control-group
+      width: 300px
+      display: inline-block
+  @media (max-width $screen-xs-max)
+    .control-group
+      width: 100%
 .block-event
   &.search-form
     padding-bottom: 5px
