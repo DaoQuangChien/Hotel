@@ -50,19 +50,14 @@ const router = new VueRouter({
               component: load('hotel-summary')
             },
             {
-              name: 'hotel-event',
-              path: 'event',
-              component: load('hotel-event')
-            },
-            {
               name: 'hotel-room',
               path: 'room',
               component: load('hotel-room')
             },
             {
-              name: 'hotel-price',
-              path: 'price',
-              component: load('hotel-price')
+              name: 'hotel-modify',
+              path: 'modify',
+              component: load('hotel-modify')
             }
           ]
         },

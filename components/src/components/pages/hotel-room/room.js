@@ -1,13 +1,18 @@
 import listRoom from '@/controls/list-room'
-import { QInput, QSelect, Loading, QSpinnerCircles } from 'quasar'
+import Ckeditor from '@/controls/ckeditor'
+import { QInput, QSelect, Loading, QSpinnerCircles, QOptionGroup, QChipsInput, QUploader } from 'quasar'
 import content from 'src/services/content-service'
 export default {
   components: {
     listRoom,
+    Ckeditor,
     QInput,
     QSelect,
     Loading,
-    QSpinnerCircles
+    QSpinnerCircles,
+    QOptionGroup,
+    QChipsInput,
+    QUploader
   },
   beforeRouteEnter(to, from, next) {
     Loading.show({
@@ -31,7 +36,25 @@ export default {
       select: '',
       listRooms: [],
       mainList: [],
-      selectOptions: []
+      singleList: {},
+      selectOptions: [],
+      group: 'op1',
+      url: '',
+      is_multiple: false,
+      roomName: '',
+      roomKind: '',
+      roomFacilities: [],
+      roomPrice: '',
+      content: '',
+      id: 'editorAdd'
     }
   },
+  methods: {
+    openDialog(ref) {
+      this.$refs[ref].open();
+    },
+    closeDialog(ref) {
+      this.$refs[ref].close();
+    }
+  }
 }

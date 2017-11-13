@@ -38,8 +38,8 @@ import 'quasar-extras/material-icons'
 import 'vue-material/dist/vue-material.css'
 import 'quasar-extras/fontawesome'
 // import 'quasar-extras/ionicons'
-import 'quasar-extras/animate/fadeIn.css'
-import 'quasar-extras/animate/fadeOut.css'
+// import 'quasar-extras/animate/bounceInLeft.css'
+// import 'quasar-extras/animate/bounceOutRight.css'
 
 Quasar.start(() => {
   /* eslint-disable no-new */
