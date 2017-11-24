@@ -1,0 +1,53 @@
+{
+  "boards": [
+    {
+      "name": "A faire 8",
+      "id": "1.8",
+      "link": "../a-faire-1/1.8",
+      "date": "Nov-7-17"
+    },
+    {
+      "name": "A faire 9",
+      "id": "1.9",
+      "link": "../a-faire-1/1.9",
+      "date": "Nov-7-17"
+    },
+    {
+      "name": "A faire 10",
+      "id": "1.10",
+      "link": "../a-faire-1/1.10",
+      "date": "Nov-7-17"
+    },
+    {
+      "name": "A faire 11",
+      "id": "1.11",
+      "link": "../a-faire-1/1.11",
+      "date": "Nov-7-17"
+    },
+    {
+      "name": "A faire 12",
+      "id": "1.12",
+      "link": "../a-faire-1/1.12",
+      "date": "Nov-7-17"
+    },
+    {
+      "name": "A faire 13",
+      "id": "1.13",
+      "link": "../a-faire-1/1.13",
+      "date": "Nov-7-17"
+    },
+    {
+      "name": "A faire 14",
+      "id": "1.14",
+      "link": "../a-faire-1/1.14",
+      "date": "Nov-7-17"
+    },
+    {
+      "name": "A faire 15",
+      "id": "1.15",
+      "link": "../a-faire-1/1.15",
+      "date": "Nov-7-17"
+    }
+  ],
+  "loadmore": false
+}

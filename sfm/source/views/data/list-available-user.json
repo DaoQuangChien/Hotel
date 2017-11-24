@@ -1,0 +1,38 @@
+{
+  "status": true,
+  "total": "10",
+  "data": [
+    {
+      "type": "0",
+      "type_name": "Client",
+      "users": [
+        {
+          "id": "1",
+          "full_name": "Client User 1",
+          "short_name": "CU"
+        },
+        {
+          "id": "2",
+          "full_name": "Client User 2",
+          "short_name": "CU"
+        },
+        {
+          "id": "3",
+          "full_name": "Client User 3",
+          "short_name": "CU"
+        }
+      ]
+    },
+    {
+      "type": "1",
+      "type_name": "User",
+      "users": [
+        {
+          "id": "4",
+          "full_name": "Super User 1",
+          "short_name": "SU"
+        }
+      ]
+    }
+  ]
+}

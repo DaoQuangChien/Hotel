@@ -1,0 +1,55 @@
+fieldset {
+  border-radius: @border-radius-base;
+  padding: 5px;
+}
+
+legend {
+  font-weight: bold;
+  width: auto;
+}
+
+label {
+  font-weight: bold;
+  &.custom-label {
+    vertical-align: baseline;
+    float: left;
+  }
+}
+
+.checkbox, .radio {
+  label {
+    font-weight: normal;
+    input {
+      top: 4px;
+      margin-right: 4px;
+    }
+  }
+  .custom-radio &{
+    input {
+      top: -.25em;
+    }
+  }
+}
+.custom-input {
+  &.control-group {
+    width: 30%;
+    display: inline-block;
+    margin-left: 5px;
+    padding-right: 15px;
+  }
+}
+.custom-area {
+  margin-top: 10px;
+}
+
+select:not([multiple]) {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 5px 35px 5px 5px;
+  background: url('@{img-url}caret-down.png') 97% no-repeat;
+  background-size: 8px 5px;
+  &::-ms-expand {
+    display: none;
+  }
+}

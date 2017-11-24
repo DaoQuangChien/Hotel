@@ -1,0 +1,5 @@
+mixin footer(params)
+  -for(var i = 0, len = params.length; i < len; i++) {
+    li
+      +link(params[i].text)
+  -}

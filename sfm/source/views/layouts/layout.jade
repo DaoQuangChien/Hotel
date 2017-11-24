@@ -1,0 +1,31 @@
+include ../mixins/all
+
+block vars
+  -title = 'Site'
+  -bodyClass = ''
+
+doctype html
+html(class="no-js", lang="en")
+  head
+    meta(charset="utf-8")
+    //[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1"><![endif]
+    title=title
+    meta(name="description", content="")
+    meta(name="keywords", content="")
+    meta(name="robots", content="index, follow")
+    meta(name="author", content="")
+    meta(name="viewport", content="width=device-width, initial-scale=1, minimal-ui")
+    link(rel="shortcut icon", href="favicon.ico", type="image/x-icon")
+    link(rel="stylesheet", href="css/libs/bootstrap.css")
+    link(rel="stylesheet", href="css/libs/jquery-ui.css")
+    link(rel="stylesheet", href="css/style.css")
+    link(rel="stylesheet", href="css/print.css", media="print")
+    script(src="js/modernizr.js")
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1agSjugQuZmoRBzMtjZA0ENZf_6omZ-Y")
+  body(class=bodyClass)
+    #container
+      include ../blocks/header
+      block container
+      include ../blocks/footer
+    include ../blocks/script
+    noscript JavaScript is off. Please enable to view full site.

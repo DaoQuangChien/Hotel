@@ -1,0 +1,38 @@
+extends layouts/layout
+
+block vars
+  -title = 'Main Courant DashBoard'
+  -bodyClass = 'main-courant-dashboard'
+  -hasMenu = true
+  -hasFooter = true
+block container
+  main#main
+    .screen-overlay.hide
+    h2.title Main Courant DashBoard
+    .container-fluid.main-courant-dashboard.table-results(data-get-company, data-url='/data/list-company.json',data-limit-loadpage='7',data-limit-loadmore='8',data-link-loadmore='/data/loadmore-board.json')
+  .create-modal.hide(data-target-popup='update',data-update-table,data-error-text="Sorry, we can't update this table")
+    header
+      p.inline Update board name
+      span.icon-close(data-close-popup)
+    .form-group
+      label Nom
+      input.company-name.form-control
+      button.create Update
+  .create-modal.hide(data-target-popup='create',data-create-table)
+    header
+      p.inline Créer une nouvelle équipe
+      span.icon-close(data-close-popup)
+    .form-group
+      label Nom
+      input.company-name.form-control
+      button.create Create
+  .create-modal.hide(data-target-popup='delete',data-delete-table,data-error-text="Sorry, we can't delete this table")
+    header
+      p.inline Delete this table
+      span.icon-close(data-close-popup)
+    .form-group
+      button.create(data-accept) Yes
+      button.negative(data-close-popup) No
+  input(type='hidden', value='data/create-table.json')#create-table-link
+  input(type='hidden', value='/data/update-table.json')#update-table-link
+  input(type='hidden', value='/data/delete-table.json')#delete-table-link
