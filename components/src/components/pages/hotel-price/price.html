@@ -1,59 +1,112 @@
-<main class="hotel-container">
-  <div class="left-side">
-    <ul class="menu">
-      <ul class="menu">
-        <li class="menu-item "><a href="hotel-summary.html" title="Thông tin chung"><span class="menu-icon fa fa-home"></span><span class="menu-title">Thông tin chung</span></a></li>
-        <li class="menu-item "><a href="hotel-room.html" title="Thông tin phòng"><span class="menu-icon fa fa-bed"></span><span class="menu-title">Thông tin phòng</span></a></li>
-        <li class="menu-item "><a href="hotel-event.html" title="Khuyễn mãi"><span class="menu-icon fa fa-calendar"></span><span class="menu-title">Khuyễn mãi</span></a></li>
-        <li class="menu-item active"><a href="hotel-price.html" title="Thời giá"><span class="menu-icon fa fa-usd"></span><span class="menu-title">Thời giá</span></a></li>
-      </ul>
-    </ul>
-  </div>
-  <div class="content-side main-content">
-    <form class="block-price search-form control-form">
-      <div class="default-action"></div>
-      <div class="control-group">
-        <label class="time">Từ</label>
-        <input class="date-picker input" type="text" name="from" data-time-picker><span class="fa fa-calendar" data-icon-picker></span>
-      </div>
-      <div class="control-group">
-        <label class="time">Đến</label>
-        <input class="date-picker input" type="text" name="to" data-time-picker><span class="fa fa-calendar" data-icon-picker></span>
-      </div>
-      <button class="btn flat" type="submit">Tìm</button>
-    </form>
-    <div class="block-price block-group">
-      <div class="block-content">
-        <h2>Từ thứ 6 - Chủ Nhật</h2>
-        <p>Hàng tuần</p>
-        <p>Áp dụng: Tất cả phòng</p>
-      </div>
-      <div class="price-text">
-        <p>+500.000VND</p>
-      </div>
-      <div class="block-action"><a class="fa fa-edit" href="hotel-price-edit.html" title="Edit"></a><a class="fa fa-trash" href="#" title="Block"></a></div>
-    </div>
-    <div class="block-price block-group">
-      <div class="block-content">
-        <h2>Từ 1/6/2017 - 1/7/2017</h2>
-        <p>1 lần</p>
-        <p>Áp dụng: Tất cả phòng</p>
-      </div>
-      <div class="price-text">
-        <p>+800.000VND</p>
-      </div>
-      <div class="block-action"><a class="fa fa-edit" href="hotel-price-edit.html" title="Edit"></a><a class="fa fa-trash" href="#" title="Block"></a></div>
-    </div>
-    <div class="block-price block-group">
-      <div class="block-content">
-        <h2>Từ thứ 6 - Chủ Nhật</h2>
-        <p>Hàng tuần</p>
-        <p>Áp dụng: Tất cả phòng</p>
-      </div>
-      <div class="price-text">
-        <p>+500.000VND</p>
-      </div>
-      <div class="block-action"><a class="fa fa-edit" href="hotel-price-edit.html" title="Edit"></a><a class="fa fa-trash" href="#" title="Block"></a></div>
+<div class="content-side main-content">
+  <div class="row">
+    <div class="col-md-4 col-sm-6 col-xs-6">
+      <q-card>
+        <q-transition
+          appear
+          enter="fadeIn"
+          leave="fadeOut"
+          duration="500"
+          @after-leave="changeMode">
+          <div class="card-container" v-if="mode === 'watch'">
+            <q-card-title>
+               Từ thứ 6 - Chủ Nhật
+               <span slot="subtitle">Hàng tuần</span>
+            </q-card-title>
+            <q-card-main>
+              <p>Giá tiền tăng 500.000VND</p>
+              <p>Áp dụng: Tất cả các phòng</p>
+            </q-card-main>
+            <q-card-separator />
+            <q-card-actions>
+              <q-btn flat @click="edit">
+                <span class="fa fa-pencil-square-o"></span>
+                Chỉnh sửa
+              </q-btn>
+              <q-btn flat @click="drop">
+                <span class="fa fa-trash"></span>
+                Xóa
+              </q-btn>
+            </q-card-actions>
+          </div>
+          <div class="card-container" v-if="mode === 'edit'">
+            <q-card-title>
+              Từ thứ 6 - Chủ Nhật (editable)
+              <span slot="subtitle">Hàng tuần (editable)</span>
+            </q-card-title>
+            <q-card-main>
+              <p>Giá tiền tăng 500.000VND (editable)</p>
+              <p>Áp dụng: Tất cả các phòng (editable)</p>
+            </q-card-main>
+            <q-card-separator />
+            <q-card-actions>
+              <q-btn flat @click="update">
+                <span class="fa fa-pencil-square-o"></span>
+                Cập nhật
+              </q-btn>
+              <q-btn flat @click="cancel">
+                <span class="fa fa-times"></span>
+                Bỏ qua
+              </q-btn>
+            </q-card-actions>
+          </div>
+        </q-transition>
+      </q-card>
     </div>
   </div>
-</main>
+  <q-card inline class="bigger">
+    <q-card-media>
+      <img src="/statics/hotels/hotel_01.png">
+    </q-card-media>
+    <q-card-title>
+      Cafe Basilico
+      <q-rating slot="subtitle" v-model="stars" :max="5" />
+      <div slot="right" class="row items-center">
+        <q-icon name="place" /> 250 ft
+      </div>
+    </q-card-title>
+    <q-card-main>
+      <p>$・Italian, Cafe</p>
+      <p class="text-faded">Small plates, salads & sandwiches in an intimate setting.</p>
+    </q-card-main>
+    <q-card-separator />
+    <q-card-actions>
+      <q-btn flat round small>
+        <q-icon name="event" /></q-btn>
+      <q-btn flat>5:30PM</q-btn>
+      <q-btn flat>7:30PM</q-btn>
+      <q-btn flat>9:00PM</q-btn>
+      <q-btn flat color="primary">Reserve</q-btn>
+    </q-card-actions>
+  </q-card>
+
+  <md-dialog md-open-from="#custom" md-close-to="#custom" ref="dialog1">
+    <md-dialog-title>Thời giá</md-dialog-title>
+
+    
+  
+    <md-dialog-content>
+      <div class="block-group">
+        <span class="label-text">Thời gian</span>
+        <div class="select-form">
+          <q-option-group
+            type="radio"
+            v-model="group"
+            :options="[
+              { label: '1 lần', value: 'op1' },
+              { label: 'Option 2', value: 'op2', color: 'secondary' },
+              { label: 'Option 3', value: 'op3', color: 'amber' },
+              { label: 'Option 3', value: 'op3', color: 'amber' }
+            ]"/>
+        </div>
+      </div>
+    </md-dialog-content>
+  
+    <md-dialog-actions>
+      <md-button class="md-primary" @click="closeDialog('dialog1')">Cancel</md-button>
+      <md-button class="md-primary" @click="closeDialog('dialog1')">Ok</md-button>
+    </md-dialog-actions>
+  </md-dialog>
+  <md-button class="md-primary md-raised" id="custom" @click="openDialog('dialog1')">Custom</md-button>
+</div>
+

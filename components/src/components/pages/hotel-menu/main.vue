@@ -15,15 +15,9 @@
           </router-link>
         </li>
         <li class="menu-item">
-          <router-link :to="{name: 'hotel-event'}">
-            <span class="menu-icon fa fa-calendar"></span>
-            <span class="menu-title">Khuyễn mãi</span>
-          </router-link>
-        </li>
-        <li class="menu-item">
-          <router-link :to="{name: 'hotel-price'}">
-            <span class="menu-icon fa fa-usd"></span>
-            <span class="menu-title">Thời giá</span>
+          <router-link :to="{name: 'hotel-modify'}">
+            <span class="menu-icon fa fa-wrench"></span>
+            <span class="menu-title">Thay đổi</span>
           </router-link>
         </li>
       </ul>

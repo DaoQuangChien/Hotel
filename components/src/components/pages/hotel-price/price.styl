@@ -8,34 +8,7 @@
   @media (max-width $screen-xs-max)
     .control-group
       width: 100%
-.hotels
-  padding-top: 15px
-  table.truntcase
-    td.desc,td.asc
-      position: relative
-    td.desc::after
-      content: ""
-      display: inline-block
-      height: 5px
-      width: 5px
-      position: absolute
-      right: 5px
-      top: 15px
-      border-left: 5px solid transparent
-      border-right: 5px solid transparent
-      border-top: 5px solid $dark
-    td.asc::after
-      content: ""
-      display: inline-block
-      height: 5px
-      width: 5px
-      position: absolute
-      right: 5px
-      top: 15px
-      border-left: 5px solid transparent
-      border-right: 5px solid transparent
-      border-bottom: 5px solid $dark
-.block-event, .block-price
+.block-price
   &.search-form
     padding-bottom: 5px
     margin-left: 15px
@@ -50,9 +23,11 @@
     display: flex
     margin-left: 15px
     border-bottom: 1px solid $light
+    padding 15px
     &:nth-child(2)
       border-top: 1px solid $light
   .block-content
+    padding 15px
     border-top: none
     border-radius: 0
     box-shadow: none
@@ -60,10 +35,15 @@
     p
       padding: 0 0 15px 15px
   .block-action
+    padding 15px
     flex: 0
     display: flex
     flex-direction: column
     justify-content: center
+    a 
+      color $primary
+      &:hover
+        color $negative
     .fa
       font-size: 1.3rem
       padding: 0
@@ -74,6 +54,7 @@
       justify-content: flex-start
   .price-text
     flex: 1
+    padding 15px
     p
       padding: 0 0 15px 0
       font-size: 1.3rem

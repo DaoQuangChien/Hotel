@@ -1,0 +1,67 @@
+@import '~src/themes/quasar.variables.styl'
+.search-form
+  padding: 0px
+  @media (min-width $screen-sm-min)
+    .control-group
+      width: 300px
+      display: inline-block
+  @media (max-width $screen-xs-max)
+    .control-group
+      width: 100%
+.block-event
+  &.search-form
+    padding-bottom: 5px
+    margin-left: 15px
+    @media (max-width: $screen-xs-max)
+      .control-group
+        width: 200px
+        display: inline-block
+    @media (max-width: $screen-xs)
+      .control-group
+        width: 100%
+  &.block-group
+    display: flex
+    margin-left: 15px
+    border-bottom: 1px solid $light
+    &:nth-child(2)
+      border-top: 1px solid $light
+  .block-content
+    border-top: none
+    border-radius: 0
+    box-shadow: none
+    flex: 1
+    p
+      padding: 0 0 15px 15px
+  .block-action
+    flex: 0
+    display: flex
+    flex-direction: column
+    justify-content: center
+    .fa
+      font-size: 1.3rem
+      padding: 0
+      padding-bottom: 15px
+      &:last-child
+        padding-bottom: 0
+    @media (max-width: $screen-xs-max)
+      justify-content: flex-start
+  .price-text
+    flex: 1
+    p
+      padding: 0 0 15px 0
+      font-size: 1.3rem
+  .input
+    width: calc(100% - 75px)
+  .time
+    display: inline-block
+  @media (min-width: $screen-sm-min)
+    .control-group
+      width: 200px
+    .time
+      padding: 15px 0
+    .fa-calendar
+      font-size: 20px
+      padding-left: 10px
+  @media (max-width: $screen-xs-max)
+    .time
+      width: 50px

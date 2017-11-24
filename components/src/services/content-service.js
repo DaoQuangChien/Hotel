@@ -344,6 +344,202 @@ function getListHotel () {
     })
 }
 
+function getListRoom () {
+  return http.get('/content/listRoom')
+    .then(res => res.data)
+    .catch(error => {
+      console.debug(error)
+      return {
+        selectOpt: [
+          {
+            label: 'Event',
+            value: 'event'
+          },
+          {
+            label: 'Loại',
+            value: 'type'
+          },
+          {
+            label: 'Tiện ích',
+            value: 'facility'
+          }
+        ],
+        list: [
+          {
+            id: 1,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          },
+          {
+            id: 2,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          },
+          {
+            id: 3,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          },
+          {
+            id: 4,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          },
+          {
+            id: 5,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          },
+          {
+            id: 6,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          },
+          {
+            id: 7,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          },
+          {
+            id: 8,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          },
+          {
+            id: 9,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          },
+          {
+            id: 10,
+            name: 'The King Room',
+            kind: '1 giường',
+            facility: 'Wifi, Máy lạnh, TV, Ghế dài',
+            description: 'Diện tích khoảng 90m2, hướng rừng nhiệt đới. Tối đa 2 người lớn, kê được giường phụ. \nDiện tích 90m2 Hướng rừng nhiệt đới.',
+            price: '1,000,000 VND',
+            quantity: '50 phòng',
+            image: '/statics/hotels/hotel_01.png'
+          }
+        ]
+      }
+    })
+}
+
+function getEventPrice () {
+  return http.get('/content/listEventPrice')
+    .then(res => res.data)
+    .catch(error => {
+      console.debug(error)
+      return [
+        {
+          from: '7/1/2017',
+          to: '8/30/2017',
+          event: {
+            description: 'Giảm 40%',
+            apply: 'all'
+          },
+          price: {
+            description: 'Giá tiền tăng 500.000VND',
+            apply: 'all'
+          }
+        },
+        {
+          from: '11/8/2017',
+          to: '12/30/2017',
+          event: {
+            description: 'Giảm 50%',
+            apply: 'all'
+          },
+          price: {
+            description: 'Giá tiền tăng 50%',
+            apply: 'The King Room, The Queen Room'
+          }
+        },
+        {
+          from: '7/1/2017',
+          to: '8/30/2017',
+          event: {
+            description: 'Giảm 30%',
+            apply: 'The King Room, The Queen Room'
+          },
+          price: {
+            description: 'Giá tiền tăng 500.000VND',
+            apply: 'all'
+          }
+        },
+        {
+          from: '11/8/2017',
+          to: '12/30/2017',
+          event: {
+            description: 'Giảm 50%',
+            apply: 'The King Room, Pleb Room'
+          },
+          price: {
+            description: 'Giá tiền tăng 50%',
+            apply: 'The King Room, Peasant Room'
+          }
+        },
+        {
+          from: '7/1/2017',
+          to: '8/30/2017',
+          event: {
+            description: 'Giảm 50%',
+            apply: 'all'
+          },
+          price: {
+            description: 'Giá tiền tăng 500.000VND',
+            apply: 'Pleb Room, Peasant Room'
+          }
+        }
+      ]
+    })
+}
+
 export default {
   async getLogo () {
     let logo = await getLogo()
@@ -364,5 +560,13 @@ export default {
   async getListHotel () {
     let listHotel = await getListHotel()
     return listHotel
+  },
+  async getListRoom () {
+    let listRoom = await getListRoom()
+    return listRoom
+  },
+  async getEventPrice () {
+    let listEventPrice = await getEventPrice()
+    return listEventPrice
   }
 }
