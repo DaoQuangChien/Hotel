@@ -1,0 +1,52 @@
+{
+  "status": true,
+  "card": {
+    "id": "1",
+    "name": "Thuanaa",
+    "priority": "0",
+    "phase": "0",
+    "position": "1",
+    "board_id": "45",
+    "board_name": "ThuanNgo",
+    "description": "bla bla bla\nbla bla bla",
+    "created_at": "2017-11-20 10:48:54",
+    "modified_at": "2017-11-20 10:48:54",
+    "attachment": {
+      "total": 1,
+      "attachments": [
+        {
+          "id": "1",
+          "file_type": "jpg",
+          "file_name": "Desktop-Wallpaper-HD2.jpg",
+          "link": "images/upload/cover-image.jpg",
+          "short_name": "TN",
+          "full_name": "Thuan Ngo",
+          "created_at": "2017-11-21 02:13:01"
+        }
+      ]
+    },
+    "activity": {
+      "total": 2,
+      "activities": [
+        {
+          "id": "134",
+          "content": " Thuan Ngo add attachment Desktop-Wallpaper-HD2.jpg",
+          "link": "images/upload/cover-image.jpg",
+          "is_editable": "0",
+          "full_name": "Thuan Ngo",
+          "short_name": "TN",
+          "created_at": "2017-11-21 02:13:01"
+        },
+        {
+          "id": "133",
+          "content": "Bla bla bla",
+          "link": "images/upload/1_.jpg",
+          "is_editable": "1",
+          "full_name": "Thuan Ngo",
+          "short_name": "TN",
+          "created_at": "2017-11-21 01:58:12"
+        }
+      ]
+    }
+  }
+}
