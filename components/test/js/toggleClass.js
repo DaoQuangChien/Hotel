@@ -1,4 +1,4 @@
-; (function ($, window, undefined) {
+;(function($, window, undefined) {
   'use strict';
 
   var pluginName = 'toggle-class';
@@ -10,7 +10,7 @@
   }
 
   Plugin.prototype = {
-    init: function () {
+    init: function() {
       var ele = this.element,
           opts = this.options;
 
@@ -18,13 +18,13 @@
         $('[data-' + opts.dataToggleTarget + '=' + opts.classToggle + ']').toggleClass(opts.classToggle);
       });
     },
-    destroy: function () {
+    destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function (options, params) {
-    return this.each(function () {
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
@@ -41,7 +41,7 @@
     dataToggleTarget: 'toggle-target'
   };
 
-  $(function () {
+  $(function() {
     $('[data-' + pluginName + ']')[pluginName]();
   });
 

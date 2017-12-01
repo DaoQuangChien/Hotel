@@ -8,6 +8,7 @@
     var ele = this,
         opts = that.options;
 
+    that.vars.is_Click = false;
     $.ajax({
       type: opts.method,
       url: $(opts.inviteMemberLink).val(),
@@ -17,10 +18,10 @@
         member_id: that.vars.memberInfo.data().userId
       },
       success: function(result) {
-        if (result.status && that.vars.memberInfo.data().userId.toString() === result.id) {
+        if (result.status && that.vars.memberInfo.data().userId.toString() === result.data.id.toString()) {
           var addedMember = member.replace('#{{full-name}}', that.vars.memberInfo.attr('title')).replace('#{{user-id}}',
             that.vars.memberInfo.data().userId).replace('#{{short-name}}', that.vars.memberInfo.data().shortName);
-          $('.list-member[data-role=' + result.type + ']').prepend(addedMember);
+          $('.list-member[data-role=' + result.data.type + ']').prepend(addedMember);
         } else {
           ele.append('<p class="errorText">' + opts.errorText + '</p>');
           that.vars.memberInfo.next().fadeOut(opts.fadeOutTime, function() {
@@ -30,10 +31,13 @@
         ele.parent().addClass(opts.hideClass);
       },
       error: function(xhr) {
-        ele.append('<p class="errorText">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p>');
+        ele.append('<p class="errorText">' + opts.textFail + ': ' + xhr.status + ' ' + xhr.statusText + '</p>');
         that.vars.memberInfo.next().fadeOut(opts.fadeOutTime, function() {
           $(this).remove();
         });
+      },
+      complete: function() {
+        that.vars.is_Click = true;
       }
     });
   };
@@ -49,11 +53,15 @@
       var that = this,
           ele = this.element;
       this.vars = {
+        is_Click: true,
         memberInfo: ele.children()
       };
 
       ele.off('click.' + pluginName).on('click.' + pluginName, function(e) {
         e.preventDefault();
+        if (!that.vars.is_Click) {
+          return false;
+        }
         callAjax.call($(this), that);
       });
     },
@@ -79,8 +87,9 @@
     method: 'GET',
     hideClass: 'hide',
     fadeOutTime: 1000,
-    inviteMemberLink: '#invite-member-link',
-    // inviteMemberLink: '#get-user-link',
+    // inviteMemberLink: '#invite-member-link',
+    inviteMemberLink: '#get-user-link',
+    textFail: 'An error occured',
     boardId: '#board-id'
   };
 

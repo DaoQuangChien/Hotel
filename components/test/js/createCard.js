@@ -1,8 +1,8 @@
-; (function ($, window, undefined) {
+;(function($, window, undefined) {
   'use strict';
 
   var pluginName = 'create-card',
-      card = '<a data-content class="card" data-card-id=#{{card-id}}><div class="card-description"><span class="detail priority-#{{priority}}">#{{name}}</span><ul class="icons"><li title="#{{description-title}}"><span class="icon-descrip "></span></li></ul></div></a>';
+      card = '<a data-content class="card" data-card-id=#{{card-id}} data-priority="#{{priority}}" title="#{{title}}"><div class="card-description"><span class="detail priority-#{{priority}}" data-limit-word>#{{name}}</span><ul class="icons"><li title="#{{description-title}}"><span class="icon-descrip "></span></li><li title="#{{comment-title}}"><span class="icon-comment">0</span></li><li title="#{{attachment-title}}"><span class="icon-attachment">0</span></li></ul></div></a>';
 
   var callAjax = function() {
     var that = this,
@@ -10,6 +10,7 @@
         parentEle = this.element.parents('[data-' + opts.dataParent + ']'),
         cardContainer = this.element.prev();
 
+    that.vars.is_Click = false;
     $.ajax({
       type: opts.method,
       url: $(opts.createCardLink).val(),
@@ -22,18 +23,23 @@
       },
       success: function(result) {
         if (result.status) {
-          var cardCreated = card.replace('#{{card-id}}', result.id).replace('#{{priority}}', opts.defaultPriority).replace('#{{name}}', that.vars.textArea.val()).replace('#{{description-title}}', opts.descriptionTitle);
+          var cardCreated = card.replace('#{{card-id}}', result.data.id).replace(/#{{priority}}/g, opts.defaultPriority).replace('#{{name}}', that.vars.textArea.val()).replace('#{{description-title}}', opts.descriptionTitle).replace('#{{title}}', that.vars.textArea.val());
 
-          cardContainer.append(cardCreated);
+          cardContainer
+            .append(cardCreated)
+            .find(opts.dataLimitWord + ':last')['limit-word']();
           that.vars.textArea.val('');
           that.element.addClass(opts.hideClass);
         }
       },
       error: function(xhr) {
-        that.vars.textArea.after('<p class="errorText">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p>');
+        that.vars.textArea.after('<p class="errorText">' + opts.textFail + ': ' + xhr.status + ' ' + xhr.statusText + '</p>');
         that.vars.textArea.next().fadeOut(opts.fadeOutTime, function() {
           $(this).remove();
         });
+      },
+      complete: function() {
+        that.vars.is_Click = true;
       }
     });
   };
@@ -45,11 +51,12 @@
   }
 
   Plugin.prototype = {
-    init: function () {
+    init: function() {
       var that = this,
           ele = this.element,
           opts = this.options;
       this.vars = {
+        is_Click: true,
         textArea: ele.find(opts.dataInput),
         addBtn: ele.find(opts.dataAccept)
       };
@@ -59,17 +66,26 @@
           that.vars.textArea.focus();
           return;
         }
+        if (!that.vars.is_Click) {
+          return false;
+        }
         callAjax.call(that);
         that.vars.textArea[0].rows = that.vars.textArea.data().minRow;
       });
+
+      this.vars.textArea.off('keydown.' + pluginName).on('keydown.' + pluginName, function(e) {
+        if (e.keyCode === 13) {
+          that.vars.addBtn.click();
+        }
+      });
     },
-    destroy: function () {
+    destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function (options, params) {
-    return this.each(function () {
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
@@ -88,13 +104,15 @@
     fadeOutTime: 1000,
     dataInput: '[data-input]',
     dataAccept: '[data-accept]',
+    dataLimitWord: '[data-limit-word]',
     dataParent: 'phase',
     defaultPriority: 1,
     descriptionTitle: 'This card has a description',
+    textFail: 'An error occured',
     boardId: '#board-id'
   };
 
-  $(function () {
+  $(function() {
     $('[data-' + pluginName + ']')[pluginName]();
   });
 

@@ -1,10 +1,10 @@
 {
   "status": true,
-  "total": "10",
   "data": [
     {
       "type": "0",
       "type_name": "Client",
+      "total": "10",
       "users": [
         {
           "id": "1",
@@ -26,6 +26,7 @@
     {
       "type": "1",
       "type_name": "User",
+      "total": "10",
       "users": [
         {
           "id": "4",

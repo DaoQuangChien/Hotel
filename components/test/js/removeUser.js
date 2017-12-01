@@ -1,4 +1,4 @@
-; (function ($, window, undefined) {
+;(function($, window, undefined) {
   'use strict';
 
   var pluginName = 'remove-user';
@@ -10,15 +10,20 @@
   }
 
   Plugin.prototype = {
-    init: function () {
+    init: function() {
       var ele = this.element,
         opts = this.options,
         execBtn = ele.find('[data-accept]'),
         header = ele.find('header'),
         idTableForm = '',
-        deleteEle = null;
+        deleteEle = null,
+        is_Click = true;
 
-      execBtn.off('click.' + pluginName).on('click.' + pluginName, function () {
+      execBtn.off('click.' + pluginName).on('click.' + pluginName, function() {
+        if (!is_Click) {
+          return false;
+        }
+        is_Click = false;
         idTableForm = ele.data().memberFrom.id;
         deleteEle = $(opts.memberClass + '[data-user-id="' + idTableForm + '"]');
         $.ajax({
@@ -29,34 +34,37 @@
             board_id: $(opts.boardId).val(),
             member_id: idTableForm
           },
-          success: function (data) {
+          success: function(data) {
             if (data.status) {
               deleteEle.remove();
               ele.addClass(opts.hideClass);
             } else {
               header.after('<p class="errorText">' + ele.data().errorText + '</p>');
-              header.next().fadeOut(opts.fadeOutTime, function () {
+              header.next().fadeOut(opts.fadeOutTime, function() {
                 $(this).remove();
                 ele.addClass(opts.hideClass);
               });
             }
           },
-          error: function (xhr) {
-            header.after('<p class="errorText">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p>');
-            header.next().fadeOut(opts.fadeOutTime, function () {
+          error: function(xhr) {
+            header.after('<p class="errorText">' + opts.textFail + ': ' + xhr.status + ' ' + xhr.statusText + '</p>');
+            header.next().fadeOut(opts.fadeOutTime, function() {
               $(this).remove();
             });
+          },
+          complete: function() {
+            is_Click = true;
           }
         });
       });
     },
-    destroy: function () {
+    destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function (options, params) {
-    return this.each(function () {
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
@@ -72,13 +80,14 @@
     method: 'GET',
     hideClass: 'hide',
     memberClass: '.member',
-    deleteMemberLink: '#delete-member-link',
-    // deleteMemberLink: '#get-user-link',
+    // deleteMemberLink: '#delete-member-link',
+    deleteMemberLink: '#get-user-link',
     fadeOutTime: 1000,
+    textFail: 'An error occured',
     boardId: '#board-id'
   };
 
-  $(function () {
+  $(function() {
     $('[data-' + pluginName + ']')[pluginName]();
   });
 

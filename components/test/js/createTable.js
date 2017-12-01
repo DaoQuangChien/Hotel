@@ -2,28 +2,12 @@
   'use strict';
 
   var pluginName = 'create-table',
-      table = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{mainName}}" class="lieu-block card"><h5 class="title-card">#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true">Edit</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-set-pos="true" data-follow-parent="true">Delete</span></div><p class="date">#{{date}}</p></a></div>';
+      table = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true">Edit</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-set-pos="true" data-follow-parent="true">Delete</span></div><p class="date">#{{date}}</p></a></div>';
 
   function tableRender(tableItem, name) {
-    var result = '',
-        tmpName = name.split(' '),
-        displayName = name,
-        nameLength = 0;
+    var result = '';
 
-    for (var n in tmpName) {
-      if (tmpName[n].length > 40) {
-        displayName = name.substring(0, 37) + '...';
-        break;
-      } else {
-        nameLength += tmpName[n].length + parseInt(n);
-        if (nameLength > 80) {
-          displayName = name.substring(0, 77) + '...';
-          break;
-        }
-      }
-    }
-
-    result += table.replace('#{{link}}', tableItem.link).replace('#{{id}}', tableItem.board_id).replace('#{{name}}', name).replace('#{{mainName}}', displayName).replace('#{{date}}', tableItem.created_at);
+    result += table.replace('#{{link}}', tableItem.link).replace('#{{id}}', tableItem.board_id).replace(/#{{name}}/g, name).replace('#{{date}}', tableItem.created_at);
     return result;
   }
 
@@ -39,15 +23,19 @@
           opts = this.options,
           eleInput = ele.find('input'),
           eleSubmit = ele.find('button'),
-          tableName = '';
+          tableName = '',
+          is_Click = true;
 
       eleSubmit.off('click.' + pluginName).on('click.' + pluginName, function() {
         if (eleInput.val().length === 0) {
           eleInput.focus();
           return false;
         }
-
+        if (!is_Click) {
+          return false;
+        }
         tableName = eleInput.val();
+        is_Click = false;
         $.ajax({
           type: opts.method,
           url: $(opts.createTableLink).val(),
@@ -60,7 +48,9 @@
             if (data.status) {
               var tableCreated = '';
               tableCreated = tableRender(data.board, tableName);
-              $('[data-company-id="' + ele.data().companyFrom + '"]').find(opts.rowClass).prepend(tableCreated);
+              $('[data-company-id="' + ele.data().companyFrom + '"]')
+                .find(opts.rowClass).prepend(tableCreated)
+                .find(opts.dataLimitWord + ':first')['limit-word']();
               ele.addClass(opts.hideClass);
             }
           },
@@ -69,6 +59,9 @@
             eleInput.next().fadeOut(opts.fadeOutTime, function() {
               $(this).remove();
             });
+          },
+          complete: function() {
+            is_Click = true;
           }
         });
       });
@@ -100,6 +93,7 @@
   $.fn[pluginName].defaults = {
     method: 'GET',
     hideClass: 'hide',
+    dataLimitWord: '[data-limit-word]',
     createTableLink: '#create-table-link',
     rowClass: '.row',
     fadeOutTime: 1000

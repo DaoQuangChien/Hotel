@@ -1,7 +1,7 @@
 ;(function($, window, undefined) {
   'use strict';
 
-  var pluginName = 'download-file';
+  var pluginName = 'limit-word';
 
   function Plugin(element, options) {
     this.element = $(element);
@@ -11,12 +11,16 @@
 
   Plugin.prototype = {
     init: function() {
-      // var ele = this.element;
-      
-      // ele.off('click.' + pluginName).on('click.' + pluginName, function(e) {
-      //   e.preventDefault();
-      //   window.location.href = $(this).find('img')[0].src;
-      // });
+      this.updateText();
+    },
+    updateText: function() {
+      var ele = this.element,
+        opts = this.options,
+        lineHeight = parseInt(ele.css('line-height'));
+
+      while (ele.height() > lineHeight * opts.line) {
+        ele.text(ele.text().slice(0, ele.text().length - 4) + '...');
+      }
     },
     destroy: function() {
       $.removeData(this.element[0], pluginName);
@@ -37,16 +41,7 @@
   };
 
   $.fn[pluginName].defaults = {
-    method: 'GET',
-    createCardLink: '#create-card-link',
-    hideClass: 'hide',
-    fadeOutTime: 1000,
-    dataInput: '[data-input]',
-    dataAccept: '[data-accept]',
-    dataParent: 'phase',
-    defaultPriority: 1,
-    descriptionTitle: 'This card has a description',
-    boardId: '#board-id'
+    line: 2
   };
 
   $(function() {

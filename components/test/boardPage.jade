@@ -13,8 +13,8 @@ block container
         .board-main-content
           .board-header
             h3.board-name A Faire
-            .form-group.search-cards
-              input.company-name.form-control(placeholder="Search card")
+            //- .form-group.search-cards
+            //-   input.company-name.form-control(placeholder="Search card")
             span.show-menu-btn(data-toggle-class) Show menu
             .create-modal.hide
               header
@@ -50,9 +50,6 @@ block container
               input.invite-member.form-control(placeholder="Invite", data-input-autocomplete)
               ul.list-users.hide(data-list-invitable, data-error-text="Sorry, we can't invite this user")
             .block-member(data-get-list, data-show-list="list-available", data-error-text="Sorry, we can't get this list user")
-              // CHIEN EDIT
-              a.view-more.hide(href="#", title="View more", data-viewmore) View more...
-              // CHIEN EDIT
     .create-modal.hide(data-affect='list')
       header
         p.inline Thao tác
@@ -64,150 +61,155 @@ block container
           | Thêm thẻ
         p(data-action='add')
           | Thêm thẻ
-  .create-modal.hide(data-target-popup='deleteMember', data-remove-user, data-error-text="Sorry, we can't delete this member")
-    header
-      p.inline Delete this member
-      span.icon-close(data-close-popup)
-    .form-group
-      button.create(data-accept) Yes
-      button.negative(data-close-popup) No
-  // CHIEN EDIT
-  .screen-overlay.hide(data-card-detail)
-    .detail-modal(data-edit-card, data-error-text="Sorry, we can't add this member")
+    .create-modal.hide(data-target-popup='deleteMember', data-remove-user, data-error-text="Sorry, we can't delete this member")
       header
-        h2.card-detail-header(data-detail-name) Title placeholder
-        p.subtitle
-          | in list 
-          span(data-phase-name) Phase placeholder
-      .detail-container.clearfix
-        .content-block
-          .description-group
-            h4.card-detail-header 
-              | Description 
-              span.subtitle(data-edit-description) edit...
-            span.add-description.hide(data-add-description) Add description...
-            .card-content(data-card-description, data-edit-description)
-              //- | 123 123 123
-              //- br
-              //- | 123 12 3123 12 3
-              //- br
-              //- | 123 1 231 2312 3
-              //- br
-              //- | 23 12 312 312 312 3
-              //- br
-              //- | 123 12 312 31
-            .edit-content.hide(data-target-edit, data-url="data/update-card.json")
-              textarea.input-paragraph(data-fluid-height, rows=4, data-min-rows="4")
-              .form-group
-                button.create(data-accept) Save
-                button.negative(data-close)
-                  span.icon-close
-          .attachment-group
-            h4.card-detail-header Attachment
-            .list-files(data-list-attachments)
-              //- .block-file.clearfix
-              //-   .preview
-              //-     img.preview-img(src="images/upload/cover-image.jpg", alt="preview")
-              //-   .file-info
-              //-     h4.file-name Desktop-Wallpaper-HD2.jpg
-              //-     span.subtitle Added: 2017-11-21 02:13:01
-              //-     a.icon-download(href="#", title="Download") Download
-              //- .block-file.clearfix
-              //-   .preview
-              //-     img.preview-img(src="images/upload/1_.jpg", alt="preview")
-              //-   .file-info
-              //-     h4.file-name Desktop-Wallpaper-HD2.jpg
-              //-     span.subtitle Added: 2017-11-21 02:13:01
-              //-     a.icon-download(href="#", title="Download") Download
-              //- .block-file.clearfix
-              //-   .preview
-              //-     p.file-type DOC
-              //-   .file-info
-              //-     h4.file-name Download turtorial.doc
-              //-     span.subtitle Added: 2017-11-21 02:13:01
-              //-     a.icon-download(href="#", title="Download") Download
-            //- a(href="#", title="Download", data-download-file)
-            //-   img(src="images/upload/cover-image.jpg", alt="download")
-          .comment-group
-            h4.card-detail-header Comment
-            .comment-section
-              span.member U1
-              .form-group
-                .comment-box
-                  textarea.input-paragraph(data-fluid-height, rows=3, data-min-rows="3")
-                  label(for="comment-attachment").icon-attachment
-                  input#comment-attachment.hide(type="file")
-                button.create(data-accept) Save
-          .activity-group
-            h4.card-detail-header Activity
-            .list-activities(data-list-activities)
-              //- .block-activity
-              //-   span.member U1
-              //-   p.member-name 
-              //-     | Full Name User 1
-              //-     span.activity-no-comment
-              //-   .comment-content
-              //-     | qweqwe qwe qwe
-              //-     br
-              //-     | asd asd as dasd asd
-              //-     br
-              //-     | qwe qw eqwe 
-              //-   .edit-content.hide
-              //-     .form-group
-              //-       .comment-box
-              //-         textarea.input-paragraph(data-fluid-height, rows=3, data-min-rows="3")
-              //-         label(for="comment-attachment-2").icon-attachment
-              //-         input#comment-attachment-2.hide(type="file")
-              //-       button.create(data-accept) Save
-              //-       button.negative(data-close)
-              //-         span.icon-close
-              //-   .comment-img
-              //-     img(src="images/upload/cover-image.jpg", alt="image comment preview")
-              //-   .bottom-comment
-              //-     span.date Added: 2017-11-21 02:13:01
-              //-     span.edit.split Edit
-              //-     span.delete.split Delete
-              //- .block-activity
-              //-   span.member U1
-              //-   p.member-name 
-              //-     | Full Name User 1
-              //-     span.activity-no-comment has attached file:
-              //-     span(data-file-placeholder) 1_.jpg
-              //-   .comment-content.hide
-              //-   .edit-content.hide
-              //-     .form-group
-              //-       .comment-box
-              //-         textarea.input-paragraph(data-fluid-height, rows=3, data-min-rows="3")
-              //-         label(for="comment-attachment-3").icon-attachment
-              //-         input#comment-attachment-3.hide(type="file")
-              //-       button.create(data-accept) Save
-              //-       button.negative(data-close)
-              //-         span.icon-close
-              //-   .comment-img
-              //-     img(src="images/upload/1_.jpg", alt="image comment preview")
-              //-   .bottom-comment
-              //-     span.date Added: 2017-11-21 02:13:01
-              //-     span.edit.split Edit
-              //-     span.delete.split Delete
-        ul.action-block
-          li(data-change-priority)
-            span.card-action Priority
-            ul.priority-opt.hide(data-list-priority, data-url="data/update-card.json")
-              li(data-priority="2") High
-              li(data-priority="1") Medium
-              li(data-priority="0") Low
-          li
-            label(for="card-attachment").card-action Attachment
-            input#card-attachment.hide(type="file")
-          li
-            span.card-action Delete Card
-  // CHIEN EDIT
-  input(type='hidden', value='data/list-available-user.json')#get-available-user-link
-  input(type='hidden', value='data/list-invitable-user.json')#get-user-link
-  input(type='hidden', value='data/delete-member.json')#delete-member-link
-  input(type='hidden', value='data/invite-user.json')#invite-member-link
-  input(type='hidden', value='data/list-card.json')#get-cards-link
-  input(type='hidden', value='data/create-card.json')#create-card-link
-  // CHIEN EDIT
-  input(type='hidden', value='data/card-detail.json')#get-card-detail
-  input(type='hidden', value='45')#board-id
+        p.inline Delete this member
+        span.icon-close(data-close-popup)
+      .form-group
+        button.create(data-accept) Yes
+        button.negative(data-close-popup) No
+    .screen-overlay.hide(data-card-detail)
+      .detail-modal(data-edit-card, data-error-text="Sorry, we can't add this member")
+        header
+          h2.card-detail-header(data-detail-name, data-limit-word, data-line=1) Title placeholder
+          p.subtitle
+            | in list 
+            span(data-phase-name) Phase placeholder
+        .detail-container.clearfix
+          .content-block
+            .description-group
+              h4.card-detail-header 
+                | Description 
+                span.subtitle(data-edit-description) edit...
+              //- span.add-description.hide(data-add-description) Add description...
+              .card-content(data-card-description, data-edit-description)
+                //- | 123 123 123
+                //- br
+                //- | 123 12 3123 12 3
+                //- br
+                //- | 123 1 231 2312 3
+                //- br
+                //- | 23 12 312 312 312 3
+                //- br
+                //- | 123 12 312 31
+              .edit-content.hide(data-target-edit, data-url="data/update-card.json")
+                textarea.input-paragraph(data-fluid-height, rows=4, data-min-rows="4")
+                .form-group
+                  button.create(data-accept) Save
+                  button.negative(data-close)
+                    span.icon-close
+            .attachment-group
+              h4.card-detail-header Attachment
+              .list-files(data-list-attachments, data-url="data/update-card.json", data-method="get")
+                //- .block-file.clearfix
+                //-   .preview
+                //-     img.preview-img(src="images/upload/cover-image.jpg", alt="preview")
+                //-   .file-info
+                //-     h4.file-name Desktop-Wallpaper-HD2.jpg
+                //-     span.subtitle Added: 2017-11-21 02:13:01
+                //-     a.icon-download(href="#", title="Download") Download
+                //- .block-file.clearfix
+                //-   .preview
+                //-     img.preview-img(src="images/upload/1_.jpg", alt="preview")
+                //-   .file-info
+                //-     h4.file-name Desktop-Wallpaper-HD2.jpg
+                //-     span.subtitle Added: 2017-11-21 02:13:01
+                //-     a.icon-download(href="#", title="Download") Download
+                //- .block-file.clearfix
+                //-   .preview
+                //-     p.file-type DOC
+                //-   .file-info
+                //-     h4.file-name Download turtorial.doc
+                //-     span.subtitle Added: 2017-11-21 02:13:01
+                //-     a.icon-download(href="#", title="Download") Download
+              //- a(href="#", title="Download", data-download-file)
+              //-   img(src="images/upload/cover-image.jpg", alt="download")
+            .comment-group
+              h4.card-detail-header Comment
+              .comment-section
+                span.member U1
+                .form-group(data-comment, data-url="data/comment.json")
+                  .comment-box
+                    textarea.input-paragraph(data-fluid-height, rows=3, data-min-rows="3")
+                    label(for="comment-attachment").icon-attachment
+                    input#comment-attachment.hide(type="file", name="comment-attachment")
+                  // CHIEN EDIT
+                  .comment-file.hide(data-file-name)
+                    span.icon-close(data-remove-file)
+                  button.create(data-accept) Save
+                  .comment-img.hide
+                    img(alt="image comment preview", data-image-preview)
+                  // CHIEN EDIT
+            .activity-group
+              h4.card-detail-header Activity
+              .list-activities(data-list-activities, data-url-edit="data/update-card.json", data-url-delete="data/update-card.json", data-method-edit="post", data-method-delete="get")
+                //- .block-activity
+                //-   span.member U1
+                //-   p.member-name 
+                //-     | Full Name User 1
+                //-     span.activity-no-comment
+                //-   .comment-content
+                //-     | qweqwe qwe qwe
+                //-     br
+                //-     | asd asd as dasd asd
+                //-     br
+                //-     | qwe qw eqwe 
+                //-   .edit-content.hide
+                //-     .form-group
+                //-       .comment-box
+                //-         textarea.input-paragraph(data-fluid-height, rows=3, data-min-rows="3")
+                //-         label(for="comment-attachment-2").icon-attachment
+                //-         input#comment-attachment-2.hide(type="file")
+                //-       button.create(data-accept) Save
+                //-       button.negative(data-close)
+                //-         span.icon-close
+                //-   .comment-img
+                //-     img(src="images/upload/cover-image.jpg", alt="image comment preview")
+                //-   .bottom-comment
+                //-     span.date Added: 2017-11-21 02:13:01
+                //-     span.edit.split Edit
+                //-     span.delete.split Delete
+                //- .block-activity
+                //-   span.member U1
+                //-   p.member-name 
+                //-     | Full Name User 1
+                //-     span.activity-no-comment has attached file:
+                //-     span(data-file-placeholder) 1_.jpg
+                //-   .comment-content.hide
+                //-   .edit-content.hide
+                //-     .form-group
+                //-       .comment-box
+                //-         textarea.input-paragraph(data-fluid-height, rows=3, data-min-rows="3")
+                //-         label(for="comment-attachment-3").icon-attachment
+                //-         input#comment-attachment-3.hide(type="file")
+                //-       button.create(data-accept) Save
+                //-       button.negative(data-close)
+                //-         span.icon-close
+                //-   .comment-img
+                //-     img(src="images/upload/1_.jpg", alt="image comment preview")
+                //-   .bottom-comment
+                //-     span.date Added: 2017-11-21 02:13:01
+                //-     span.edit.split Edit
+                //-     span.delete.split Delete
+          ul.action-block
+            li(data-change-priority)
+              span.card-action Priority
+              ul.priority-opt.hide(data-list-priority, data-url="data/update-card.json")
+                li(data-priority="2") High
+                li(data-priority="1") Medium
+                li(data-priority="0") Low
+            // CHIEN EDIT
+            li(data-card-attachment, data-method="post", data-url="data/addCardAttachment.json")
+              label(for="card-attachment").card-action Attachment
+              input#card-attachment.hide(type="file", name="card-attachment")
+            // CHIEN EDIT
+            li
+              span.card-action Delete Card
+    //- input(type='hidden', value='data/list-available-user.json')#get-available-user-link
+    input(type='hidden', value='data/list-invitable-user.json')#get-user-link
+    //- input(type='hidden', value='data/delete-member.json')#delete-member-link
+    //- input(type='hidden', value='data/invite-user.json')#invite-member-link
+    input(type='hidden', value='data/list-card.json')#get-cards-link
+    input(type='hidden', value='data/create-card.json')#create-card-link
+    input(type='hidden', value='data/card-detail.json')#get-card-detail
+    input(type='hidden', value='45')#board-id

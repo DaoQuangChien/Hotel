@@ -16,9 +16,14 @@
           execBtn = ele.find('[data-accept]'),
           header = ele.find('header'),
           idTableForm = '',
-          deleteEle = null;
+          deleteEle = null,
+          is_Click = true;
 
       execBtn.off('click.' + pluginName).on('click.' + pluginName, function() {
+        if (!is_Click) {
+          return false;
+        }
+        is_Click = false;
         idTableForm = ele.data().tableFrom;
         deleteEle = $('[data-board-id="' + idTableForm + '"]').parent();
         $.ajax({
@@ -45,6 +50,9 @@
             header.next().fadeOut(opts.fadeOutTime, function() {
               $(this).remove();
             });
+          },
+          complete: function() {
+            is_Click = true;
           }
         });
       });

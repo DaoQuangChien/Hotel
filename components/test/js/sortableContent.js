@@ -21,6 +21,22 @@
     ui.item.removeClass(opts.tiltClass);
   }
 
+  function updateUi(opts, ui, sortable) {
+    $.ajax({
+      type: opts.method,
+      url: opts.url,
+      dataType: 'json',
+      data: {
+        card_id: ui.item.data().cardId,
+        phase_id: ui.item.parents(opts.dataPhase).data().phase,
+        position: ui.item.index() + 1
+      },
+      error: function() {
+        sortable.sortable('cancel');
+      }
+    });
+  }
+
   function Plugin(element, options) {
     this.element = $(element);
     this.options = $.extend({}, $.fn[pluginName].defaults, this.element.data(), options);
@@ -31,10 +47,15 @@
     init: function() {
       var ele = this.element,
           opts = this.options,
-          contentWrapper = ele.find(opts.dataSwapContent);
+          contentWrapper = ele.find(opts.dataSwapContent),
+          connect = [];
 
+      opts.connect.forEach(function(con) {
+        var tmpConnect = '[data-phase=' + con + '] ' + opts.dataSwapContent;
+        connect.push(tmpConnect);
+      });
       contentWrapper.sortable({
-        connectWith: '[data-phase=' + opts.dataConnect + '] ' + opts.dataSwapContent,
+        connectWith: connect,
         placeholder: opts.placeholderContentClass,
         tolerance: 'pointer',
         zIndex: 999,
@@ -43,6 +64,13 @@
         },
         stop: function(e, u) {
           stopSort(u, opts);
+        },
+        update: function(e, u) {
+          var tmpEle = $(this);
+          
+          if (this === u.item.parent()[0]) {
+            updateUi(opts, u, tmpEle);
+          }
         }
       });
       // if (opts.isSwapProgress) {
@@ -53,10 +81,10 @@
       //     items: opts.dataSwapProgress,
       //     cancel: opts.cancelSortClass,
       //     tolerance: 'pointer',
-      //     start: function (e, u) {
+      //     start: function(e, u) {
       //       startSort(u, { setWidth: true, setHeight: true, followChildrenHeight: true }, opts);
       //     },
-      //     stop: function (e, u) {
+      //     stop: function(e, u) {
       //       stopSort(u, opts);
       //     }
       //   });
@@ -81,13 +109,15 @@
   };
 
   $.fn[pluginName].defaults = {
+    method: 'GET',
     dataSwapContent: '[data-swap-content]',
+    dataPhase: '[data-phase]',
     // dataSwapProgress: '[data-swap-progress]',
     placeholderContentClass: 'placeholder-content',
     placeholderProgressClass: 'placeholder-progress',
     cancelSortClass: '.no-sort',
     tiltClass: 'tilt',
-    dataConnect: '1',
+    url: 'data/update-card.json',
     isSwapProgress: false
   };
 

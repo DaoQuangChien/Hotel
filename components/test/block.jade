@@ -39,24 +39,26 @@ mixin address(items)
     block
 mixin listTask(name, items, phase)
   -var popup = 'addCard-' + phase
-  .list-content-wrapper(data-sortable-content, data-phase=phase-1)
+  -var connect = phase
+  -if(phase==1) connect = [1]
+  -if(phase==2) connect = [0, 2]
+  -if(phase==3) connect = [0, 1]
+  // CHIEN EDIT
+  .list-content-wrapper(data-sortable-content, data-phase=phase-1, data-connect=connect)
     .list-content(data-get-detail)
       .list-header
         .list-header-overlay
         textarea.card-name
           |#{name}
-        span.icon-ellipsis(data-show-option)
       .list-cards(data-swap-content, data-get-list-card)
         each item, key in items
           +task(item)
-      // CHIEN-EDIT
       .addcard-block.no-sort.hide(data-target-popup=popup, data-create-card)
         textarea.new-card-name(data-fluid-height, data-input, rows=3, data-min-rows="3")
         .form-group
           button.create(data-accept) Add
           button.negative(data-close-popup)
             span.icon-close
-      // CHIEN-EDIT
       .add-card.no-sort(data-open-popup, data-not-focus="false", data-target=popup) Ajouter une carte
 mixin task(item)
   -var hasCover = false,hasComment = false,hasAttachment = false,hasMember = false

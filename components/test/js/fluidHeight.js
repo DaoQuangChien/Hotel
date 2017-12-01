@@ -1,4 +1,4 @@
-; (function ($, window, undefined) {
+;(function($, window, undefined) {
   'use strict';
 
   var pluginName = 'fluid-height';
@@ -10,7 +10,7 @@
   }
 
   Plugin.prototype = {
-    init: function () {
+    init: function() {
       var ele = this.element,
           opts = this.options,
           baseHeight = null,
@@ -32,13 +32,13 @@
           this.rows = minRows + rows;
         });
     },
-    destroy: function () {
+    destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function (options, params) {
-    return this.each(function () {
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
@@ -57,7 +57,7 @@
     basePadding: 10
   };
 
-  $(function () {
+  $(function() {
     $('[data-' + pluginName + ']')[pluginName]();
   });
 

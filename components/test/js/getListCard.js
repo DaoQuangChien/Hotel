@@ -1,14 +1,14 @@
-; (function ($, window, undefined) {
+;(function($, window, undefined) {
   'use strict';
 
   var pluginName = 'get-list-card',
-    card = '<a data-content class="card" data-card-id=#{{card-id}} data-priority="#{{priority}}"><div class="card-description"><span class="detail priority-#{{priority}}">#{{name}}</span><ul class="icons"><li title="#{{description-title}}"><span class="icon-descrip "></span></li><li title="#{{comment-title}}"><span class="icon-comment #{{hide-comment}}">#{{comment}}</span></li><li title="#{{attachment-title}}"><span class="icon-attachment #{{hide-attachment}}">#{{attachment}}</span></li></ul></div></a>';
+    card = '<a data-content class="card" data-card-id=#{{card-id}} data-priority="#{{priority}}" title="#{{title}}"><div class="card-description"><span class="detail priority-#{{priority}}" data-limit-word>#{{name}}</span><ul class="icons"><li title="#{{description-title}}"><span class="icon-descrip "></span></li><li title="#{{comment-title}}"><span class="icon-comment #{{hide-comment}}">#{{comment}}</span></li><li title="#{{attachment-title}}"><span class="icon-attachment #{{hide-attachment}}">#{{attachment}}</span></li></ul></div></a>';
   // <span data-show-option data-show-overlay class="icon-pencil"></span>
   function renderMemberList(data, opts, phase) {
     var result = '';
 
     if (data.phase === phase) {
-      result += card.replace('#{{name}}', data.name).replace('#{{description-title}}', opts.descriptionTitle).replace('#{{comment-title}}', opts.commentTitle).replace('#{{comment}}', data.total_comment).replace('#{{attachment-title}}', opts.attachmentTitle).replace('#{{attachment}}', data.total_attachment).replace(/#{{priority}}/g, data.priority).replace('#{{card-id}}', data.id);
+      result += card.replace('#{{name}}', data.name).replace('#{{description-title}}', opts.descriptionTitle).replace('#{{comment-title}}', opts.commentTitle).replace('#{{comment}}', data.total_comment).replace('#{{attachment-title}}', opts.attachmentTitle).replace('#{{attachment}}', data.total_attachment).replace(/#{{priority}}/g, data.priority).replace('#{{card-id}}', data.id).replace('#{{title}}', data.name);
       if (data.comment !== '') {
         result = result.replace('#{{hide-comment}}', '');
       } else {
@@ -23,7 +23,7 @@
     return result;
   }
 
-  var callAjax = function () {
+  var callAjax = function() {
     var that = this,
         ele = this.element,
         opts = this.options,
@@ -39,27 +39,29 @@
         offset: that.vars.loadmoreObj.offset,
         phase: ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase)
       },
-      success: function (result) {
+      success: function(result) {
         if (result.status) {
-          result.data.sort(function (a, b) {
+          result.data.sort(function(a, b) {
             return a.position - b.position;
           });
-          result.data.forEach(function (dataList) {
+          result.data.forEach(function(dataList) {
             listUser += renderMemberList(dataList, opts, ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase).toString());
           });
-          ele.append(listUser);
+          ele
+            .append(listUser)
+            .find(opts.dataLimitWord)['limit-word']();
           that.vars.loadmoreObj.offset += that.vars.loadmoreObj.limit;
         } else {
           ele.html('<p class="errorText">' + opts.errorText + '</p>');
         }
       },
-      error: function (xhr) {
+      error: function(xhr) {
         ele.html('<p class="errorText">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p>');
       }
     });
   };
 
-  // var loadmoreAjax = function (opts, objOpt) {
+  // var loadmoreAjax = function(opts, objOpt) {
   //   var ele = this,
   //     link = opts.callLoadmore;
 
@@ -72,7 +74,7 @@
   //       limit: objOpt.loadmoreObj.limit,
   //       offset: objOpt.loadmoreObj.offset
   //     },
-  //     success: function (result) {
+  //     success: function(result) {
   //       if (result) {
   //         if (result.length > 0) {
   //           objOpt.loadmoreObj.offset++;
@@ -82,18 +84,18 @@
   //         }
   //       } else {
   //         ele.append('<li class="' + opts.notFoundClass + '">An error occured: ' + opts.errorLoadmore + '</li>');
-  //         ele.find(opts.notFoundClass).fadeOut(opts.fadeOutTime, function () {
+  //         ele.find(opts.notFoundClass).fadeOut(opts.fadeOutTime, function() {
   //           $(this).remove();
   //         });
   //       }
   //     },
-  //     error: function (xhr) {
+  //     error: function(xhr) {
   //       ele.append('<li class="' + opts.notFoundClass + '">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</li>');
-  //       ele.find(opts.notFoundClass).fadeOut(opts.fadeOutTime, function () {
+  //       ele.find(opts.notFoundClass).fadeOut(opts.fadeOutTime, function() {
   //         $(this).remove();
   //       });
   //     },
-  //     complete: function () {
+  //     complete: function() {
   //       objOpt.permission = true;
   //     }
   //   });
@@ -106,7 +108,7 @@
   }
 
   Plugin.prototype = {
-    init: function () {
+    init: function() {
       var opts = this.options;
       this.vars = {
         loadmoreObj: {
@@ -118,7 +120,7 @@
 
       callAjax.call(this);
       // if (opts.isLoadmore) {
-      //   ele.off('scroll.' + pluginName).on('scroll.' + pluginName, function () {
+      //   ele.off('scroll.' + pluginName).on('scroll.' + pluginName, function() {
       //     if (that.vars.permission) {
       //       if ($(this).scrollTop() > this.scrollHeight - $(this).outerHeight() - opts.triggerBefore) {
       //         loadmoreAjax.call($(this), opts, that.vars);
@@ -127,13 +129,13 @@
       //   });
       // }
     },
-    destroy: function () {
+    destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function (options, params) {
-    return this.each(function () {
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
@@ -148,6 +150,7 @@
   $.fn[pluginName].defaults = {
     method: 'GET',
     noResultText: 'No results found',
+    dataLimitWord: '[data-limit-word]',
     getCardsLink: '#get-cards-link',
     boardIdEle: '#board-id',
     fadeOutTime: 1000,
@@ -161,7 +164,7 @@
     hideClass: 'hide'
   };
 
-  $(function () {
+  $(function() {
     $('[data-' + pluginName + ']')[pluginName]();
   });
 

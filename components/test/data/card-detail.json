@@ -1,14 +1,13 @@
 {
   "status": true,
-  "card": {
+  "data": {
     "id": "1",
-    "name": "Thuanaa",
+    "name": "Thuanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
     "priority": "0",
     "phase": "0",
     "position": "1",
     "board_id": "45",
     "board_name": "ThuanNgo",
-    "description": "bla bla bla\nbla bla bla",
     "created_at": "2017-11-20 10:48:54",
     "modified_at": "2017-11-20 10:48:54",
     "attachment": {
@@ -16,7 +15,7 @@
       "attachments": [
         {
           "id": "1",
-          "file_type": "jpg",
+          "file_type": "image/jpg",
           "file_name": "Desktop-Wallpaper-HD2.jpg",
           "link": "images/upload/cover-image.jpg",
           "short_name": "TN",
