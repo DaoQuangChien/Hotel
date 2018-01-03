@@ -6,7 +6,7 @@
 
   var openFullList = function(opts) {
     this.vars.list.find(opts.notFoundClass).hide();
-    this.vars.list.html('<li class="not-found">' + opts.inputRequirement + '</li>');
+    this.vars.list.html('<li class="not-found">' + opts.requirementText + '</li>');
     this.vars.list.removeClass(opts.hideClass);
   };
 
@@ -79,7 +79,7 @@
           }, opts.timeoutSearch);
         } else {
           clearTimeout(that.vars.timeOutSearch);
-          that.vars.list.html('<li class="not-found">' + opts.inputRequirement + '</li>');
+          that.vars.list.html('<li class="not-found">' + opts.requirementText + '</li>');
         }
       });
       this.vars.input.off('focus.' + pluginName).on('focus.' + pluginName, function() {
@@ -119,7 +119,7 @@
     boardId: '#board-id',
     getUserLink: '#get-user-link',
     notFoundText: 'No results found',
-    inputRequirement: 'Enter a name',
+    requirementText: 'Enter a name',
     closeBtn: '.icon-close',
     timeoutSearch: 500
   };

@@ -12,12 +12,12 @@
   Plugin.prototype = {
     init: function() {
       var ele = this.element,
-        opts = this.options,
-        execBtn = ele.find('[data-accept]'),
-        header = ele.find('header'),
-        idTableForm = '',
-        deleteEle = null,
-        is_Click = true;
+          opts = this.options,
+          execBtn = ele.find('[data-accept]'),
+          header = ele.find('header'),
+          idTableForm = '',
+          deleteEle = null,
+          is_Click = true;
 
       execBtn.off('click.' + pluginName).on('click.' + pluginName, function() {
         if (!is_Click) {
@@ -37,6 +37,7 @@
           success: function(data) {
             if (data.status) {
               deleteEle.remove();
+              $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
               ele.addClass(opts.hideClass);
             } else {
               header.after('<p class="errorText">' + ele.data().errorText + '</p>');
@@ -81,6 +82,7 @@
     hideClass: 'hide',
     memberClass: '.member',
     // deleteMemberLink: '#delete-member-link',
+    dataBoardActivity: '[data-board-activity]',
     deleteMemberLink: '#get-user-link',
     fadeOutTime: 1000,
     textFail: 'An error occured',

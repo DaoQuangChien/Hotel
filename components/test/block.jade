@@ -43,9 +43,8 @@ mixin listTask(name, items, phase)
   -if(phase==1) connect = [1]
   -if(phase==2) connect = [0, 2]
   -if(phase==3) connect = [0, 1]
-  // CHIEN EDIT
   .list-content-wrapper(data-sortable-content, data-phase=phase-1, data-connect=connect)
-    .list-content(data-get-detail)
+    .list-content(data-get-detail,data-edited-text="edited",data-download-text="View")
       .list-header
         .list-header-overlay
         textarea.card-name
@@ -53,6 +52,7 @@ mixin listTask(name, items, phase)
       .list-cards(data-swap-content, data-get-list-card)
         each item, key in items
           +task(item)
+        //- .overlay.hide(data-disable-sortable)
       .addcard-block.no-sort.hide(data-target-popup=popup, data-create-card)
         textarea.new-card-name(data-fluid-height, data-input, rows=3, data-min-rows="3")
         .form-group

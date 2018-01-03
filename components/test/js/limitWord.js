@@ -15,8 +15,8 @@
     },
     updateText: function() {
       var ele = this.element,
-        opts = this.options,
-        lineHeight = parseInt(ele.css('line-height'));
+          opts = this.options,
+          lineHeight = parseInt(ele.css('line-height'));
 
       while (ele.height() > lineHeight * opts.line) {
         ele.text(ele.text().slice(0, ele.text().length - 4) + '...');
@@ -34,8 +34,6 @@
         $.data(this, pluginName, new Plugin(this, options));
       } else if (instance[options]) {
         instance[options](params);
-      } else {
-        window.console && console.log(options ? options + ' method is not exists in ' + pluginName : pluginName + ' plugin has been initialized');
       }
     });
   };

@@ -1,0 +1,29 @@
+{
+  "status": true,
+  "data": [
+    {
+      "name": "Societe 1",
+      "id": "1"
+    },
+    {
+      "name": "Societe 2",
+      "id": "2"
+    },
+    {
+      "name": "Societe 3",
+      "id": "3"
+    },
+    {
+      "name": "Societe 4",
+      "id": "4"
+    },
+    {
+      "name": "Societe 5",
+      "id": "5"
+    },
+    {
+      "name": "Societe 6",
+      "id": "6"
+    }
+  ]
+}

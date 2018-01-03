@@ -2,15 +2,19 @@
   'use strict';
 
   var pluginName = 'loadmore-table',
-      table = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card">#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true">#{{text-edit}}</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-set-pos="true" data-follow-parent="true">#{{text-delete}}</span></div><p class="date">#{{date}}</p></a></div>';
+      table = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true">#{{text-edit}}</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-set-pos="true" data-follow-parent="true">#{{text-delete}}</span></div><p class="date">#{{date}}</p></a></div>';
 
   function tableRender(boardItem, opts) {
     var result = '';
 
     boardItem.forEach(function(board) {
-      result += table.replace('#{{link}}', board.link).replace('#{{id}}', board.id).replace(/#{{name}}/g, board.name).replace('#{{date}}', board.created_at).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete);
+      result += table.replace('#{{link}}', board.link).replace('#{{id}}', board.id).replace(/#{{name}}/g, board.name).replace('#{{date}}', new Date(board.created_at.replace(/-/g, '/')).toLocaleDateString()).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete);
     });
     return result;
+  }
+
+  function oneTableRender(boardItem, opts) {
+    return table.replace('#{{link}}', boardItem[0].link).replace('#{{id}}', boardItem[0].id).replace(/#{{name}}/g, boardItem[0].name).replace('#{{date}}', new Date(boardItem[0].created_at.replace(/-/g, '/')).toLocaleDateString()).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete);
   }
 
   function Plugin(element, options) {
@@ -27,29 +31,38 @@
           offset = 7,
           link = ele.closest(opts.dataGetCompany).data().linkLoadmore,
           companyId = ele.closest(opts.dataCompanyId).data().companyId,
-          is_Click = true;
+          is_Click = true,
+          offsetData = 0;
 
-      ele.on('click.' + pluginName, function() {
+      ele.on('click.' + pluginName, function(e, is_Deleted) {
         if (!is_Click) {
           return false;
         }
         is_Click = false;
+        offsetData = is_Deleted ? offset - 1 : offset;
         $.ajax({
           type: opts.method,
           url: link,
           dataType: 'json',
           data: {
             limit: limit,
-            offset: offset,
+            offset: offsetData,
             company_id: companyId
           },
           success: function(result) {
-            if (result.status) {
+            if (result.status && result.data.length) {
               var tableCreated = '';
-              offset += limit;
-              tableCreated = tableRender(result.data, opts);
+              if (is_Deleted) {
+                tableCreated = oneTableRender(result.data, opts);
+              } else {
+                offset += limit;
+                tableCreated = tableRender(result.data, opts);
+              }
               $('[data-company-id="' + companyId + '"]').find(opts.dataOpenPopup).parent().before(tableCreated);
-              if (result.total <= offset + limit) {
+              $('[data-company-id="' + companyId + '"]').find('.title-card').filter(function(index) {
+                return index >= limit - 1;
+              })['limit-word']();
+              if (result.total <= offset) {
                 ele.addClass(opts.hideClass);
               }
             }

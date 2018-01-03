@@ -2,12 +2,12 @@
   'use strict';
 
   var pluginName = 'create-table',
-      table = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true">Edit</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-set-pos="true" data-follow-parent="true">Delete</span></div><p class="date">#{{date}}</p></a></div>';
+      table = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true" data-move-down="-34">#{{text-edit}}</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-show-parent=true>#{{text-delete}}</span></div><p class="date">#{{date}}</p></a></div>';
 
-  function tableRender(tableItem, name) {
+  function tableRender(tableItem, name, opts) {
     var result = '';
 
-    result += table.replace('#{{link}}', tableItem.link).replace('#{{id}}', tableItem.board_id).replace(/#{{name}}/g, name).replace('#{{date}}', tableItem.created_at);
+    result += table.replace('#{{link}}', tableItem.link).replace('#{{id}}', tableItem.board_id).replace(/#{{name}}/g, name).replace('#{{date}}', new Date(tableItem.created_at.replace(/-/g, '/')).toLocaleDateString()).replace('#{{text-delete}}', opts.textDelete).replace('#{{text-edit}}', opts.textEdit);
     return result;
   }
 
@@ -47,10 +47,11 @@
           success: function(data) {
             if (data.status) {
               var tableCreated = '';
-              tableCreated = tableRender(data.board, tableName);
+              tableCreated = tableRender(data.board, tableName, opts);
               $('[data-company-id="' + ele.data().companyFrom + '"]')
                 .find(opts.rowClass).prepend(tableCreated)
                 .find(opts.dataLimitWord + ':first')['limit-word']();
+              $('[data-company-id="' + ele.data().companyFrom + '"]').find(opts.dataBoardId + ':first [data-open-popup]')['open-popup']();
               ele.addClass(opts.hideClass);
             }
           },
@@ -94,7 +95,10 @@
     method: 'GET',
     hideClass: 'hide',
     dataLimitWord: '[data-limit-word]',
+    dataBoardId: '[data-board-id]',
     createTableLink: '#create-table-link',
+    textEdit: 'Edit',
+    textDelete: 'Delete',
     rowClass: '.row',
     fadeOutTime: 1000
   };

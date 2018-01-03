@@ -2,8 +2,8 @@
   'use strict';
 
   var pluginName = 'get-list-card',
-    card = '<a data-content class="card" data-card-id=#{{card-id}} data-priority="#{{priority}}" title="#{{title}}"><div class="card-description"><span class="detail priority-#{{priority}}" data-limit-word>#{{name}}</span><ul class="icons"><li title="#{{description-title}}"><span class="icon-descrip "></span></li><li title="#{{comment-title}}"><span class="icon-comment #{{hide-comment}}">#{{comment}}</span></li><li title="#{{attachment-title}}"><span class="icon-attachment #{{hide-attachment}}">#{{attachment}}</span></li></ul></div></a>';
-  // <span data-show-option data-show-overlay class="icon-pencil"></span>
+      card = '<a data-content class="card" data-card-id=#{{card-id}} data-priority="#{{priority}}" title="#{{title}}"><div class="card-description"><span class="detail priority-#{{priority}}" data-limit-word>#{{name}}</span><ul class="icons"><li title="#{{description-title}}"><span class="icon-descrip "></span></li><li title="#{{comment-title}}"><span class="icon-comment #{{hide-comment}}">#{{comment}}</span></li><li title="#{{attachment-title}}"><span class="icon-attachment #{{hide-attachment}}">#{{attachment}}</span></li></ul></div></a>';
+  
   function renderMemberList(data, opts, phase) {
     var result = '';
 
@@ -23,84 +23,6 @@
     return result;
   }
 
-  var callAjax = function() {
-    var that = this,
-        ele = this.element,
-        opts = this.options,
-        listUser = '';
-
-    $.ajax({
-      type: opts.method,
-      url: $(opts.getCardsLink).val(),
-      dataType: 'json',
-      data: {
-        board_id: $(opts.boardIdEle).val(),
-        limit: that.vars.loadmoreObj.limit,
-        offset: that.vars.loadmoreObj.offset,
-        phase: ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase)
-      },
-      success: function(result) {
-        if (result.status) {
-          result.data.sort(function(a, b) {
-            return a.position - b.position;
-          });
-          result.data.forEach(function(dataList) {
-            listUser += renderMemberList(dataList, opts, ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase).toString());
-          });
-          ele
-            .append(listUser)
-            .find(opts.dataLimitWord)['limit-word']();
-          that.vars.loadmoreObj.offset += that.vars.loadmoreObj.limit;
-        } else {
-          ele.html('<p class="errorText">' + opts.errorText + '</p>');
-        }
-      },
-      error: function(xhr) {
-        ele.html('<p class="errorText">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p>');
-      }
-    });
-  };
-
-  // var loadmoreAjax = function(opts, objOpt) {
-  //   var ele = this,
-  //     link = opts.callLoadmore;
-
-  //   objOpt.permission = false;
-  //   $.ajax({
-  //     type: opts.methodLoadmore,
-  //     url: link,
-  //     dataType: 'json',
-  //     data: {
-  //       limit: objOpt.loadmoreObj.limit,
-  //       offset: objOpt.loadmoreObj.offset
-  //     },
-  //     success: function(result) {
-  //       if (result) {
-  //         if (result.length > 0) {
-  //           objOpt.loadmoreObj.offset++;
-  //           ele.parent('[data-' + opts.autocompleteType + ']')[opts.autocompleteType]('addToList', result);
-  //         } else {
-  //           objOpt.loadmoreObj.can_loadmore = false;
-  //         }
-  //       } else {
-  //         ele.append('<li class="' + opts.notFoundClass + '">An error occured: ' + opts.errorLoadmore + '</li>');
-  //         ele.find(opts.notFoundClass).fadeOut(opts.fadeOutTime, function() {
-  //           $(this).remove();
-  //         });
-  //       }
-  //     },
-  //     error: function(xhr) {
-  //       ele.append('<li class="' + opts.notFoundClass + '">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</li>');
-  //       ele.find(opts.notFoundClass).fadeOut(opts.fadeOutTime, function() {
-  //         $(this).remove();
-  //       });
-  //     },
-  //     complete: function() {
-  //       objOpt.permission = true;
-  //     }
-  //   });
-  // };
-
   function Plugin(element, options) {
     this.element = $(element);
     this.options = $.extend({}, $.fn[pluginName].defaults, this.element.data(), options);
@@ -109,25 +31,87 @@
 
   Plugin.prototype = {
     init: function() {
-      var opts = this.options;
+      var that = this,
+          ele = this.element,
+          opts = this.options;
       this.vars = {
         loadmoreObj: {
           can_loadmore: true,
           offset: 0,
           limit: opts.limit
-        }
+        },
+        permission: true,
+        is_Loadmore: true
       };
 
-      callAjax.call(this);
-      // if (opts.isLoadmore) {
-      //   ele.off('scroll.' + pluginName).on('scroll.' + pluginName, function() {
-      //     if (that.vars.permission) {
-      //       if ($(this).scrollTop() > this.scrollHeight - $(this).outerHeight() - opts.triggerBefore) {
-      //         loadmoreAjax.call($(this), opts, that.vars);
-      //       }
-      //     }
-      //   });
-      // }
+      this.callAjax();
+      ele.off('scroll.' + pluginName).on('scroll.' + pluginName, function() {
+        if (that.vars.is_Loadmore) {
+          if ($(this).scrollTop() > this.scrollHeight - $(this).outerHeight() - opts.triggerBefore) {
+            if (that.vars.permission) {
+              that.callAjax();
+            }
+          }
+        }
+      });
+    },
+    callAjax: function(is_Load) {
+      if (this.vars.is_Loadmore) {
+        var that = this,
+            ele = this.element,
+            opts = this.options,
+            listUser = '',
+            dataOffset = 0;
+
+        this.vars.permission = false;
+        if (is_Load === 'delete') {
+          dataOffset = this.vars.loadmoreObj.offset - 1;
+        } else {
+          dataOffset = this.vars.loadmoreObj.offset;
+        }
+        $.ajax({
+          type: opts.method,
+          url: $(opts.getCardsLink).val(),
+          dataType: 'json',
+          data: {
+            board_id: $(opts.boardIdEle).val(),
+            limit: that.vars.loadmoreObj.limit,
+            offset: dataOffset,
+            phase: ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase)
+          },
+          success: function(result) {
+            if (result.status) {
+              result.data.sort(function(a, b) {
+                return parseInt(a.position) - parseInt(b.position);
+              });
+              if (typeof (is_Load) !== 'undefined') {
+                if (result.data.length) {
+                  listUser += renderMemberList(result.data[0], opts, ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase).toString());
+                }
+              } else {
+                result.data.forEach(function(dataList) {
+                  listUser += renderMemberList(dataList, opts, ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase).toString());
+                });
+                that.vars.loadmoreObj.offset += that.vars.loadmoreObj.limit;
+              }
+              ele
+                .append(listUser)
+                .find(opts.dataLimitWord)['limit-word']();
+              if (result.total <= that.vars.loadmoreObj.offset) {
+                that.vars.is_Loadmore = false;
+              }
+            } else {
+              ele.html('<p class="errorText">' + opts.errorText + '</p>');
+            }
+          },
+          error: function(xhr) {
+            ele.html('<p class="errorText">' + opts.failText + xhr.status + ' ' + xhr.statusText + '</p>');
+          },
+          complete: function() {
+            that.vars.permission = true;
+          }
+        });
+      }
     },
     destroy: function() {
       $.removeData(this.element[0], pluginName);
@@ -149,12 +133,13 @@
 
   $.fn[pluginName].defaults = {
     method: 'GET',
-    noResultText: 'No results found',
+    errorLoadmore: 'Sorry, we can\'t load more card.',
+    errorText: 'Sorry, we can\'t find the cards of this phase',
+    failText: 'An error occured: ',
     dataLimitWord: '[data-limit-word]',
     getCardsLink: '#get-cards-link',
     boardIdEle: '#board-id',
     fadeOutTime: 1000,
-    isLoadmore: false,
     triggerBefore: 20,
     limit: 10,
     dataPhase: 'phase',

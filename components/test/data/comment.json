@@ -1,0 +1,17 @@
+{
+  "status": true,
+  "message": "mc_card_comment_success",
+  "data": {
+    "id": "1503",
+    "content": "",
+    "is_editable": "1",
+    "full_name": "Fistname NAME",
+    "short_name": "FN",
+    "created_at": "2017-12-12 09:57:57",
+    "attachment_id": null,
+    "attachment_name": null,
+    "attachment_type": null,
+    "attachment_created_at": null,
+    "attachment_link": null
+  }
+}

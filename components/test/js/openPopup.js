@@ -14,14 +14,16 @@
         limitBottom = win.scrollTop() + win.height(),
         targetWidth = target.outerWidth(),
         targetHeight = target.outerHeight(),
-        dataParent = $(that.closest('[data-parent]'));
+        dataParent = $(that.closest('[data-parent]')),
+        moveToMiddle = 0;
 
     if (setPos) {
       if (followParent) {
         if (dataParent.offset().left + targetWidth > limitLeft) {
           target.css({left: limitLeft - targetWidth + 'px'});
         } else {
-          target.css({left: dataParent.offset().left + 'px'});
+          moveToMiddle = dataParent.offset().left + (Math.round(dataParent.outerWidth()) - target.outerWidth())/2;
+          target.css({left: moveToMiddle  + 'px'});
         }
 
         if (dataParent.offset().top + targetHeight > limitBottom) {
@@ -33,7 +35,8 @@
         if (that.offset().left + targetWidth > limitLeft) {
           target.css({left: limitLeft - targetWidth + 'px'});
         } else {
-          target.css({left: that.offset().left + 'px'});
+          moveToMiddle = that.offset().left + (Math.round(that.outerWidth()) - target.outerWidth())/2;
+          target.css({left: moveToMiddle + 'px'});
         }
 
         if (that.offset().top + targetHeight > limitBottom) {
@@ -58,10 +61,12 @@
   Plugin.prototype = {
     init: function() {
       var that = this,
+          ele = this.element,
           opts = that.options;
 
-      $(document).off('click.' + pluginName).on('click.' + pluginName, opts.dataOpenPopup, function(e) {
+      ele.off('click.' + pluginName).on('click.' + pluginName, function(e) {
         e.preventDefault();
+        e.stopPropagation();
         var ele = $(this),
             memberEle = ele.is(opts.dataUserId) ? ele : ele.find(opts.dataUserId),
             companyId = '',
@@ -76,7 +81,12 @@
           memberItem.full_name = memberEle.attr('title');
           memberItem.id = memberEle.data().userId;
         }
-        target.removeClass(opts.hideClass);
+        if (opts.showParent) {
+          target.modal('show');
+        } else {
+          target.removeClass(opts.hideClass);
+          popUp.call(this, target);
+        }
         target.data('company-from', companyId);
         target.data('table-from', tableId);
         target.data('member-from', memberItem);
@@ -85,12 +95,14 @@
         if (this.optsPrivate.target === opts.targets.update) {
           target.find('input').eq(0).val(ele.closest(opts.dataParent).attr('title')).select();
         }
-        popUp.call(this, target);
       });
 
       $('body').off('click.not-focus').on('click.not-focus', function(e) {
         if ($(e.target).closest(opts.dataTargetPopup).length === 0) {
-          $(opts.dataTargetPopup).not(opts.hideClass).addClass(opts.hideClass);
+          $(opts.dataTargetPopup).not(opts.modalClass).addClass(opts.hideClass);
+          if ($(e.target).is(opts.overLayClass)) {
+            $(e.target).addClass(opts.hideClass);
+          }
         }
       });
     },
@@ -112,12 +124,14 @@
 
   $.fn[pluginName].defaults = {
     hideClass: 'hide',
+    modalClass: '.modal',
     dataOpenPopup: '[data-open-popup]',
     dataTargetPopup: '[data-target-popup]',
     dataParent: '[data-parent]',
     dataCompanyId: '[data-company-id]',
     dataBroadId: '[data-board-id]',
     dataUserId: '[data-user-id]',
+    overLayClass: '.screen-overlay',
     targets: {
       update: 'update'
     }

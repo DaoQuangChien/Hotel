@@ -8,7 +8,8 @@
     var that = this,
         opts = this.options,
         parentEle = this.element.parents('[data-' + opts.dataParent + ']'),
-        cardContainer = this.element.prev();
+        cardContainer = this.element.prev(),
+        name = that.vars.textArea.val();
 
     that.vars.is_Click = false;
     $.ajax({
@@ -16,20 +17,21 @@
       url: $(opts.createCardLink).val(),
       dataType: 'json',
       data: {
-        name: that.vars.textArea.val(),
+        name: name,
         priority: opts.defaultPriority,
         phase: parentEle.data(opts.dataParent),
         board_id: $(opts.boardId).val()
       },
       success: function(result) {
         if (result.status) {
-          var cardCreated = card.replace('#{{card-id}}', result.data.id).replace(/#{{priority}}/g, opts.defaultPriority).replace('#{{name}}', that.vars.textArea.val()).replace('#{{description-title}}', opts.descriptionTitle).replace('#{{title}}', that.vars.textArea.val());
+          var cardCreated = card.replace('#{{card-id}}', result.data.id).replace(/#{{priority}}/g, opts.defaultPriority).replace('#{{name}}', name).replace('#{{description-title}}', opts.descriptionTitle).replace('#{{title}}', name);
 
           cardContainer
             .append(cardCreated)
             .find(opts.dataLimitWord + ':last')['limit-word']();
           that.vars.textArea.val('');
           that.element.addClass(opts.hideClass);
+          $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
         }
       },
       error: function(xhr) {
@@ -62,7 +64,7 @@
       };
 
       this.vars.addBtn.off('click.' + pluginName).on('click.' + pluginName, function() {
-        if (!that.vars.textArea.val().length) {
+        if (!that.vars.textArea.val().trim().length) {
           that.vars.textArea.focus();
           return;
         }
@@ -105,6 +107,7 @@
     dataInput: '[data-input]',
     dataAccept: '[data-accept]',
     dataLimitWord: '[data-limit-word]',
+    dataBoardActivity: '[data-board-activity]',
     dataParent: 'phase',
     defaultPriority: 1,
     descriptionTitle: 'This card has a description',

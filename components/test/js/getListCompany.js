@@ -3,23 +3,21 @@
 
   var pluginName = 'get-company',
       company = '<div class="company-block" data-company-id="#{{id}}"><div class="title-line"><span class="icon-users"></span><h4 class="inline">#{{name}}</h4></div><div class="row">',
-      board = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true" data-move-down="-34">#{{text-edit}}</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-set-pos="true" data-follow-parent="true" data-move-down="-34">#{{text-delete}}</span></div><p class="date">#{{date}}</p></a></div>',
-      create = '<div class="col-md-3"><div class="create-lieu-block card" data-open-popup data-target="create" data-set-pos="true" data-move-down="-34"><h5 class="title-card">Créer un tableau</h5></div></div></div><div class="loadmore-section"><button class="loadmore-btn #{{hide}}" data-loadmore-table data-limit="#{{limit}}">#{{text-loadmore}}</button></div></div></div>';
+      board = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true" data-move-down="-34">#{{text-edit}}</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-show-parent=true>#{{text-delete}}</span></div><p class="date">#{{date}}</p></a></div>',
+      create = '<div class="col-md-3"><div class="create-lieu-block card" data-open-popup data-target="create" data-set-pos="true" data-move-down="-34"><h5 class="title-card">Créer un tableau</h5></div></div></div><div class="loadmore-section"><button class="btn btn-success #{{hide}}" data-loadmore-table data-limit="#{{limit}}" data-text-edit="#{{text-edit}}" data-text-delete="#{{text-delete}}">#{{text-loadmore}}</button></div></div></div>';
 
   function companyBlockRender(companyItem, opts) {
     var companyBlock = '';
-        companyBlock += company.replace('#{{name}}', companyItem.company_name).replace('#{{id}}', companyItem.company_id);
+        companyBlock += company.replace('#{{name}}', companyItem.company_name).replace('#{{id}}', companyItem.company_id).replace('#{{delete-all}}', opts.textDeleteAll);
 
     companyItem.boards.forEach(function(boardItem) {
-      var tmpDate = boardItem.created_at;
-
-      companyBlock += board.replace('#{{link}}', boardItem.link).replace(/#{{name}}/g, boardItem.name).replace('#{{id}}', boardItem.id).replace('#{{date}}', new Date(tmpDate).toLocaleDateString()).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete);
+      companyBlock += board.replace('#{{link}}', boardItem.link).replace(/#{{name}}/g, boardItem.name).replace('#{{id}}', boardItem.id).replace('#{{date}}', new Date(boardItem.created_at.replace(/-/g, '/')).toLocaleDateString()).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete);
     });
 
     if (companyItem.total > 7) {
-      companyBlock += create.replace('#{{hide}}', '').replace('#{{limit}}', opts.limitLoadmore).replace('#{{text-loadmore}}', opts.textLoadmore);
+      companyBlock += create.replace('#{{hide}}', '').replace('#{{limit}}', opts.limitLoadmore).replace('#{{text-loadmore}}', opts.textLoadmore).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete);
     } else {
-      companyBlock += create.replace('#{{hide}}', 'hide').replace('#{{limit}}', opts.limitLoadmore).replace('#{{text-loadmore}}', opts.textLoadmore);
+      companyBlock += create.replace('#{{hide}}', 'hide').replace('#{{limit}}', opts.limitLoadmore).replace('#{{text-loadmore}}', opts.textLoadmore).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete);
     }
 
     return companyBlock;
@@ -34,8 +32,7 @@
   Plugin.prototype = {
     init: function() {
       var ele = this.element,
-          opts = this.options,
-          dataLoadmoreCompany = ele.find(opts.dataLoadmoreCompany);
+          opts = this.options;
 
       $.ajax({
         type: opts.method,
@@ -59,7 +56,7 @@
           }
         },
         error: function(xhr) {
-          dataLoadmoreCompany.before('<p class="errorText">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p>');
+          ele.html('<p class="errorText">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p>');
         }
       });
     },
@@ -86,10 +83,10 @@
     method: 'GET',
     dataLoadmoreTable: '[data-loadmore-table]',
     dataOpenPopup: '[data-open-popup]',
-    dataLoadmoreCompany: '[data-loadmore-company]',
     dataLimitWord: '[data-limit-word]',
     textLoadmore: 'Loadmore',
     textDelete: 'Delete',
+    textDeleteAll: 'Delete All',
     textEdit: 'Edit'
   };
 

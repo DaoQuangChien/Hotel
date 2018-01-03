@@ -14,18 +14,23 @@
       var ele = this.element,
           opts = this.options,
           execBtn = ele.find('[data-accept]'),
-          header = ele.find('header'),
+          body = ele.find('.modal-body'),
           idTableForm = '',
           deleteEle = null,
+          loadmoreBtn = null,
+          company = null,
           is_Click = true;
 
       execBtn.off('click.' + pluginName).on('click.' + pluginName, function() {
+        body = ele.find('.modal-body');
         if (!is_Click) {
           return false;
         }
         is_Click = false;
         idTableForm = ele.data().tableFrom;
-        deleteEle = $('[data-board-id="' + idTableForm + '"]').parent();
+        deleteEle = $('[data-board-id=' + idTableForm + ']').parent();
+        company = deleteEle.parents(opts.dataCompanyId);
+        loadmoreBtn = company.find(opts.dataLoadmoreTable);
         $.ajax({
           type: opts.method,
           url: $(opts.deleteTableLink).val(),
@@ -36,24 +41,27 @@
           success: function(data) {
             if (data.status) {
               deleteEle.remove();
-              ele.addClass(opts.hideClass);
+              if (company.find(opts.dataBoardId).length) {
+                if (loadmoreBtn.is(':visible')) {
+                  loadmoreBtn.trigger('click', [true]);
+                }
+              } else {
+                company.remove();
+              }
+              ele.modal('hide');
             } else {
-              header.after('<p class="errorText">' + ele.data().errorText + '</p>');
-              header.next().fadeOut(opts.fadeOutTime, function() {
-                $(this).remove();
-                ele.addClass(opts.hideClass);
-              });
+              body.length ? !body.find('p').length ? body.html('<p>' + ele.data().errorText + '</p>') : null : execBtn.parent().before('<div class="modal-body"><p>' + ele.data().errorText + '</p></div>');
             }
           },
           error: function(xhr) {
-            header.after('<p class="errorText">An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p>');
-            header.next().fadeOut(opts.fadeOutTime, function() {
-              $(this).remove();
-            });
+            body.length ? !body.find('p').length ? body.html('<p>An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p>') : null : execBtn.parent().before('<div class="modal-body"><p>An error occured: ' + xhr.status + ' ' + xhr.statusText + '</p></div>');
           },
           complete: function() {
             is_Click = true;
           }
+        });
+        ele.off('hidden.bs.modal').on('hidden.bs.modal', function () {
+          ele.find('.modal-body').length ? ele.find('.modal-body').remove() : null;
         });
       });
     },
@@ -79,6 +87,9 @@
     method: 'GET',
     hideClass: 'hide',
     deleteTableLink: '#delete-table-link',
+    dataLoadmoreTable: '[data-loadmore-table]',
+    dataCompanyId: '[data-company-id]',
+    dataBoardId: '[data-board-id]',
     fadeOutTime: 1000
   };
 

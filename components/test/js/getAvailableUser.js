@@ -18,7 +18,7 @@
     result += member_cat.replace('#{{role}}', data.type).replace('#{{cat-name}}', data.type_name);
     result += renderMember(data);
     if (data.users.length < data.total) {
-      result += '<a href="#" title="View more" data-viewmore="" class="view-more">' + opts.textViewmore + '</a></div>';
+      result += '<a href="#" title="View more" data-viewmore class="view-more">' + opts.textViewmore + '</a></div>';
     } else {
       result += '</div>';
     }
@@ -45,6 +45,10 @@
         if (result.status) {
           result.data.forEach(function(dataList) {
             listUser += renderMemberList(dataList, opts);
+            that.vars['loadmore_' + dataList.type] = {
+              limit: opts.limit,
+              offset: opts.limit
+            };
             // total += dataList.users.length;
           });
           ele.prepend(listUser);
@@ -52,7 +56,7 @@
           // if (result.total > total) {
           //   that.vars.viewmoreBtn.removeClass(opts.hideClass);
           // }
-          that.vars.loadmoreObj.offset++;
+          // that.vars.loadmoreObj.offset += that.vars.loadmoreObj.limit;
         } else {
           ele.html('<p class="errorText">' + opts.errorText + '</p>');
         }
@@ -67,7 +71,7 @@
     var that = this,
         opts = this.options,
         container = btn.parent(),
-        // total = 0,
+        type = container.data().role,
         listUser = '';
 
     that.vars.is_Click = false;
@@ -77,15 +81,16 @@
       dataType: 'json',
       data: {
         board_id: $(opts.boardIdEle).val(),
-        limit: that.vars.loadmoreObj.limit,
-        offset: that.vars.loadmoreObj.offset,
-        type: container.data().role
+        limit: that.vars['loadmore_' + type].limit,
+        offset: that.vars['loadmore_' + type].offset,
+        type: type
       },
       success: function(result) {
         if (result.status) {
           // for(var n in result.data) {
 
           // }
+          that.vars['loadmore_' + type].offset += that.vars['loadmore_' + type].limit;
           result.data.forEach(function(dataList) {
             if (dataList.type.toString() !== container.data().role.toString()) {
               return;
@@ -94,7 +99,7 @@
             // container.find('[data-role=' + dataList.type + ']').append(listUser);
             btn.before(listUser);
             // total += dataList.users.length;
-            if (dataList.total <= dataList.users.length) {
+            if (dataList.total <= that.vars['loadmore_' + type].offset) {
               btn.addClass(opts.hideClass);
             }
           });
@@ -102,7 +107,6 @@
           //   that.vars.viewmoreBtn.addClass(opts.hideClass);
           // }
           container.find(opts.dataUserId)['open-popup']();
-          that.vars.loadmoreObj.offset += that.vars.loadmoreObj.limit;
         }
       },
       error: function(xhr) {
@@ -173,7 +177,7 @@
     dataUserId: '[data-user-id]',
     dataViewmore: '[data-viewmore]',
     fadeOutTime: 1000,
-    limit: 10,
+    limit: 8,
     textFail: 'An error occured',
     textViewmore: 'View more...',
     hideClass: 'hide'

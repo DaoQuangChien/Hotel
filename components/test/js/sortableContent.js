@@ -31,8 +31,14 @@
         phase_id: ui.item.parents(opts.dataPhase).data().phase,
         position: ui.item.index() + 1
       },
+      success: function() {
+        $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
+      },
       error: function() {
         sortable.sortable('cancel');
+      },
+      complete: function() {
+        $(opts.dataSwapContent).sortable('enable');
       }
     });
   }
@@ -48,8 +54,12 @@
       var ele = this.element,
           opts = this.options,
           contentWrapper = ele.find(opts.dataSwapContent),
-          connect = [];
+          connect = [],
+          currentPos = 0;
 
+      if ($('html').attr('class').indexOf(' ie') > -1) {
+        contentWrapper.css('max-height', ele.height() - ele.find(opts.listHeaderClass).innerHeight() - ele.find(opts.addCardClass).innerHeight() - parseInt(contentWrapper.css('margin-bottom')));
+      }
       opts.connect.forEach(function(con) {
         var tmpConnect = '[data-phase=' + con + '] ' + opts.dataSwapContent;
         connect.push(tmpConnect);
@@ -61,15 +71,22 @@
         zIndex: 999,
         start: function(e, u) {
           startSort(u, {setWidth: false, setHeight: true, followChildrenHeight: false}, opts);
+          $(opts.dataSwapContent).sortable('disable');
+          currentPos = u.item.index();
         },
         stop: function(e, u) {
           stopSort(u, opts);
+          if (u.item.index() === currentPos) {
+            $(opts.dataSwapContent).sortable('enable');
+          }
         },
         update: function(e, u) {
           var tmpEle = $(this);
           
           if (this === u.item.parent()[0]) {
-            updateUi(opts, u, tmpEle);
+            updateUi(opts, u, tmpEle, contentWrapper);
+          } else {
+            $(this)['get-list-card']('callAjax', 'sort');
           }
         }
       });
@@ -111,12 +128,18 @@
   $.fn[pluginName].defaults = {
     method: 'GET',
     dataSwapContent: '[data-swap-content]',
+    dataDisableSortable: '[data-disable-sortable]',
     dataPhase: '[data-phase]',
+    dataGetDetail: '[data-get-detail]',
+    dataBoardActivity: '[data-board-activity]',
+    listHeaderClass: '.list-header',
+    addCardClass: '.add-card',
     // dataSwapProgress: '[data-swap-progress]',
     placeholderContentClass: 'placeholder-content',
     placeholderProgressClass: 'placeholder-progress',
     cancelSortClass: '.no-sort',
     tiltClass: 'tilt',
+    hideClass: 'hide',
     url: 'data/update-card.json',
     isSwapProgress: false
   };

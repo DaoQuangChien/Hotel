@@ -22,13 +22,15 @@
           var addedMember = member.replace('#{{full-name}}', that.vars.memberInfo.attr('title')).replace('#{{user-id}}',
             that.vars.memberInfo.data().userId).replace('#{{short-name}}', that.vars.memberInfo.data().shortName);
           $('.list-member[data-role=' + result.data.type + ']').prepend(addedMember);
+          ele.parent().addClass(opts.hideClass);
+          $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
+          ele.remove();
         } else {
-          ele.append('<p class="errorText">' + opts.errorText + '</p>');
+          ele.append('<p class="errorText">' + ele.parent().data().errorText + '</p>');
           that.vars.memberInfo.next().fadeOut(opts.fadeOutTime, function() {
             $(this).remove();
           });
         }
-        ele.parent().addClass(opts.hideClass);
       },
       error: function(xhr) {
         ele.append('<p class="errorText">' + opts.textFail + ': ' + xhr.status + ' ' + xhr.statusText + '</p>');
@@ -88,6 +90,7 @@
     hideClass: 'hide',
     fadeOutTime: 1000,
     // inviteMemberLink: '#invite-member-link',
+    dataBoardActivity: '[data-board-activity]',
     inviteMemberLink: '#get-user-link',
     textFail: 'An error occured',
     boardId: '#board-id'

@@ -17,7 +17,13 @@
 
       ele.off('click.' + pluginName).on('click.' + pluginName, function() {
         if (!dataTargetPopup.hasClass(opts.hideClass)) {
+          if (ele.data().hideParent) {
+            dataTargetPopup.parent().addClass(opts.hideClass);  
+          }
           dataTargetPopup.addClass(opts.hideClass);
+        }
+        if ($('[data-delete].high-light').length) {
+          $('[data-delete].' + opts.highLightClass).removeClass(opts.highLightClass);
         }
       });
     },
@@ -42,6 +48,7 @@
 
   $.fn[pluginName].defaults = {
     dataTargetPopup: '[data-target-popup]',
+    highLightClass: 'high-light',
     hideClass: 'hide'
   };
 

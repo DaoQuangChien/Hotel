@@ -1,8 +1,8 @@
 {
   "status": true,
   "board": {
-    "link": "/a-faire-1/1.4",
-    "tableId": 4,
-    "date": "Nov-7-17"
+    "board_id": 47,
+    "link": "http://sfm.local.com/handrail_messages/board/47",
+    "created_at": "2017-11-20 09:43:52"
   }
 }

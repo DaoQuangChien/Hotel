@@ -10,6 +10,11 @@
     "board_name": "ThuanNgo",
     "created_at": "2017-11-20 10:48:54",
     "modified_at": "2017-11-20 10:48:54",
+    "location": "123",
+    "creator": "User 1",
+    "type": ["Cleaning","Delivery","Build","Cleaning","Cleaning","Cleaning","Cleaning","Delivery","Build","Cleaning","Delivery","Build"],
+    "deadline": "",
+    "description": "",
     "attachment": {
       "total": 1,
       "attachments": [
@@ -21,6 +26,15 @@
           "short_name": "TN",
           "full_name": "Thuan Ngo",
           "created_at": "2017-11-21 02:13:01"
+        },
+        {
+          "id": "2",
+          "file_type": "image/jpg",
+          "file_name": "Desktop-Wallpaper-HD2.jpg",
+          "link": "images/upload/1_.jpg",
+          "short_name": "TN",
+          "full_name": "Thuan Ngo",
+          "created_at": "2017-11-21 02:13:01"
         }
       ]
     },
@@ -28,22 +42,40 @@
       "total": 2,
       "activities": [
         {
-          "id": "134",
+          "attachment_id": "134",
           "content": " Thuan Ngo add attachment Desktop-Wallpaper-HD2.jpg",
-          "link": "images/upload/cover-image.jpg",
+          "attachment_link": "images/upload/cover-image.jpg",
           "is_editable": "0",
           "full_name": "Thuan Ngo",
           "short_name": "TN",
-          "created_at": "2017-11-21 02:13:01"
+          "created_at": "2017-11-21 02:13:01",
+          "attachment_name": "ddddd.jpg",
+          "id": "1",
+          "modified_at": "2017-11-23 04:15:29"
         },
         {
-          "id": "133",
+          "attachment_id": "133",
           "content": "Bla bla bla",
-          "link": "images/upload/1_.jpg",
+          "attachment_link": "images/upload/1_.jpg",
           "is_editable": "1",
           "full_name": "Thuan Ngo",
           "short_name": "TN",
-          "created_at": "2017-11-21 01:58:12"
+          "created_at": "2017-11-21 01:58:12",
+          "attachment_name": "ffffff.jpg",
+          "id": "1",
+          "modified_at": "2017-11-23 04:15:29"
+        },
+        {
+          "attachment_id": "135",
+          "content": "Bla bla bla",
+          "attachment_link": null,
+          "is_editable": "1",
+          "full_name": "Thuan Ngo",
+          "short_name": "TN",
+          "created_at": "2017-11-21 01:58:12",
+          "attachment_name": "hhhhh.jpg",
+          "id": "1",
+          "modified_at": "2017-11-21 01:58:12"
         }
       ]
     }
