@@ -1,0 +1,30 @@
+{
+  "status": true,
+  "total": 2,
+  "data": [
+    {
+      "id": "1",
+      "name": "Cleaning"
+    },
+    {
+      "id": "2",
+      "name": "Delivery"
+    },
+    {
+      "id": "3",
+      "name": "Build"
+    },
+    {
+      "id": "4",
+      "name": "Cleaning"
+    },
+    {
+      "id": "5",
+      "name": "Cleaning"
+    },
+    {
+      "id": "6",
+      "name": "Build"
+    }
+  ]
+}

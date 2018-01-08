@@ -70,25 +70,29 @@
           that.vars.list.not(opts.hideClass).addClass(opts.hideClass);
         }
       });
-      this.vars.input.off('keyup.' + pluginName).on('keyup.' + pluginName, function() {
-        input = $(this).val().toLowerCase();
-        if (input.length) {
-          clearTimeout(that.vars.timeOutSearch);
-          that.vars.timeOutSearch = setTimeout(function() {
-            searchUser.call(that, input);
-          }, opts.timeoutSearch);
-        } else {
-          clearTimeout(that.vars.timeOutSearch);
-          that.vars.list.html('<li class="not-found">' + opts.requirementText + '</li>');
-        }
-      });
-      this.vars.input.off('focus.' + pluginName).on('focus.' + pluginName, function() {
-        if ($(this).val().length) {
-          that.vars.list.removeClass(opts.hideClass);
-        } else {
-          openFullList.call(that, opts);
-        }
-      });
+      if ($(opts.isAdminId).val() === '1') {
+        this.vars.input.off('keyup.' + pluginName).on('keyup.' + pluginName, function() {
+          input = $(this).val().toLowerCase();
+          if (input.length) {
+            clearTimeout(that.vars.timeOutSearch);
+            that.vars.timeOutSearch = setTimeout(function() {
+              searchUser.call(that, input);
+            }, opts.timeoutSearch);
+          } else {
+            clearTimeout(that.vars.timeOutSearch);
+            that.vars.list.html('<li class="not-found">' + opts.requirementText + '</li>');
+          }
+        });
+        this.vars.input.off('focus.' + pluginName).on('focus.' + pluginName, function() {
+          if ($(this).val().length) {
+            that.vars.list.removeClass(opts.hideClass);
+          } else {
+            openFullList.call(that, opts);
+          }
+        });
+      } else {
+        this.vars.input.attr('disabled', true);
+      }
     },
     destroy: function() {
       $.removeData(this.element[0], pluginName);
@@ -121,6 +125,7 @@
     notFoundText: 'No results found',
     requirementText: 'Enter a name',
     closeBtn: '.icon-close',
+    isAdminId: '#is-admin',
     timeoutSearch: 500
   };
 

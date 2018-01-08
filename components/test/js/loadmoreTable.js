@@ -2,7 +2,7 @@
   'use strict';
 
   var pluginName = 'loadmore-table',
-      table = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true">#{{text-edit}}</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-set-pos="true" data-follow-parent="true">#{{text-delete}}</span></div><p class="date">#{{date}}</p></a></div>';
+      table = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true" data-move-down="-34">#{{text-edit}}</span><span data-delete-table class="close-board" title="Delete board" data-open-popup data-target="delete" data-show-parent="true">#{{text-delete}}</span></div><p class="date">#{{date}}</p></a></div>';
 
   function tableRender(boardItem, opts) {
     var result = '';
@@ -59,6 +59,9 @@
                 tableCreated = tableRender(result.data, opts);
               }
               $('[data-company-id="' + companyId + '"]').find(opts.dataOpenPopup).parent().before(tableCreated);
+              $('[data-company-id="' + companyId + '"] [data-board-id]').filter(function(i) {
+                return i > offsetData - 1;
+              }).find('[data-open-popup]')['open-popup']();
               $('[data-company-id="' + companyId + '"]').find('.title-card').filter(function(index) {
                 return index >= limit - 1;
               })['limit-word']();

@@ -12,8 +12,8 @@
     "modified_at": "2017-11-20 10:48:54",
     "location": "123",
     "creator": "User 1",
-    "type": ["Cleaning","Delivery","Build","Cleaning","Cleaning","Cleaning","Cleaning","Delivery","Build","Cleaning","Delivery","Build"],
-    "deadline": "",
+    "type_id": "1",
+    "expired_at": "",
     "description": "",
     "attachment": {
       "total": 1,

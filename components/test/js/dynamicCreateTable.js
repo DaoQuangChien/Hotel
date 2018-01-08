@@ -4,8 +4,9 @@
   var pluginName = 'dynamic-create',
       companyOpt = '<option value="#{{id}}">#{{name}}</option>',
       company = '<div class="company-block" data-company-id="#{{id}}"><div class="title-line"><span class="icon-users"></span><h4 class="inline">#{{name}}</h4></div><div class="row">',
-      board = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions"><span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true" data-move-down="-34">#{{text-edit}}</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-show-parent=true>#{{text-delete}}</span></div><p class="date">#{{date}}</p></a></div>',
-      create = '<div class="col-md-3"><div class="create-lieu-block card" data-open-popup data-target="create" data-set-pos="true" data-move-down="-34"><h5 class="title-card">Créer un tableau</h5></div></div></div><div class="loadmore-section"><button class="loadmore-btn #{{hide}}" data-loadmore-table data-limit="#{{limit}}" data-text-edit="#{{text-edit}}" data-text-delete="#{{text-delete}}">#{{text-loadmore}}</button></div></div></div>';
+      board = '<div class="col-md-3"><a href="#{{link}}" data-board-id="#{{id}}" data-parent title="#{{name}}" class="lieu-block card"><h5 class="title-card" data-limit-word>#{{name}}</h5><div class="actions">#{{delete-btn}}</div><p class="date">#{{date}}</p></a></div>',
+      create = '<div class="col-md-3"><div class="create-lieu-block card" data-open-popup data-target="create" data-set-pos="true" data-move-down="-34"><h5 class="title-card">Créer un tableau</h5></div></div></div><div class="loadmore-section"><button class="loadmore-btn #{{hide}}" data-loadmore-table data-limit="#{{limit}}" data-text-edit="#{{text-edit}}" data-text-delete="#{{text-delete}}">#{{text-loadmore}}</button></div></div></div>',
+      deleteBtn = '<span class="edit-board" title="Edit board" data-edit-table data-open-popup data-target="update" data-set-pos="true" data-follow-parent="true" data-move-down="-34">#{{text-edit}}</span><span data-delete-table class="close-board" title="Delete board" data-delete-table data-open-popup data-target="delete" data-show-parent=true>#{{text-delete}}</span>';
 
   var createTableAjax = function(createBtn) {
     var that = this,
@@ -23,9 +24,22 @@
       success: function(result) {
         if (result.status) {
           if ($('[data-company-id=' + that.vars.listCompany.val() + ']').length) {
-            $('[data-company-id=' + that.vars.listCompany.val() + '] .row').prepend(board.replace('#{{link}}', result.board.link).replace('#{{id}}', result.board.board_id).replace(/#{{name}}/g, that.vars.nameCompany.val()).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete).replace('#{{date}}', new Date(result.board.created_at.replace(/-/g, '/')).toLocaleDateString()));
+            $('[data-company-id=' + that.vars.listCompany.val() + '] .row').prepend(board.replace('#{{link}}', result.board.link).replace('#{{id}}', result.board.board_id).replace(/#{{name}}/g, that.vars.nameCompany.val()).replace('#{{delete-btn}}', function() {
+              if ($(opts.isAdminId).length && $(opts.isAdminId).val() === '1') {
+                return deleteBtn.replace('#{{text-delete}}', opts.textDelete).replace('#{{text-edit}}', opts.textEdit);
+              } else {
+                return '';
+              }
+            }).replace('#{{date}}', new Date(result.board.created_at.replace(/-/g, '/')).toLocaleDateString()));
           } else {
-            that.vars.companyBlock.append(company.replace('#{{id}}', that.vars.listCompany.val()).replace('#{{name}}', that.vars.tmpCompanyName).replace('#{{delete-all}}', opts.textDeleteAll) + board.replace('#{{link}}', result.board.link).replace('#{{id}}', result.board.board_id).replace(/#{{name}}/g, that.vars.nameCompany.val()).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete).replace('#{{date}}', new Date(result.board.created_at.replace(/-/g, '/')).toLocaleDateString()) + create.replace('#{{hide}}', opts.hideClass).replace('#{{limit}}', opts.limit).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete).replace('#{{text-loamore}}', opts.textLoadmore));
+            that.vars.companyBlock.append(company.replace('#{{id}}', that.vars.listCompany.val()).replace('#{{name}}', that.vars.tmpCompanyName).replace('#{{delete-all}}', opts.textDeleteAll) + board.replace('#{{link}}', result.board.link).replace('#{{id}}', result.board.board_id).replace(/#{{name}}/g, that.vars.nameCompany.val()).replace('#{{delete-btn}}', function() {
+              if ($(opts.isAdminId).length && $(opts.isAdminId).val() === '1') {
+                return deleteBtn.replace('#{{text-delete}}', opts.textDelete).replace('#{{text-edit}}', opts.textEdit);
+              } else {
+                return '';
+              }
+            }).replace('#{{date}}', new Date(result.board.created_at.replace(/-/g, '/')).toLocaleDateString()) + create.replace('#{{hide}}', opts.hideClass).replace('#{{limit}}', opts.limit).replace('#{{text-edit}}', opts.textEdit).replace('#{{text-delete}}', opts.textDelete).replace('#{{text-loamore}}', opts.textLoadmore));
+            $('[data-company-id=' + that.vars.listCompany.val() + '] .' + opts.createLieuBlockClass)['open-popup']();
           }
           $('[data-company-id=' + that.vars.listCompany.val() + ']').find(opts.dataLimitWord + ':first')['limit-word']();
           $('[data-company-id=' + that.vars.listCompany.val() + ']').find(opts.dataBoardId + ':first ' + opts.dataOpenPopup)['open-popup']();
@@ -66,11 +80,15 @@
         that.vars.tmpCompanyName = $(this).find('option:selected').text();
       });
       this.vars.createBtn.off('click.' + pluginName).on('click.' + pluginName, function() {
-        if (that.vars.nameCompany.val() === '' || !that.vars.canCreate) {
-          that.vars.nameCompany.focus();
-          return;
+        if ($(opts.isAdminId).val() === '1') {
+          if (that.vars.nameCompany.val() === '' || !that.vars.canCreate) {
+            that.vars.nameCompany.focus();
+            return;
+          }
+          createTableAjax.call(that, $(this));
+        } else {
+          $('#access-denied-modal').modal('show');
         }
-        createTableAjax.call(that, $(this));
       });
       // ele.off('click.' + pluginName).on('click.' + pluginName, function(e) {
       //   if ($(e.target).is('[data-' + pluginName + ']') && !$(e.target).hasClass(opts.hideClass)) {
@@ -132,8 +150,10 @@
     hideClass: 'hide',
     createTableLink: '#create-table-link',
     textFail: 'An error has occured: ',
+    createLieuBlockClass: 'create-lieu-block',
     limit: 8,
-    fadeOutTime: 1000
+    fadeOutTime: 1000,
+    isAdminId: '#is-admin'
   };
 
   $(function() {

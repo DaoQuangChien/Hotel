@@ -3,12 +3,18 @@
 
   var pluginName = 'get-list',
       member_cat = '<p class="member-category"><span class="icon-male"></span>#{{cat-name}}:</p><div class="list-member" data-role="#{{role}}">',
-      member = '<a href="#" class="member" title="#{{full-name}}" data-user-id="#{{user-id}}" data-open-popup data-target="deleteMember" data-set-pos="true" data-follow-parent="true" data-parent>#{{short-name}}</a>';
-  function renderMember(data) {
+      member = '<a href="#" class="member" title="#{{full-name}}" data-user-id="#{{user-id}}" data-open-popup data-target="deleteMember" data-set-pos="true" data-follow-parent="true" data-parent #{{data-authority}}>#{{short-name}}</a>';
+  function renderMember(data, opts) {
     var result = '';
     
     data.users.forEach(function(user) {
-      result += member.replace('#{{full-name}}', user.full_name).replace('#{{short-name}}', user.short_name).replace('#{{user-id}}', user.id);
+      result += member.replace('#{{full-name}}', user.full_name).replace('#{{short-name}}', user.short_name).replace('#{{user-id}}', user.id).replace('#{{data-authority}}', function() {
+        if ($(opts.isAdminId).val() !== '1') {
+          return 'data-authority=true';
+        } else {
+          return '';
+        }
+      });
     });
     return result;
   }
@@ -16,7 +22,7 @@
     var result = '';
 
     result += member_cat.replace('#{{role}}', data.type).replace('#{{cat-name}}', data.type_name);
-    result += renderMember(data);
+    result += renderMember(data, opts);
     if (data.users.length < data.total) {
       result += '<a href="#" title="View more" data-viewmore class="view-more">' + opts.textViewmore + '</a></div>';
     } else {
@@ -95,7 +101,7 @@
             if (dataList.type.toString() !== container.data().role.toString()) {
               return;
             }
-            listUser = renderMember(dataList);
+            listUser = renderMember(dataList, opts);
             // container.find('[data-role=' + dataList.type + ']').append(listUser);
             btn.before(listUser);
             // total += dataList.users.length;
@@ -180,6 +186,7 @@
     limit: 8,
     textFail: 'An error occured',
     textViewmore: 'View more...',
+    isAdminId: '#is-admin',
     hideClass: 'hide'
   };
 

@@ -27,7 +27,11 @@
         }
 
         if (dataParent.offset().top + targetHeight > limitBottom) {
-          target.css({top: limitBottom - targetHeight + 'px'});
+          if (target.data().targetPopup === 'update') {
+            target.css({ top: limitBottom - targetHeight - 34 + 'px' });
+          } else {
+            target.css({ top: limitBottom - targetHeight + 'px' });
+          }
         } else {
           target.css({top: dataParent.offset().top + moveDown + 'px'});
         }
@@ -40,7 +44,11 @@
         }
 
         if (that.offset().top + targetHeight > limitBottom) {
-          target.css({top: limitBottom - targetHeight + 'px'});
+          if (target.data().targetPopup === 'create') {
+            target.css({top: limitBottom - targetHeight - 34 + 'px'});
+          } else {
+            target.css({top: limitBottom - targetHeight + 'px'});
+          }
         } else {
           target.css({ top: that.offset().top + moveDown + 'px'});
         }
@@ -67,33 +75,41 @@
       ele.off('click.' + pluginName).on('click.' + pluginName, function(e) {
         e.preventDefault();
         e.stopPropagation();
-        var ele = $(this),
-            memberEle = ele.is(opts.dataUserId) ? ele : ele.find(opts.dataUserId),
-            companyId = '',
-            tableId = '',
-            memberItem = {};
-
-        ele.closest(opts.dataCompanyId).length ? companyId = ele.closest(opts.dataCompanyId).data().companyId : null;
-        ele.closest(opts.dataBroadId).length ? tableId = ele.closest(opts.dataBroadId).data().boardId : null;
-        this.optsPrivate = $.extend({}, ele.data());
-        var target = $('[data-target-popup="' + this.optsPrivate.target + '"]');
-        if (memberEle.length) {
-          memberItem.full_name = memberEle.attr('title');
-          memberItem.id = memberEle.data().userId;
-        }
-        if (opts.showParent) {
-          target.modal('show');
+        if (opts.authority && $(opts.isAdminId).val() !== '1') {
+          $('#access-denied-modal').modal('show');
         } else {
-          target.removeClass(opts.hideClass);
-          popUp.call(this, target);
-        }
-        target.data('company-from', companyId);
-        target.data('table-from', tableId);
-        target.data('member-from', memberItem);
-        target.find('input').eq(0).val('').focus();
-
-        if (this.optsPrivate.target === opts.targets.update) {
-          target.find('input').eq(0).val(ele.closest(opts.dataParent).attr('title')).select();
+          var ele = $(this),
+              memberEle = ele.is(opts.dataUserId) ? ele : ele.find(opts.dataUserId),
+              companyId = '',
+              tableId = '',
+              memberItem = {};
+  
+          ele.closest(opts.dataCompanyId).length ? companyId = ele.closest(opts.dataCompanyId).data().companyId : null;
+          ele.closest(opts.dataBroadId).length ? tableId = ele.closest(opts.dataBroadId).data().boardId : null;
+          this.optsPrivate = $.extend({}, ele.data());
+          var target = $('[data-target-popup="' + this.optsPrivate.target + '"]');
+          if (memberEle.length) {
+            memberItem.full_name = memberEle.attr('title');
+            memberItem.id = memberEle.data().userId;
+          }
+          if (opts.showParent) {
+            target.modal('show');
+          } else {
+            target.removeClass(opts.hideClass);
+            popUp.call(this, target);
+          }
+          target.data('company-from', companyId);
+          target.data('table-from', tableId);
+          target.data('member-from', memberItem);
+          if (!opts.notClearInput) {
+            target.find('input').eq(0).val('').focus();
+          } else {
+            target.find('input').eq(0).val(target.find('input').eq(0).data().cardType);
+          }
+  
+          if (this.optsPrivate.target === opts.targets.update) {
+            target.find('input').eq(0).val(ele.closest(opts.dataParent).attr('title')).select();
+          }
         }
       });
 
@@ -132,6 +148,7 @@
     dataBroadId: '[data-board-id]',
     dataUserId: '[data-user-id]',
     overLayClass: '.screen-overlay',
+    isAdminId: '#is-admin',
     targets: {
       update: 'update'
     }

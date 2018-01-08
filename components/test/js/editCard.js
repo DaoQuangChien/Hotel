@@ -14,9 +14,9 @@
     that.vars.deadlineTime.jqBootstrapValidation();
   }
 
-  // function addZero(n) {
-  //   return (n < 10) ? '0' + n : n;
-  // }
+  function addZero(n) {
+    return (n < 10) ? '0' + n : n;
+  }
 
   function showImagePreview(file, blockName, image, opts, fancy) {
     if (blockName.find(opts.fileNameClass).length) {
@@ -101,8 +101,8 @@
         ele = this. element,
         opts = this.options,
         name = that.vars.cardName.val().trim(),
-        location = that.vars.locationDetail.text().trim(),
-        deadline = that.vars.deadlineToggle.find('.date').text().trim() + ' ' + that.vars.deadlineToggle.find('.hour').text().trim();
+        location = that.vars.locationDetail.text().trim();
+        // deadline = that.vars.deadlineToggle.find('.date').text().trim() + ' ' + that.vars.deadlineToggle.find('.hour').text().trim();
 
     $.ajax({
       type: opts.methodDescription,
@@ -115,8 +115,8 @@
         priority: ele.data().cardFrom.priority,
         phase: ele.data().cardFrom.phase,
         board_id: $(opts.board_id).val(),
-        location: location,
-        deadline: deadline
+        location: location
+        // deadline: deadline
       },
       success: function(result) {
         if (result.status) {
@@ -160,7 +160,7 @@
     if (formData) {
       formData.append('file_upload', file || '');
       formData.append('card_id', ele.data().cardFrom.id);
-      formData.append('content', that.vars.commentInput.val());
+      formData.append('content', that.vars.commentInput.val().trim());
     }
     $.ajax({
       type: opts.methodComment,
@@ -171,7 +171,7 @@
       data: formData,
       success: function(result) {
         if (result.status) {
-          var tmpComment = comment.replace('#{{comment-id}}', result.data.id).replace('#{{short-name}}', result.data.short_name).replace('#{{full-name}}', result.data.full_name).replace('#{{comment-content}}', result.data.content).replace(/#{{index}}/g, result.data.id).replace('#{{created-at}}', result.data.created_at).replace('#{{edit-text}}', opts.editText).replace('#{{delete-text}}', opts.deleteText).replace('#{{hide}}', function() {
+          var tmpComment = comment.replace('#{{comment-id}}', result.data.id).replace('#{{short-name}}', result.data.short_name).replace('#{{full-name}}', result.data.full_name).replace('#{{comment-content}}', result.data.content.replace(/(?:\\r\\n|\\r|\\n|\n)/g, '<br/>')).replace(/#{{index}}/g, result.data.id).replace('#{{created-at}}', result.data.created_at).replace('#{{edit-text}}', opts.editText).replace('#{{delete-text}}', opts.deleteText).replace('#{{hide}}', function() {
             if (result.data.content === '') {
               return opts.hideClass;
             } else {
@@ -186,7 +186,7 @@
           that.vars.activityContainer.prepend(tmpComment);
           that.vars.activityContainer.find(opts.dataInput).first()['fluid-height']();
           that.vars.commentInput.val('');
-          that.vars.commentInput.attr('rows', that.vars.commentInput.data().minRows);
+          that.vars.commentInput.trigger('input');
           that.vars.imagePreview.attr('src', '');
           if (that.vars.commentFile.find(opts.fileNameClass).length > 0) {
             that.vars.commentFile.find(opts.fileNameClass).remove();
@@ -321,7 +321,7 @@
       data: formData,
       success: function(result) {
         if (result.status && result.data.id.toString() === commentId.toString()) {
-          commentBox.html(result.data.content.replace(/(?:\\r\\n|\\r|\\n)/g, '<br/>'));
+          commentBox.html(result.data.content.replace(/(?:\\r\\n|\\r|\\n|\n)/g, '<br/>'));
           result.data.content === '' ? commentBox.addClass(opts.hideClass) : commentBox.removeClass(opts.hideClass);
           currentComment.find(opts.dateClass).text(result.data.created_at);
           currentComment.find(opts.dataInput).val('');
@@ -438,8 +438,8 @@
         ele = this.element,
         opts = this.options,
         privateOpts = locationInput.data(),
-        location = locationInput.val(),
-        deadline = that.vars.deadlineToggle.find('.date').text().trim() + ' ' + that.vars.deadlineToggle.find('.hour').text().trim();
+        location = locationInput.val();
+        // deadline = that.vars.deadlineToggle.find('.date').text().trim() + ' ' + that.vars.deadlineToggle.find('.hour').text().trim();
 
     $.ajax({
       type: privateOpts.method,
@@ -452,8 +452,8 @@
         priority: ele.data().cardFrom.priority,
         phase: ele.data().cardFrom.phase,
         board_id: $(opts.board_id).val(),
-        location: location,
-        deadline: deadline
+        location: location
+        // deadline: deadline
       },
       success: function(result) {
         if (result.status) {
@@ -480,7 +480,7 @@
         ele = this.element,
         opts = this.options,
         privateOpts = updateBtn.data(),
-        deadline = that.vars.deadlineDay.val().trim() + ' ' + that.vars.deadlineTime.val().trim();
+        deadline = that.vars.deadlineDay.val().trim() + ' ' + that.vars.deadlineTime.val().trim() + ':00';
 
     $.ajax({
       type: privateOpts.method,
@@ -494,12 +494,13 @@
         phase: ele.data().cardFrom.phase,
         board_id: $(opts.board_id).val(),
         location: that.vars.locationDetail.text().trim(),
-        deadline: deadline
+        expired_at: deadline
       },
       success: function(result) {
         if (result.status) {
           that.vars.deadlineToggle.find('.date').text(that.vars.deadlineDay.val().trim());
           that.vars.deadlineToggle.find('.hour').text(that.vars.deadlineTime.val().trim());
+          that.vars.deadlineToggle.find('.detail').removeClass(opts.hideClass);
           that.vars.deadlineModal.modal('hide');
         }
       },
@@ -627,43 +628,53 @@
             }
           }
         });
-      this.vars.cardName
-        .off('focus.' + pluginName).on('focus.' + pluginName, function() {
-          that.vars.currentCardName = $(this).val().trim();
-          if (!that.vars.is_EditCard) {
-            $(this).trigger('blur');
-          }
-        })
-        .off('blur.' + pluginName).on('blur.' + pluginName, function() {
-          if ($(this).val().trim() !== that.vars.currentCardName) {
-            editCardAjax.call(that);
-          }
-        })
-        .off('keydown.' + pluginName).on('keydown.' + pluginName, function(e) {
-          if (e.keyCode === 13) {
-            $(this).trigger('blur');
-          }
-          if (e.keyCode === 27) {
-            $(this).val(that.vars.currentCardName).trigger('input').trigger('blur');
-          }
-        });
+      if ($(opts.isAdminId).val() === '1') {
+        this.vars.cardName
+          .off('focus.' + pluginName).on('focus.' + pluginName, function() {
+            that.vars.currentCardName = $(this).val().trim();
+            if (!that.vars.is_EditCard) {
+              $(this).trigger('blur');
+            }
+          })
+          .off('blur.' + pluginName).on('blur.' + pluginName, function() {
+            if ($(this).val().trim() !== that.vars.currentCardName) {
+              editCardAjax.call(that);
+            }
+          })
+          .off('keydown.' + pluginName).on('keydown.' + pluginName, function(e) {
+            if (e.keyCode === 13) {
+              $(this).trigger('blur');
+            }
+            if (e.keyCode === 27) {
+              $(this).val(that.vars.currentCardName).trigger('input').trigger('blur');
+            }
+          });
+      } else {
+        this.vars.cardName.attr('disabled', true);
+      }
       this.vars.openEditDescriptionEle.off('click.' + pluginName).on('click.' + pluginName, function(e) {
         e.stopPropagation();
-        if (that.vars.descriptionEle.html().trim().length) {
-          that.vars.editDescriptionInput.val(that.vars.descriptionEle.html().replace(/<br>/g, '\n'));
+        if ($(opts.isAdminId).val() === '1') {
+          if (that.vars.descriptionEle.html().trim().length) {
+            that.vars.editDescriptionInput.val(that.vars.descriptionEle.html().replace(/<br>/g, '\n'));
+          } else {
+            that.vars.editDescriptionInput.val('');
+          }
+          that.vars.descriptionEle.addClass(opts.hideClass);
+          that.vars.editDescriptionEle.removeClass(opts.hideClass);
+          that.vars.editDescriptionInput
+            .focus()
+            .trigger('input');
+          that.vars.editDescriptionInput[0].rows = that.vars.editDescriptionInput.data().minRows;
+          if (that.vars.editDescriptionInput[0].scrollHeight > that.vars.editDescriptionInput.innerHeight()) {
+            that.vars.editDescriptionInput.css('height', that.vars.editDescriptionInput[0].scrollHeight);
+          }
+          that.vars.openEditDescriptionEle.filter('.add-description').addClass(opts.hideClass);
         } else {
-          that.vars.editDescriptionInput.val('');
+          if (!$(this).hasClass('card-content')) {
+            $('#access-denied-modal').modal('show');
+          }
         }
-        that.vars.descriptionEle.addClass(opts.hideClass);
-        that.vars.editDescriptionEle.removeClass(opts.hideClass);
-        that.vars.editDescriptionInput
-          .focus()
-          .trigger('input');
-        that.vars.editDescriptionInput[0].rows = that.vars.editDescriptionInput.data().minRows;
-        if (that.vars.editDescriptionInput[0].scrollHeight > that.vars.editDescriptionInput.innerHeight()) {
-          that.vars.editDescriptionInput.css('height', that.vars.editDescriptionInput[0].scrollHeight);
-        }
-        that.vars.openEditDescriptionEle.filter('.add-description').addClass(opts.hideClass);
       });
       this.vars.editDescriptionInput
         .off('focusin.' + pluginName).on('focusin.' + pluginName, function() {
@@ -711,10 +722,18 @@
       });
       this.vars.toggleChangePriority.off('click.' + pluginName).on('click.' + pluginName, function(e) {
         e.stopPropagation();
-        $(this).find(opts.dataListPriority).toggleClass(opts.hideClass);
+        if ($(opts.isAdminId).val() === '1') {
+          $(this).find(opts.dataListPriority).toggleClass(opts.hideClass);
+        } else {
+          $('#access-denied-modal').modal('show');
+        }
       });
       this.vars.changePriority.off('click.' + pluginName).on('click.' + pluginName, function() {
-        changePriorityAjax.call(that, $(this));
+        if ($(opts.isAdminId).val() === '1') {
+          changePriorityAjax.call(that, $(this));
+        } else {
+          $('#access-denied-modal').modal('show');
+        }
       });
       this.vars.editDescriptionBtn.off('mousedown.' + pluginName).on('mousedown.' + pluginName, function() {
         if (!that.vars.is_EditCard) {
@@ -777,6 +796,12 @@
         }
         that.vars.is_AddComment = false;
         addCommentAjax.call(that, $(this));
+      });
+      this.vars.cardAttachEle.off('click.' + pluginName).on('click.' + pluginName, function(e) {
+        if ($(opts.isAdminId).val() !== '1') {
+          e.preventDefault();
+          $('#access-denied-modal').modal('show');
+        }
       });
       this.vars.cardAttachBtn.off('change.' + pluginName).on('change.' + pluginName, function() {
         if ($(this).val() !== '') {
@@ -903,7 +928,11 @@
         });
       this.vars.showDeleteModal.off('click.' + pluginName).on('click.' + pluginName, function(e) {
         e.stopPropagation();
-        $('#delete-file-modal').modal('show');
+        if ($(opts.isAdminId).val() === '1') {
+          $('#delete-file-modal').modal('show');
+        } else {
+          $('#access-denied-modal').modal('show');
+        }
       });
       this.vars.deleteCardBtn.off('click.' + pluginName).on('click.' + pluginName, function() {
         deleteCardAjax.call(that, $(this));
@@ -950,7 +979,11 @@
         })
         .on('click.' + pluginName, opts.dataRemove, function(e) {
           e.preventDefault();
-          removeAttachmentAjax.call(that, $(this));
+          if ($(opts.isAdminId).val() === '1') {
+            removeAttachmentAjax.call(that, $(this));
+          } else {
+            $('#access-denied-modal').modal('show');
+          }
         });
       ele.parent().off('click.' + pluginName).on('click.' + pluginName, function(e) {
         if ($(e.target).is(opts.dataCardDetail)) {
@@ -966,15 +999,17 @@
           !that.vars.editDescriptionBtn.hasClass(opts.disabledClass) ? that.vars.editDescriptionBtn.addClass(opts.disabledClass) : null;
           !that.vars.addCommentBtn.hasClass(opts.disabledClass) ? that.vars.addCommentBtn.addClass(opts.disabledClass) : null;
           $(this).addClass(opts.hideClass);
-          $('#delete-file-modal').modal('hide');
+          $(opts.confirmModalClass).modal('hide');
           that.vars.priorityList.addClass(opts.hideClass);
         }
         that.vars.deleteCommentBtns.removeClass(opts.highLightClass);
       });
       $('body').off('keydown.' + pluginName).on('keydown.' + pluginName, function(e) {
         if (e.keyCode === 27) {
-          if (that.vars.priorityList.is(':visible') || that.vars.cardDeleteModal.is(':visible')) {
+          if (that.vars.priorityList.is(':visible') || that.vars.cardDeleteModal.is(':visible') || $('#card-type-modal').is(':visible')) {
             that.vars.priorityList.addClass(opts.hideClass);
+            that.vars.cardDeleteModal.modal('hide');
+            $('#card-type-modal').modal('hide');
           } else {
             ele.parent().trigger('click');
           }
@@ -990,8 +1025,8 @@
     resetDateTime: function() {
       var opts = this.options,
           now = new Date(),
-          date = this.vars.deadlineToggle.find('.date').text(),
-          time = this.vars.deadlineToggle.find('.hour').text();
+          date = this.vars.deadlineToggle.find('.date').text().length ? this.vars.deadlineToggle.find('.date').text() : $.datepicker.formatDate('dd/mm/yy', now),
+          time = this.vars.deadlineToggle.find('.hour').text().length ? this.vars.deadlineToggle.find('.hour').text() : addZero(now.getHours()) + ':' + addZero(now.getMinutes());
       this.vars.deadlineDay
         .datepicker('option', 'minDate', now)
         .val(date);
@@ -1074,6 +1109,7 @@
     highLightClass: 'high-light',
     textErrorsClass: '.text-errors',
     controlGroupClass: '.control-group',
+    confirmModalClass: '.confirm-modal',
     warningClass: 'warning',
     targetDeleteComment: 'deleteComment',
     hideClass: 'hide',
@@ -1089,6 +1125,7 @@
     updateCardDetailId: '#update-card-detail',
     deadlineId: '#deadline-modal',
     board_id: '#board-id',
+    isAdminId: '#is-admin',
     validTypes: ''
   };
 

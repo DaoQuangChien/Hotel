@@ -73,6 +73,7 @@
           type: opts.method,
           url: $(opts.getCardsLink).val(),
           dataType: 'json',
+          cache: false,
           data: {
             board_id: $(opts.boardIdEle).val(),
             limit: that.vars.loadmoreObj.limit,

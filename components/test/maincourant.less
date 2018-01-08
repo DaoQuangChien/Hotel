@@ -838,7 +838,7 @@
   }
   .input-paragraph {
     color: #000;
-    white-space: normal;
+    white-space: pre;
     border-radius: 3px;
     background-color: #fff;
     margin-bottom: 5px;
@@ -1195,12 +1195,21 @@
     text-decoration: underline;
   }
 }
-#invalid-file-modal, #error-file-modal {
+#error-file-modal {
   .modal-footer {
     text-align: left;
   }
 }
+#invalid-file-modal {
+  .modal-body {
+    text-align: center;
+  }
+  .modal-footer {
+    text-align: center;
+  }
+}
 #dynamic-create-modal {
+  z-index: 1041;
   .form-control {
     margin-bottom: 10px;
   }
@@ -1213,6 +1222,23 @@
   .control-label {
     padding-top: 8px;
     font-weight: bold;
+  }
+}
+#card-type-modal {
+  .modal-title {
+    text-align: left;
+  }
+  .btn-danger {
+    margin-left: 0;
+  }
+  .table-responsive {
+    overflow: visible;
+  }
+  .table {
+    margin-bottom: 0;
+  }
+  .modal-body {
+    padding-bottom: 0;
   }
 }
 .control-label {

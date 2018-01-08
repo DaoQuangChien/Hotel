@@ -78,6 +78,7 @@
       this.vars.textArea.off('keydown.' + pluginName).on('keydown.' + pluginName, function(e) {
         if (e.keyCode === 13) {
           that.vars.addBtn.click();
+          e.preventDefault();
         }
       });
     },
