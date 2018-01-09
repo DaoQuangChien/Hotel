@@ -136,7 +136,7 @@
             });
             that.vars.activitySection.html(activityBlock);
           }
-          that.vars.listCardType.find(opts.dataCardTypeItem).remove();
+          // that.vars.listCardType.find(opts.dataCardTypeItem).remove();
           // if (result.data.list_type && result.data.list_type.length) {
           //   var listTypeItem = '';
           //   result.data.list_type.forEach(function (type) {
@@ -145,8 +145,17 @@
           //   that.vars.listCardType.append(listTypeItem);
           //   that.vars.cardTypeEle['card-type']('getTypeItem');
           // }
+          that.vars.cardTypeEle.data('card-from', cardObj);
           if (result.data.type_id) {
-            that.vars.cardTypeEle['card-type']('getListType', result.data.type_id);
+            that.vars.cardTypeEle.filter(function() {
+              return $(this).data().activeItem;
+            })
+              ['card-type']('updateTypeInput', result.data.type_id)
+              ['card-type']('updateTypeSelection', result.data.type_id)
+              ['card-type']('activeTypeItem', result.data.type_id)
+              ['card-type']('updateCardDetailType');
+          } else {
+            $(opts.dataTypeToggle).text(opts.typeText);
           }
           if (result.data.expired_at && result.data.expired_at.length) {
             var deadline = result.data.expired_at.split(' ');
@@ -305,6 +314,7 @@
     dataCardType: '[data-card-type]',
     dataListType: '[data-list-type]',
     dataCardTypeItem: '[data-card-type-item]',
+    dataTypeToggle: '[data-type-toggle]',
     commentAttachmentId: '#comment-attachment',
     dataFileName: '[data-file-name]',
     fileNameClass: '.file-name',

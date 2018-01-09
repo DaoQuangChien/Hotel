@@ -134,9 +134,10 @@ block container
               span.icon-delete.card-action(data-card-delete) Delete Card
             // CHIEN EDIT 08/01/2018
             li
-              span.icon-type.card-action(data-open-popup, data-target="cardType", data-set-pos="true", data-move-down="10", data-not-clear-input="true") Type
+              span.icon-type.card-action.type-toggle(data-type-toggle) Type
             // CHIEN EDIT 08/01/2018
-            li.deadline(data-toggle="modal", data-target="#deadline-modal", data-deadline)
+            //- data-toggle="modal", data-target="#deadline-modal",
+            li.deadline(data-deadline)
               span.icon-date.card-action Deadline
               .detail
                 p.time
@@ -145,6 +146,45 @@ block container
                 p.time
                   | Date: 
                   span.date 2017-12-29
+        // CHIEN EDIT
+        #apply-card-type-modal.confirm-modal.modal.fade
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close(type="button",data-dismiss="modal",aria-label="Close")
+                  span(aria-hidden="true") ×
+                h4.modal-title Select card type.
+              .modal-body
+                .text-errors.invalid.hide(data-not-select)
+                  .alert.alert-danger
+                    a(data-hide-message, href="#").close x
+                    | Please select from list type.
+                .form-group.control-group.clearfix
+                  .col-md-2.label-title
+                    label(for="typeSelect").control-label Type:
+                  .col-md-10
+                    .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true", data-limit=10, data-mode="update")
+                      input.form-control.card-type-input#typeSelect
+                      a.dropdown-toggle(href="#")
+                        span.caret
+                      ul.dropdown-menu.menu-scroll.hide(data-list-type)
+                        li.no-result No result found
+                        li(data-create-modifield)
+                          a(href="#", title="Créer/Modifier", data-toggle="modal", data-target="#card-type-modal") Créer/Modifier
+              .modal-footer.button-group-center
+                button.btn.btn-success(data-accept, data-url="data/update-card.json", data-method="get") Yes
+                button.btn.btn-danger(data-dismiss="modal") No
+        #delete-type-modal.confirm-modal.modal.fade(data-method="get", data-url="data/update-card.json")
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close(type="button",data-dismiss="modal",aria-label="Close")
+                  span(aria-hidden="true") ×
+                h4.modal-title Delete this card type?
+              .modal-footer.button-group-center
+                a.btn.btn-success(data-delete) Yes
+                a.btn.btn-danger(data-dismiss="modal") No
+        // CHIEN EDIT
         #deadline-modal.confirm-modal.modal.fade
           .modal-dialog
             .modal-content
@@ -216,22 +256,23 @@ block container
             h4.modal-title You don't have permission for this action.
           .modal-footer.button-group-center
             a.btn.btn-success(data-dismiss="modal") Ok
-    .create-modal.card-type-modal.hide(data-target-popup="cardType", data-error-text="Sorry, we can't delete this comment")
-      header
-        p.inline Select card type
-        span.icon-close(data-close-popup)
-      .form-group.control-group
-        label(for="typeSelect").control-label Type
-        .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true")
-          input.form-control.card-type-input#typeSelect
-          a.dropdown-toggle(href="#")
-            span.caret
-          ul.dropdown-menu.menu-scroll.hide(data-list-type)
-            li(data-create-modifield)
-              a(href="#", title="Créer/Modifier", data-toggle="modal", data-target="#card-type-modal") Créer/Modifier
-      .form-group.control-group.button-group-center
-        button.btn.btn-success(data-delete) Yes
-        button.btn.btn-danger(data-close-popup) No
+    // CHIEN EDIT
+    //- .create-modal.card-type-modal.hide(data-target-popup="cardType", data-error-text="Sorry, we can't delete this comment")
+    //-   header
+    //-     p.inline Select card type
+    //-     span.icon-close(data-close-popup)
+    //-   .form-group.control-group
+    //-     label(for="typeSelect").control-label Type
+    //-     .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true", data-limit=10, data-mode="update")
+    //-       input.form-control.card-type-input#typeSelect
+    //-       a.dropdown-toggle(href="#")
+    //-         span.caret
+    //-       ul.dropdown-menu.menu-scroll.hide(data-list-type)
+    //-         li(data-create-modifield)
+    //-           a(href="#", title="Créer/Modifier", data-toggle="modal", data-target="#card-type-modal") Créer/Modifier
+    //-   .form-group.control-group.button-group-center
+    //-     button.btn.btn-success(data-delete) Yes
+    //-     button.btn.btn-danger(data-close-popup) No
     // CHIEN EDIT 08/01/2018
     #card-type-modal.modal.fade
       .modal-dialog
@@ -243,14 +284,15 @@ block container
               h4.modal-title Card types
             .control-group.margin-1
               button.btn.btn-danger(data-toggle="modal", data-target="#modified-type-modal") Create
-              .col-xs-5.form-group.pull-right.input-group.open(data-card-type, data-method="get")
+              .col-xs-5.form-group.pull-right.input-group.open(data-card-type, data-method="get", data-limit=10)
                 input.form-control.card-type-input
                 ul.dropdown-menu.menu-scroll.hide(data-list-type)
+                  li.no-result No result found
                 span.input-group-btn
                   button.btn.btn-default
                     span.glyphicon.glyphicon-search
           .modal-body
-            .table-responsive
+            .table-responsive(data-card-type, data-method="get", data-limit=10, data-mode="table", data-action-text="Action", data-modified-text="Modifier", data-delete-text="Supprimer")
               table.table
                 thead
                   tr
@@ -258,76 +300,78 @@ block container
                     th Type
                     th Action
                 tbody
-                  tr
-                    td 01
-                    td Cleaning
-                    td
-                      .btn-group
-                        button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
-                          | Action&nbsp;
-                          span.caret
-                        ul.dropdown-menu
-                          li
-                            a(href="#", title="Modifier", data-toggle="modal", data-target="#modified-type-modal") Modifier
-                          li
-                            a Supprimer
-                  tr
-                    td 01
-                    td Cleaning
-                    td
-                      .btn-group
-                        button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
-                          | Action&nbsp;
-                          span.caret
-                        ul.dropdown-menu
-                          li
-                            a Modifier
-                          li
-                            a Supprimer
-                  tr
-                    td 01
-                    td Cleaning
-                    td
-                      .btn-group
-                        button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
-                          | Action&nbsp;
-                          span.caret
-                        ul.dropdown-menu
-                          li
-                            a Modifier
-                          li
-                            a Supprimer
-                  tr
-                    td 01
-                    td Cleaning
-                    td
-                      .btn-group
-                        button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
-                          | Action&nbsp;
-                          span.caret
-                        ul.dropdown-menu
-                          li
-                            a Modifier
-                          li
-                            a Supprimer
-          .modal-footer.button-group-center
-            ul.pagination
-              li.active
-                a(href="#",title="1") 1
-              li
-                a(href="#",title="2") 2
-    #modified-type-modal.modal.fade
+                  //- tr
+                  //-   td 01
+                  //-   td Cleaning
+                  //-   td
+                  //-     .btn-group
+                  //-       button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
+                  //-         | Action&nbsp;
+                  //-         span.caret
+                  //-       ul.dropdown-menu
+                  //-         li
+                  //-           a(href="#", title="Modifier", data-toggle="modal", data-target="#modified-type-modal") Modifier
+                  //-         li
+                  //-           a Supprimer
+                  //- tr
+                  //-   td 01
+                  //-   td Cleaning
+                  //-   td
+                  //-     .btn-group
+                  //-       button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
+                  //-         | Action&nbsp;
+                  //-         span.caret
+                  //-       ul.dropdown-menu
+                  //-         li
+                  //-           a Modifier
+                  //-         li
+                  //-           a Supprimer
+                  //- tr
+                  //-   td 01
+                  //-   td Cleaning
+                  //-   td
+                  //-     .btn-group
+                  //-       button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
+                  //-         | Action&nbsp;
+                  //-         span.caret
+                  //-       ul.dropdown-menu
+                  //-         li
+                  //-           a Modifier
+                  //-         li
+                  //-           a Supprimer
+                  //- tr
+                  //-   td 01
+                  //-   td Cleaning
+                  //-   td
+                  //-     .btn-group
+                  //-       button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
+                  //-         | Action&nbsp;
+                  //-         span.caret
+                  //-       ul.dropdown-menu
+                  //-         li
+                  //-           a Modifier
+                  //-         li
+                  //-           a Supprimer
+          //- .modal-footer.button-group-center
+          //-   ul.pagination
+          //-     li.active
+          //-       a(href="#",title="1") 1
+          //-     li
+          //-       a(href="#",title="2") 2
+    #modified-type-modal.modal.fade(data-modified-card-type, data-method="get")
       .modal-dialog
         .modal-content
           .modal-header.none-border
             button.close(data-dismiss="modal",aria-label="Close")
               span(aria-hidden="true") x
           .modal-body
-            .form-group.control-group
-              label(for="modified-card-type") Nom
-              input.form-control#modified-card-type(placeholder="Enter card type")
+            .form-group.control-group.clearfix
+              .col-md-2.label-title
+                label.control-label(for="modified-card-type") Nom
+              .col-md-10
+                input.form-control#modified-card-type(placeholder="Enter card type")
           .modal-footer
-            button.btn.btn-danger Mettre a jour
+            button.btn.btn-danger(data-accept) Mettre a jour
     // CHIEN EDIT 08/01/2018
     .create-modal.hide(data-target-popup, data-delete-comment, data-error-text="Sorry, we can't delete this comment")
       header
@@ -346,6 +390,7 @@ block container
     input(type='hidden', value='data/update-card.json')#update-card-detail
     // CHIEN EDIT 08/01/2018
     input(type='hidden', value='data/list-card-type.json')#update-card-type
+    input(type='hidden', value='data/add-card-type.json')#add-card-type
     // CHIEN EDIT 08/01/2018
     input(type='hidden', value='45')#board-id
     input(type='hidden', value=1)#is-admin

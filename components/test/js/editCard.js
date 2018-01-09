@@ -579,6 +579,7 @@
         },
         deleteCommentBtn: $(opts.dataDeleteCommentModal).find(opts.dataDeleteComment),
         priorityList: ele.find(opts.dataListPriority),
+        typeToggle: ele.find(opts.dataType),
         deadlineToggle: ele.find(opts.dataDeadline),
         deadlineModal: ele.find(opts.deadlineId),
         get deadlineDay() {
@@ -926,6 +927,20 @@
             return;
           }
         });
+      this.vars.typeToggle.off('click.' + pluginName).on('click.' + pluginName, function() {
+        if ($(opts.isAdminId).val() === '1') {
+          $('#apply-card-type-modal').modal('show');
+        } else {
+          $('#access-denied-modal').modal('show');
+        }
+      });
+      this.vars.deadlineToggle.off('click.' + pluginName).on('click.' + pluginName, function() {
+        if ($(opts.isAdminId).val() === '1') {
+          $('#deadline-modal').modal('show');
+        } else {
+          $('#access-denied-modal').modal('show');
+        }
+      });
       this.vars.showDeleteModal.off('click.' + pluginName).on('click.' + pluginName, function(e) {
         e.stopPropagation();
         if ($(opts.isAdminId).val() === '1') {
@@ -1097,6 +1112,7 @@
     dataDatePicker: '[data-datepicker]',
     dataTimeSpinner: '[data-timespinner]',
     dataHideMessage: '[data-hide-message]',
+    dataType: '[data-type-toggle]',
     fileNameClass: '.file-name',
     commentBoxClass: '.comment-box',
     commentContentClass: '.comment-content',

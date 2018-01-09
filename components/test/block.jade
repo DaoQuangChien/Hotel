@@ -44,7 +44,7 @@ mixin listTask(name, items, phase)
   -if(phase==2) connect = [0, 2]
   -if(phase==3) connect = [0, 1]
   .list-content-wrapper(data-sortable-content, data-phase=phase-1, data-connect=connect)
-    .list-content(data-get-detail,data-edited-text="edited",data-download-text="View")
+    .list-content(data-get-detail,data-edited-text="edited",data-download-text="View",data-type-text="Type")
       .list-header
         .list-header-overlay
         textarea.card-name
@@ -59,7 +59,9 @@ mixin listTask(name, items, phase)
           button.create(data-accept) Add
           button.negative(data-close-popup)
             span.icon-close
-      .add-card.no-sort(data-open-popup, data-not-focus="false", data-target=popup) Ajouter une carte
+      // CHIEN EDIT 04/01/2018
+      .add-card.no-sort(data-open-popup, data-not-focus="false", data-target=popup, data-authority="true") Ajouter une carte
+      // CHIEN EDIT 04/01/2018
 mixin task(item)
   -var hasCover = false,hasComment = false,hasAttachment = false,hasMember = false
   -if(typeof(item.cover) != 'undefined') hasCover = true
