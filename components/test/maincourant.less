@@ -392,7 +392,7 @@
   border-radius: 3px;
   color: @primary-font-color;
   max-height: 100%;
-  overflow-y: hidden;
+  overflow-y: visible;
   display: flex;
   flex-direction: column;
 }
@@ -431,17 +431,40 @@
       padding: 4px;
     }
   }
-  .icon-ellipsis[data-show-option] {
+  .dropdown {
     position: absolute;
-    padding: 5px;
     top: 5px;
     right: 5px;
+    z-index: 2;
     cursor: pointer;
     &:hover {
       background-color: @secondary-hovered;
     }
     &:active {
       background-color: @secondary-actived;
+    }
+    .create-modal {
+      top: 30px;
+      left: -50px;
+    }
+    .dropdown-toggle {
+      display: block;
+      padding: 5px;
+    }
+  }
+  .filter-options {
+    padding: 5px 0;
+  }
+  .dropdown-header {
+    padding-left: 0;
+    font-weight: bold;
+    font-size: 14px;
+  }
+  .filter-option-item {
+    a {
+      display: block;
+      padding: 5px 15px;
+      margin-bottom: 5px;
     }
   }
 }

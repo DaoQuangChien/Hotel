@@ -70,6 +70,7 @@
           if (that.vars.typeSelect.data().cardType) {
             that.vars.typeSelect.val(that.vars.typeSelect.data().cardType.name);
           }
+          that.vars.notSelectMsg.addClass(opts.hideClass);
         });
         this.vars.cardTypeModal.off('hide.bs.modal.' + pluginName).on('hide.bs.modal.' + pluginName, function() {
           if (!$(this).data().notShowApply) {
@@ -126,14 +127,22 @@
         });
       }
       if (opts.mode === 'table') {
-        this.vars.listTypeTable.off('click.' + pluginName, opts.dataUpdateType).on('click.' + pluginName, opts.dataUpdateType, function() {
-          var currentCardType = $(this).parents('tr');
+        this.vars.listTypeTable
+          .off('click.' + pluginName, opts.dataUpdateType).on('click.' + pluginName, opts.dataUpdateType, function() {
+            var currentCardType = $(this).parents('tr');
 
-          $(opts.modifiedTypeModalId).modal('show');
-          $(opts.modifiedTypeModalId).find('#modified-card-type')
-            .val(currentCardType.find(opts.dataTypeName).text())
-            .data('card-type', {id: currentCardType.find(opts.dataTypeId).text(), name: currentCardType.find(opts.dataTypeName).text()});
-        });
+            $(opts.modifiedTypeModalId).modal('show');
+            $(opts.modifiedTypeModalId).find('#modified-card-type')
+              .val(currentCardType.find(opts.dataTypeName).text())
+              .data('card-type', {id: currentCardType.find(opts.dataTypeId).text(), name: currentCardType.find(opts.dataTypeName).text()});
+          })
+          .off('click.' + pluginName, opts.dataDeleteType).on('click.' + pluginName, opts.dataDeleteType, function() {
+            var currentCardType = $(this).parents('tr');
+
+            $(opts.deleteTypeModalId)
+              .data('card-type', {id: currentCardType.find(opts.dataTypeId).text(), name: currentCardType.find(opts.dataTypeName).text()})
+              .modal('show');
+          });
 
       } else {
         this.vars.typeSelect
@@ -220,8 +229,25 @@
         this.vars.listType.find('[data-type-id=' + data.id + '] a').text(data.name);
       }
     },
-    updateCardDetailType: function() {
-      $('[data-type-toggle]').text(this.vars.typeSelect.val());
+    deleteType: function(id) {
+      var opts = this.options;
+
+      this.vars.listType.find('[data-type-id=' + id + ']').remove();
+      this.vars.listTypeTable.find(opts.dataTypeId).filter(function() {
+        return $(this).text() === id;
+      }).parent().remove();
+      if (opts.mode === 'update') {
+        if (this.vars.typeSelect.data().cardType.id.toString() === id) {
+          this.updateCardDetailType(opts.typeText);
+          this.vars.typeSelect
+            .val('')
+            .removeData('card-type');
+        }
+      }
+      this.getTypeItem();
+    },
+    updateCardDetailType: function(text) {
+      text ? $('[data-type-toggle]').text(text) : $('[data-type-toggle]').text(this.vars.typeSelect.val());
     },
     updateTypeSelection: function(id) {
       var opts = this.options,
@@ -274,11 +300,13 @@
     dataTypeId: '[data-type-id]',
     dataTypeName: '[data-type-name]',
     dataUpdateType: '[data-update-type]',
+    dataDeleteType: '[data-delete-type]',
     typeSelectClass: '.card-type-input',
     dropdownToggleClass: '.dropdown-toggle',
     cardTypeModalId: '#card-type-modal',
     applyTypeModal: '#apply-card-type-modal',
     modifiedTypeModalId: '#modified-type-modal',
+    deleteTypeModalId: '#delete-type-modal',
     updateCardTypeId: '#update-card-type',
     typeSelectId: '#typeSelect',
     deleteTypeModal: '#delete-type-modal',

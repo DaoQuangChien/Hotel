@@ -163,7 +163,7 @@ block container
                   .col-md-2.label-title
                     label(for="typeSelect").control-label Type:
                   .col-md-10
-                    .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true", data-limit=10, data-mode="update")
+                    .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true", data-limit=10, data-mode="update", data-type-text="Type")
                       input.form-control.card-type-input#typeSelect
                       a.dropdown-toggle(href="#")
                         span.caret
@@ -174,16 +174,6 @@ block container
               .modal-footer.button-group-center
                 button.btn.btn-success(data-accept, data-url="data/update-card.json", data-method="get") Yes
                 button.btn.btn-danger(data-dismiss="modal") No
-        #delete-type-modal.confirm-modal.modal.fade(data-method="get", data-url="data/update-card.json")
-          .modal-dialog
-            .modal-content
-              .modal-header
-                button.close(type="button",data-dismiss="modal",aria-label="Close")
-                  span(aria-hidden="true") ×
-                h4.modal-title Delete this card type?
-              .modal-footer.button-group-center
-                a.btn.btn-success(data-delete) Yes
-                a.btn.btn-danger(data-dismiss="modal") No
         // CHIEN EDIT
         #deadline-modal.confirm-modal.modal.fade
           .modal-dialog
@@ -372,6 +362,17 @@ block container
                 input.form-control#modified-card-type(placeholder="Enter card type")
           .modal-footer
             button.btn.btn-danger(data-accept) Mettre a jour
+    // CHIEN EDIT
+    #delete-type-modal.confirm-modal.modal.fade(data-delete-card-type, data-method="get", data-url="data/update-card.json")
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close(type="button",data-dismiss="modal",aria-label="Close")
+                  span(aria-hidden="true") ×
+                h4.modal-title Delete this card type?
+              .modal-footer.button-group-center
+                a.btn.btn-success(data-accept) Yes
+                a.btn.btn-danger(data-dismiss="modal") No
     // CHIEN EDIT 08/01/2018
     .create-modal.hide(data-target-popup, data-delete-comment, data-error-text="Sorry, we can't delete this comment")
       header
