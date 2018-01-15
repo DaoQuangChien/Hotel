@@ -47,22 +47,9 @@ mixin listTask(name, items, phase)
     .list-content(data-get-detail,data-edited-text="edited",data-download-text="View",data-type-text="Type")
       .list-header
         .list-header-overlay
-        .dropdown
-          span.icon-ellipsis.dropdown-toggle(data-toggle="dropdown")
-          .create-modal.filter-card-popup.dropdown-menu
-            header
-              p.inline Delete this comment
-            .filter-options
-              p.dropdown-header Priority
-              p.filter-option-item
-                a(href="#") Accending
-              p.filter-option-item
-                a(href="#") Decending
-              p.dropdown-header Deadline
-              p.filter-option-item
-                a(href="#") Accending
-              p.filter-option-item
-                a(href="#") Decending
+        // CHIEN EDIT 10/01
+        span.icon-ellipsis.dropdown-toggle(data-open-popup, data-target="filterCard", data-set-pos="true", data-left-aligned="true")
+        // CHIEN EDIT 10/01
         textarea.card-name
           |#{name}
       .list-cards(data-swap-content, data-get-list-card)

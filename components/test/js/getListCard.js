@@ -49,85 +49,114 @@
         if (that.vars.is_Loadmore) {
           if ($(this).scrollTop() > this.scrollHeight - $(this).outerHeight() - opts.triggerBefore) {
             if (that.vars.permission) {
-              that.callAjax();
+              if ($(this).data().lastFilter) {
+                that.callAjax($(this).data().lastFilter, 'loadmore');
+              } else {
+                that.callAjax();
+              }
             }
           }
         }
       });
     },
-    callAjax: function(is_Load) {
-      if (this.vars.is_Loadmore) {
-        var that = this,
-            ele = this.element,
-            opts = this.options,
-            listUser = '',
-            dataOffset = 0;
+    callAjax: function(data, action) {
+      var that = this,
+          ele = this.element,
+          opts = this.options,
+          listUser = '',
+          dataOffset = {},
+          param;
 
-        this.vars.permission = false;
-        if (is_Load === 'delete') {
-          dataOffset = this.vars.loadmoreObj.offset - 1;
+      this.vars.permission = false;
+      param = {
+        board_id: $(opts.boardIdEle).val(),
+        limit: that.vars.loadmoreObj.limit,
+        phase: ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase)
+      };
+      if (typeof(data) === 'object') {
+        if (action){
+          if (action === 'delete') {
+            dataOffset.offset = this.vars.loadmoreObj.offset - 1;
+          } else {
+            dataOffset.offset = this.vars.loadmoreObj.offset;
+          }
         } else {
-          dataOffset = this.vars.loadmoreObj.offset;
+          that.vars.loadmoreObj.offset = 0;
+          dataOffset.offset = 0;
         }
-        $.ajax({
-          type: opts.method,
-          url: $(opts.getCardsLink).val(),
-          dataType: 'json',
-          cache: false,
-          data: {
-            board_id: $(opts.boardIdEle).val(),
-            limit: that.vars.loadmoreObj.limit,
-            offset: dataOffset,
-            phase: ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase)
-          },
-          success: function(result) {
-            if (result.status) {
-              result.data.sort(function(a, b) {
-                return parseInt(a.position) - parseInt(b.position);
-              });
-              if (typeof (is_Load) !== 'undefined') {
-                if (result.data.length) {
-                  listUser += renderMemberList(result.data[0], opts, ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase).toString());
-                }
-              } else {
-                result.data.forEach(function(dataList) {
-                  listUser += renderMemberList(dataList, opts, ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase).toString());
-                });
-                that.vars.loadmoreObj.offset += that.vars.loadmoreObj.limit;
+        dataOffset[data[0]] = data[1];
+      } else {
+        if (data === 'delete') {
+          dataOffset.offset = this.vars.loadmoreObj.offset - 1;
+        } else {
+          if (ele.find(opts.dataContent).length > this.vars.loadmoreObj.offset) {
+            dataOffset.offset = ele.find(opts.dataContent).length;
+          } else {
+            dataOffset.offset = this.vars.loadmoreObj.offset;
+          }
+        }
+      }
+      param = $.extend(param, dataOffset);
+      $.ajax({
+        type: opts.method,
+        url: $(opts.getCardsLink).val(),
+        dataType: 'json',
+        cache: false,
+        data: param,
+        success: function(result) {
+          if (result.status) {
+            // result.data.sort(function(a, b) {
+            //   return parseInt(a.position) - parseInt(b.position);
+            // });
+            if (action && action !== 'loadmore' || typeof(data) === 'string') {
+              if (result.data.length) {
+                listUser += renderMemberList(result.data[0], opts, ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase).toString());
               }
+            } else {
+              result.data.forEach(function(dataList) {
+                listUser += renderMemberList(dataList, opts, ele.parents('[data-' + opts.dataPhase + ']').data(opts.dataPhase).toString());
+              });
+              that.vars.loadmoreObj.offset += that.vars.loadmoreObj.limit;
+            }
+            if (typeof(data) === 'object' && typeof(action) === 'undefined') {
+              ele
+                .html(listUser)
+                .find(opts.dataLimitWord)['limit-word']()
+                .scrollTop(0);
+            } else {
               ele
                 .append(listUser)
                 .find(opts.dataLimitWord)['limit-word']();
-              if (result.total <= that.vars.loadmoreObj.offset) {
-                that.vars.is_Loadmore = false;
-              }
-            } else {
-              ele.html('<p class="errorText">' + opts.errorText + '</p>');
             }
-          },
-          error: function(xhr) {
-            ele.html('<p class="errorText">' + opts.failText + xhr.status + ' ' + xhr.statusText + '</p>');
-          },
-          complete: function() {
-            that.vars.permission = true;
+            if (result.total <= that.vars.loadmoreObj.offset) {
+              that.vars.is_Loadmore = false;
+            } else {
+              that.vars.is_Loadmore = true;
+            }
+          } else {
+            ele.html('<p class="errorText">' + opts.errorText + '</p>');
           }
-        });
-      }
+        },
+        error: function(xhr) {
+          ele.html('<p class="errorText">' + opts.failText + xhr.status + ' ' + xhr.statusText + '</p>');
+        },
+        complete: function() {
+          that.vars.permission = true;
+        }
+      });
     },
     destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function(options, params) {
+  $.fn[pluginName] = function(options, param1, param2) {
     return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
       } else if (instance[options]) {
-        instance[options](params);
-      } else {
-        window.console && console.log(options ? options + ' method is not exists in ' + pluginName : pluginName + ' plugin has been initialized');
+        instance[options](param1, param2);
       }
     });
   };
@@ -138,6 +167,7 @@
     errorText: 'Sorry, we can\'t find the cards of this phase',
     failText: 'An error occured: ',
     dataLimitWord: '[data-limit-word]',
+    dataContent: '[data-content]',
     getCardsLink: '#get-cards-link',
     boardIdEle: '#board-id',
     fadeOutTime: 1000,

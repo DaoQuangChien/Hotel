@@ -51,7 +51,7 @@ block container
             p.block-title 
               span.icon-activity
               | Activities
-            .list-activities(data-board-activity, data-method="get", data-url="data/getActivitiesLog.json", data-translation={"addText":"Added","failText":"An error has occured: "}, data-limit=10, data-trigger-before=20)
+            .list-activities(data-board-activity, data-method="get", data-url="data/getActivitiesLog.json", data-translation={"addText":"Added","failText":"An error has occured: "}, data-limit="10", data-trigger-before=20)
     .create-modal.hide(data-affect='list')
       header
         p.inline Thao tác
@@ -71,12 +71,13 @@ block container
         button.btn.btn-success(data-accept) Yes
         button.btn.btn-danger(data-close-popup) No
     .screen-overlay.hide(data-card-detail)
-      .detail-modal(data-edit-card, data-edited-text="edited", data-download-text="View")
+      .detail-modal(data-edit-card, data-edited-text="edited", data-download-text="View", data-method-render-activity='get')
         header
           span.icon-news.icon-header
           textarea.card-detail-header(data-detail-name, data-fluid-height, data-min-rows="1", rows=1)
           div.subtitle.clearfix
             p.author
+              | Create by 
               span(data-phase-name) aaaaa
             div.location
               p.location-detail(data-location-detail)
@@ -132,10 +133,8 @@ block container
               input#card-attachment.hide(type="file", name="card-attachment")
             li
               span.icon-delete.card-action(data-card-delete) Delete Card
-            // CHIEN EDIT 08/01/2018
             li
               span.icon-type.card-action.type-toggle(data-type-toggle) Type
-            // CHIEN EDIT 08/01/2018
             //- data-toggle="modal", data-target="#deadline-modal",
             li.deadline(data-deadline)
               span.icon-date.card-action Deadline
@@ -146,7 +145,6 @@ block container
                 p.time
                   | Date: 
                   span.date 2017-12-29
-        // CHIEN EDIT
         #apply-card-type-modal.confirm-modal.modal.fade
           .modal-dialog
             .modal-content
@@ -163,7 +161,7 @@ block container
                   .col-md-2.label-title
                     label(for="typeSelect").control-label Type:
                   .col-md-10
-                    .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true", data-limit=10, data-mode="update", data-type-text="Type")
+                    .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true", data-limit="10", data-mode="update", data-type-text="Type")
                       input.form-control.card-type-input#typeSelect
                       a.dropdown-toggle(href="#")
                         span.caret
@@ -174,7 +172,6 @@ block container
               .modal-footer.button-group-center
                 button.btn.btn-success(data-accept, data-url="data/update-card.json", data-method="get") Yes
                 button.btn.btn-danger(data-dismiss="modal") No
-        // CHIEN EDIT
         #deadline-modal.confirm-modal.modal.fade
           .modal-dialog
             .modal-content
@@ -246,7 +243,7 @@ block container
             h4.modal-title You don't have permission for this action.
           .modal-footer.button-group-center
             a.btn.btn-success(data-dismiss="modal") Ok
-    // CHIEN EDIT
+    //- CHIEN EDIT 09/01
     //- .create-modal.card-type-modal.hide(data-target-popup="cardType", data-error-text="Sorry, we can't delete this comment")
     //-   header
     //-     p.inline Select card type
@@ -263,7 +260,6 @@ block container
     //-   .form-group.control-group.button-group-center
     //-     button.btn.btn-success(data-delete) Yes
     //-     button.btn.btn-danger(data-close-popup) No
-    // CHIEN EDIT 08/01/2018
     #card-type-modal.modal.fade
       .modal-dialog
         .modal-content
@@ -274,15 +270,15 @@ block container
               h4.modal-title Card types
             .control-group.margin-1
               button.btn.btn-danger(data-toggle="modal", data-target="#modified-type-modal") Create
-              .col-xs-5.form-group.pull-right.input-group.open(data-card-type, data-method="get", data-limit=10)
+              .col-xs-5.form-group.pull-right.input-group.open(data-card-type, data-method="get", data-limit="10", data-mode='search')
                 input.form-control.card-type-input
                 ul.dropdown-menu.menu-scroll.hide(data-list-type)
                   li.no-result No result found
                 span.input-group-btn
-                  button.btn.btn-default
+                  button.btn.btn-default(data-search-btn)
                     span.glyphicon.glyphicon-search
           .modal-body
-            .table-responsive(data-card-type, data-method="get", data-limit=10, data-mode="table", data-action-text="Action", data-modified-text="Modifier", data-delete-text="Supprimer")
+            .table-responsive(data-card-type, data-method="get", data-limit="10", data-mode="table", data-action-text="Action", data-modified-text="Modifier", data-delete-text="Supprimer")
               table.table
                 thead
                   tr
@@ -348,7 +344,7 @@ block container
           //-       a(href="#",title="1") 1
           //-     li
           //-       a(href="#",title="2") 2
-    #modified-type-modal.modal.fade(data-modified-card-type, data-method="get")
+    #modified-type-modal.modal.fade(data-modified-card-type, data-method-create="get", data-method-update="get")
       .modal-dialog
         .modal-content
           .modal-header.none-border
@@ -362,7 +358,6 @@ block container
                 input.form-control#modified-card-type(placeholder="Enter card type")
           .modal-footer
             button.btn.btn-danger(data-accept) Mettre a jour
-    // CHIEN EDIT
     #delete-type-modal.confirm-modal.modal.fade(data-delete-card-type, data-method="get", data-url="data/update-card.json")
           .modal-dialog
             .modal-content
@@ -373,7 +368,31 @@ block container
               .modal-footer.button-group-center
                 a.btn.btn-success(data-accept) Yes
                 a.btn.btn-danger(data-dismiss="modal") No
-    // CHIEN EDIT 08/01/2018
+    .create-modal.filter-card-popup.hide(data-target-popup="filterCard", data-filter-card)
+      header
+        p.inline Filter card
+        span.icon-close(data-close-popup)
+      .filter-options
+        p.dropdown-header
+          span.icon-priority
+          | Priority
+        p.filter-option-item
+          span.icon-check
+          a(href="#", data-filter="priority-asc") Ascending
+        p.filter-option-item
+          span.icon-check
+          a(href="#", data-filter="priority-desc") Descending
+        p.dropdown-header
+          span.icon-date
+          | Deadline
+        p.filter-option-item
+          span.icon-check
+          a(href="#", data-filter="expired_at-asc") Ascending
+        p.filter-option-item
+          span.icon-check
+          a(href="#", data-filter="expired_at-desc") Descending
+        //- p.filter-option-item.date-input
+        //-   input.form-control(data-datepicker, data-date-format="dd/mm/yy", placeholder="DD/MM/YY")
     .create-modal.hide(data-target-popup, data-delete-comment, data-error-text="Sorry, we can't delete this comment")
       header
         p.inline Delete this comment
@@ -381,6 +400,13 @@ block container
       .form-group
         button.btn.btn-success(data-delete) Yes
         button.btn.btn-danger(data-close-popup) No
+    // CHIEN EDIT 15/01
+    .modified-type.dropdown-menu.hide(data-target-popup="modifiedType", data-modified-type)
+      li
+        a(href="#", title="Modifier", data-update-type) Modifier
+      li
+        a(href="#", title="Supprimer", data-delete-type) Supprimer
+    // CHIEN EDIT 15/01
     //- input(type='hidden', value='data/list-available-user.json')#get-available-user-link
     input(type='hidden', value='data/list-invitable-user.json')#get-user-link
     //- input(type='hidden', value='data/delete-member.json')#delete-member-link
@@ -389,9 +415,7 @@ block container
     input(type='hidden', value='data/create-card.json')#create-card-link
     input(type='hidden', value='data/card-detail.json')#get-card-detail
     input(type='hidden', value='data/update-card.json')#update-card-detail
-    // CHIEN EDIT 08/01/2018
     input(type='hidden', value='data/list-card-type.json')#update-card-type
     input(type='hidden', value='data/add-card-type.json')#add-card-type
-    // CHIEN EDIT 08/01/2018
     input(type='hidden', value='45')#board-id
     input(type='hidden', value=1)#is-admin

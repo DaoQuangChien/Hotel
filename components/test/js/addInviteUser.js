@@ -2,7 +2,7 @@
   'use strict';
 
   var pluginName = 'add-user',
-      member = '<a href="#" class="member" title="#{{full-name}}" data-user-id="#{{user-id}}" data-open-popup data-target="deleteMember" data-set-pos="true" data-follow-parent="true" data-parent data-move-down="30">#{{short-name}}</a>';
+      member = '<a href="#" class="member" title="#{{full-name}}" data-user-id="#{{user-id}}" data-open-popup data-target="deleteMember" data-set-pos="true" data-follow-parent="true" data-parent>#{{short-name}}</a>';
 
   var callAjax = function(that) {
     var ele = this,
@@ -21,8 +21,11 @@
         if (result.status && that.vars.memberInfo.data().userId.toString() === result.data.id.toString()) {
           var addedMember = member.replace('#{{full-name}}', that.vars.memberInfo.attr('title')).replace('#{{user-id}}',
             that.vars.memberInfo.data().userId).replace('#{{short-name}}', that.vars.memberInfo.data().shortName);
-          $('.list-member[data-role=' + result.data.type + ']').prepend(addedMember);
+          $('.list-member[data-role=' + result.data.type + ']')
+            .prepend(addedMember)
+            .find('[data-open-popup]:first')['open-popup']();
           ele.parent().addClass(opts.hideClass);
+
           $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
           ele.remove();
         } else {

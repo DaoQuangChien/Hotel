@@ -21,7 +21,7 @@
     ui.item.removeClass(opts.tiltClass);
   }
 
-  function updateUi(opts, ui, sortable) {
+  var updateUi = function(opts, ui, sortable) {
     $.ajax({
       type: opts.method,
       url: opts.url,
@@ -32,7 +32,15 @@
         position: ui.item.index() + 1
       },
       success: function() {
+        var sender = $(ui.sender).data('sender');
+
         $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
+        if (sender && sender.tmpEle) {
+          sender.lastFilter ?
+          sender.tmpEle['get-list-card']('callAjax', sender.lastFilter, 'delete')
+          :
+          sender.tmpEle['get-list-card']('callAjax', 'delete');
+        }
       },
       error: function() {
         sortable.sortable('cancel');
@@ -41,7 +49,7 @@
         $(opts.dataSwapContent).sortable('enable');
       }
     });
-  }
+  };
 
   function Plugin(element, options) {
     this.element = $(element);
@@ -51,7 +59,8 @@
 
   Plugin.prototype = {
     init: function() {
-      var ele = this.element,
+      var that = this,
+          ele = this.element,
           opts = this.options,
           contentWrapper = ele.find(opts.dataSwapContent),
           connect = [],
@@ -81,12 +90,10 @@
           }
         },
         update: function(e, u) {
-          var tmpEle = $(this);
-          
           if (this === u.item.parent()[0]) {
-            updateUi(opts, u, tmpEle, contentWrapper);
+            updateUi.call(that, opts, u, $(this), contentWrapper);
           } else {
-            $(this)['get-list-card']('callAjax', 'sort');
+            $(this).data('sender', {'tmpEle': $(this), 'lastFilter': $(this).data().lastFilter});
           }
         }
       });

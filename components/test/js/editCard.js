@@ -6,7 +6,10 @@
       attachmentImgEle = '<div class="block-file clearfix" data-attachment-id="#{{id}}"><div class="preview"><a href="#{{link}}" data-caption="#{{alt}}" data-fancybox="groupAttachment"><img src="#{{img-src}}" alt="#{{alt}}" class="preview-img"/></a></div><div class="file-info"><h4 class="file-name">#{{file-name}}</h4><span class="subtitle">#{{created-at}}</span><a href="#{{link}}" title="#{{downloadText}}" class="icon-image">#{{downloadText}}</a><a href="#" title="#{{removeText}}" class="icon-close" data-remove>#{{removeText}}</a></div></div>',
       attachmentCommnEle = '<div class="block-file clearfix" data-attachment-id="#{{id}}"><div class="preview"><p class="file-type">#{{file-type}}</p></div><div class="file-info"><h4 class="file-name">#{{file-name}}</h4><span class="subtitle">#{{created-at}}</span><a href="#{{link}}" title="#{{downloadText}}" class="icon-image">#{{downloadText}}</a><a href="#" title="#{{removeText}}" class="icon-close" data-remove>#{{removeText}}</a></div></div>',
       imagePreview = '<div class="comment-img#{{hide}}"><a href="#{{img-src}}" data-caption="#{{img-alt}}" data-fancybox><img src="#{{img-src}}" alt="#{{img-alt}}" data-attachment-id="#{{attachment-id}}" data-image-preview/></a></div>',
-      file_name = '<span class="file-name">#{{file-name}}</span>';
+      file_name = '<span class="file-name">#{{file-name}}</span>',
+      activityEditable = '<div class="block-activity" data-editable data-comment-id="#{{comment-id}}"><span class="member">#{{short-name}}</span><p class="member-name">#{{full-name}}</p><div class="comment-content #{{hide-comment}}">#{{comment-content}}</div><div class="edit-content hide"><div class="form-group"><div class="comment-box"><textarea data-fluid-height rows="3" data-min-rows="3" class="input-paragraph"></textarea><label for="comment-attachment-#{{index}}" class="icon-attachment"></label><input data-edit-attachment id="comment-attachment-#{{index}}" type="file" class="hide"></div><div data-file-name class="comment-file#{{hide}}">#{{file}}<span data-remove-edit-file class="icon-close"></span></div><button data-save-edit class="create">Save</button><button data-close-edit class="negative"><span class="icon-close"></span></button></div></div>#{{image-preview}}<div class="bottom-comment"><span class="date">#{{created-at}}</span>#{{edited}}#{{edit-btn}}</div></div>',
+      activityNotEditable = '<div class="block-activity" data-comment-id="#{{comment-id}}"><span class="member">#{{short-name}}</span><p class="member-name">#{{full-name}}<span class="activity-no-comment"> #{{activity}}</span></p>#{{image-preview}}<div class="bottom-comment"><span class="date">#{{created-at}}</span></div></div>',
+      editBtn = '<span class="edit split" data-edit-comment>Edit</span><span class="delete split" data-delete>Delete</span>';
 
   function setUp(that) {
     that.vars.openEditDescriptionEle.css('cursor', 'pointer');
@@ -71,6 +74,7 @@
       type: opts.methodPriority,
       url: priorityBtn.parent().data().url,
       dataType: 'json',
+      cache: false,
       data: {
         card_id: ele.data().cardFrom.id,
         priority: priorityBtn.data().priority
@@ -84,6 +88,7 @@
             return (className.match(/(^|\s)priority-\S+/g) || []).join(' ');
           }).addClass('priority-' + priorityBtn.data().priority);
           priorityBtn.parent().addClass(opts.hideClass);
+          that.reRenderAcivity();
         }
       },
       error: function(xhr) {
@@ -100,22 +105,23 @@
     var that = this,
         ele = this. element,
         opts = this.options,
-        name = that.vars.cardName.val().trim(),
-        location = that.vars.locationDetail.text().trim();
+        name = that.vars.cardName.val().trim();
+        // location = that.vars.locationDetail.text().trim();
         // deadline = that.vars.deadlineToggle.find('.date').text().trim() + ' ' + that.vars.deadlineToggle.find('.hour').text().trim();
 
     $.ajax({
       type: opts.methodDescription,
       url: $(opts.updateCardDetailId).val(),
       dataType: 'json',
+      cache: false,
       data: {
         card_id: ele.data().cardFrom.id,
         name: name,
         description: that.vars.editDescriptionInput.val().trim(),
-        priority: ele.data().cardFrom.priority,
-        phase: ele.data().cardFrom.phase,
+        // priority: ele.data().cardFrom.priority,
+        // phase: ele.data().cardFrom.phase,
         board_id: $(opts.board_id).val(),
-        location: location
+        // location: location
         // deadline: deadline
       },
       success: function(result) {
@@ -168,6 +174,7 @@
       dataType: 'json',
       processData: false,
       contentType: false,
+      cache: false,
       data: formData,
       success: function(result) {
         if (result.status) {
@@ -233,6 +240,7 @@
       dataType: 'json',
       processData: false,
       contentType: false,
+      cache: false,
       data: formData,
       success: function(result) {
         if (result.status) {
@@ -245,8 +253,11 @@
           $('[data-card-id=' + ele.data().cardFrom.id + '] .icon-attachment').text(that.vars.attachmentContainer.children().length);
           that.vars.attachmentContainer.parent().removeClass(opts.hideClass);
           attachBtn.val('');
+          that.reRenderAcivity();
         } else {
+          $('#invalid-file-modal .modal-dialog').css({'top': 0});
           $('#invalid-file-modal').modal('show');
+          $(this).val('');
         }
       },
       error: function(xhr) {
@@ -266,6 +277,7 @@
       type: privateOpts.method,
       url: privateOpts.url,
       dataType: 'json',
+      cache: false,
       data: {
         card_id: ele.data().cardFrom.id,
         attachment_id: removeBtn.parents(opts.dataAttachmentId).data().attachmentId
@@ -317,6 +329,7 @@
       url: privateOpts.urlEdit,
       processData: false,
       contentType: false,
+      cache: false,
       dataType: 'json',
       data: formData,
       success: function(result) {
@@ -362,6 +375,7 @@
       type: privateOpts.methodDelete,
       url: privateOpts.urlDelete,
       dataType: 'json',
+      cache: false,
       data: {
         card_id: ele.data().cardFrom.id,
         comment_id: currentComment.data().commentId
@@ -370,6 +384,7 @@
         if (result.status) {
           deleteModal.addClass(opts.hideClass);
           currentComment.remove();
+          $('[data-card-id=' + ele.data().cardFrom.id + '] .icon-comment').text(that.vars.activityContainer.find(opts.dataEditable).length);
         } else {
           deleteCommentBtn.parent().after('<span class="errorText">' + deleteModal.data().errorText + '</span>');
           deleteCommentBtn.parent().next().fadeOut(opts.fadeOutTime, function() {
@@ -392,12 +407,14 @@
         opts = this. options,
         privateOpts = deleteCardBtn.parents(opts.dataDeleteCard).data(),
         card = $('[data-card-id=' + ele.data().cardFrom.id + ']'),
-        cardContainer = card.parent();
+        cardContainer = card.parent(),
+        lastFilter = cardContainer.data().lastFilter;
 
     $.ajax({
       type: privateOpts.method,
       url: privateOpts.url,
       dataType: 'json',
+      cache: false,
       data: {
         card_id: ele.data().cardFrom.id
       },
@@ -414,7 +431,10 @@
           !that.vars.editDescriptionBtn.hasClass(opts.disabledClass) ? that.vars.editDescriptionBtn.addClass(opts.disabledClass) : null;
           !that.vars.addCommentBtn.hasClass(opts.disabledClass) ? that.vars.addCommentBtn.addClass(opts.disabledClass) : null;
           card.remove();
-          cardContainer['get-list-card']('callAjax', 'delete');
+          lastFilter ?
+            cardContainer['get-list-card']('callAjax', lastFilter, 'delete')
+          :
+            cardContainer['get-list-card']('callAjax', 'delete');
           $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
           ele.parent().addClass(opts.hideClass);
         } else {
@@ -445,12 +465,13 @@
       type: privateOpts.method,
       url: $(opts.updateCardDetailId).val(),
       dataType: 'json',
+      cache: false,
       data: {
         card_id: ele.data().cardFrom.id,
         name: that.vars.cardName.val().trim(),
         description: that.vars.editDescriptionInput.val().trim(),
-        priority: ele.data().cardFrom.priority,
-        phase: ele.data().cardFrom.phase,
+        // priority: ele.data().cardFrom.priority,
+        // phase: ele.data().cardFrom.phase,
         board_id: $(opts.board_id).val(),
         location: location
         // deadline: deadline
@@ -486,14 +507,15 @@
       type: privateOpts.method,
       url: $(opts.updateCardDetailId).val(),
       dataType: 'json',
+      cache: false,
       data: {
         card_id: ele.data().cardFrom.id,
         name: that.vars.cardName.val().trim(),
         description: that.vars.editDescriptionInput.val().trim(),
-        priority: ele.data().cardFrom.priority,
-        phase: ele.data().cardFrom.phase,
+        // priority: ele.data().cardFrom.priority,
+        // phase: ele.data().cardFrom.phase,
         board_id: $(opts.board_id).val(),
-        location: that.vars.locationDetail.text().trim(),
+        // location: that.vars.locationDetail.text().trim(),
         expired_at: deadline
       },
       success: function(result) {
@@ -502,6 +524,7 @@
           that.vars.deadlineToggle.find('.hour').text(that.vars.deadlineTime.val().trim());
           that.vars.deadlineToggle.find('.detail').removeClass(opts.hideClass);
           that.vars.deadlineModal.modal('hide');
+          that.reRenderAcivity();
         }
       },
       error: function() {
@@ -603,15 +626,20 @@
         get hideMessageBtn() {
           return this.deadlineModal.find(opts.dataHideMessage);
         },
-        validFileTypes: 'gif,png,jpg,jpeg,doc,dot,wbk,docx,docm,dotx,dotm,docb,xls,xlt,xlm,xlsx,xlsm,xltx,xltm,xlsb,xla,xlam,xll,xlw' + opts.validTypes
+        validFileTypes: 'png,jpg,jpeg' + opts.validTypes,
+        validFileTypesCardAttach: 'jpg,png,jpeg,bmp' + opts.validTypesCardAttach
       };
 
       setUp(this);
       this.resetDateTime();
       this.vars.locationDetail.off('click.' + pluginName).on('click.' + pluginName, function() {
-        that.vars.locationInput.val($(this).text().trim());
-        $(this).addClass(opts.hideClass);
-        that.vars.locationInput.data('initValue', $(this).text()).removeClass(opts.hideClass).focus();
+        if ($(opts.isAdminId).val() === '1') {
+          that.vars.locationInput.val($(this).text().trim());
+          $(this).addClass(opts.hideClass);
+          that.vars.locationInput.data('initValue', $(this).text()).removeClass(opts.hideClass).focus();
+        } else {
+          $('#access-denied-modal').modal('show');
+        }
       });
       this.vars.locationInput
         .off('keydown.' + pluginName).on('keydown.' + pluginName, function(e) {
@@ -751,6 +779,7 @@
             showImagePreview(file, that.vars.commentFile, that.vars.imagePreview, opts);
             that.vars.addCommentBtn.removeClass(opts.disabledClass);
           } else {
+            $('#invalid-file-modal .modal-dialog').css({'top': 0});
             $('#invalid-file-modal').modal('show');
             $(this).val('');
           }
@@ -805,8 +834,16 @@
         }
       });
       this.vars.cardAttachBtn.off('change.' + pluginName).on('change.' + pluginName, function() {
+        var file = this.files[0];
+
         if ($(this).val() !== '') {
-          cardAttachmentAjax.call(that, $(this));
+          if (that.vars.validFileTypesCardAttach.indexOf(file.type.split('/')[1]) > -1) {
+            cardAttachmentAjax.call(that, $(this));
+          } else {
+            $('#invalid-file-modal .modal-dialog').css({'top': 0});
+            $('#invalid-file-modal').modal('show');
+            $(this).val('');
+          }
         }
       });
       this.vars.activityContainer
@@ -911,20 +948,26 @@
         })
         .off('change.' + pluginName).on('change.' + pluginName, opts.dataEditAttachment, function() {
           var file = this.files[0],
-              attachBtn = $(this),
-              currentComment = attachBtn.parents(opts.dataCommentId),
-              fileNameBlock = currentComment.find(opts.dataFileName),
-              imagePreview = currentComment.find(opts.commentImgClass + ' img'),
-              fancyBox = currentComment.find(opts.commentImgClass + ' a');
-
-          if (!imagePreview.length) {
-            currentComment.find(opts.editContentClass).after('<div class="comment-img"><img/></div>');
-            imagePreview = currentComment.find(opts.commentImgClass + ' img');
-          }
-          if (file) {
-            showImagePreview(file, fileNameBlock, imagePreview, opts, fancyBox);
+            attachBtn = $(this),
+            currentComment = attachBtn.parents(opts.dataCommentId),
+            fileNameBlock = currentComment.find(opts.dataFileName),
+            imagePreview = currentComment.find(opts.commentImgClass + ' img'),
+            fancyBox = currentComment.find(opts.commentImgClass + ' a');
+            
+          if (that.vars.validFileTypesCardAttach.indexOf(file.type.split('/')[1]) > -1) {
+            if (!imagePreview.length) {
+              currentComment.find(opts.editContentClass).after('<div class="comment-img"><img/></div>');
+              imagePreview = currentComment.find(opts.commentImgClass + ' img');
+            }
+            if (file) {
+              showImagePreview(file, fileNameBlock, imagePreview, opts, fancyBox);
+            } else {
+              return;
+            }
           } else {
-            return;
+            $('#invalid-file-modal .modal-dialog').css({'top': ele.parent().scrollTop()});
+            $('#invalid-file-modal').modal('show');
+            $(this).val('');
           }
         });
       this.vars.typeToggle.off('click.' + pluginName).on('click.' + pluginName, function() {
@@ -1016,6 +1059,8 @@
           $(this).addClass(opts.hideClass);
           $(opts.confirmModalClass).modal('hide');
           that.vars.priorityList.addClass(opts.hideClass);
+          $('#typeSelect').removeData('card-type');
+          $('[data-card-type-item]').removeClass('active');
         }
         that.vars.deleteCommentBtns.removeClass(opts.highLightClass);
       });
@@ -1048,6 +1093,69 @@
       this.vars.deadlineTime.val(time);
       this.vars.warningMessage.addClass(opts.hideClass);
       this.vars.failMessage.addClass(opts.hideClass);
+    },
+    reRenderAcivity: function() {
+      var that = this,
+          ele = this.element,
+          opts = this.options;
+
+      $.ajax({
+        type: opts.methodRenderActivity,
+        url: $(opts.getCardDetail).val(),
+        dataType: 'json',
+        cache: false,
+        data: {
+          card_id: ele.data().cardFrom.id
+        },
+        success: function (result) {
+          if (parseInt(result.data.activity.total === 0)) {
+            that.vars.activitySection.parent().addClass(opts.hideClass);
+          } else {
+            var activityBlock = '';
+            result.data.activity.activities.forEach(function (act, index) {
+              if (act.is_editable === '0') {
+                if (act.attachment_link !== null) {
+                  activityBlock += activityNotEditable.replace('#{{comment-id}}', act.id).replace('#{{short-name}}', act.short_name).replace('#{{full-name}}', act.full_name).replace('#{{activity}}', act.content.replace(/&gt;/g, '>').replace(/&lt;/g, '<')).replace('#{{img-src}}', act.attachment_link).replace('#{{created-at}}', act.created_at).replace('#{{image-preview}}', imagePreview.replace('#{{hide}}', '').replace(/#{{img-src}}/g, act.attachment_link).replace(/#{{img-alt}}/g, act.attachment_name).replace('#{{attachment-id}}', act.attachment_id));
+                } else {
+                  activityBlock += activityNotEditable.replace('#{{comment-id}}', act.id).replace('#{{short-name}}', act.short_name).replace('#{{full-name}}', act.full_name).replace('#{{activity}}', act.content).replace('#{{img-src}}', act.attachment_link).replace('#{{created-at}}', act.created_at).replace('#{{image-preview}}', '');
+                }
+              } else {
+                if (act.attachment_link !== null) {
+                  activityBlock += activityEditable.replace('#{{comment-id}}', act.id).replace('#{{short-name}}', act.short_name).replace('#{{full-name}}', act.full_name).replace('#{{comment-content}}', act.content.replace(/(?:\\r\\n|\\r|\\n|\n)/g, '<br/>')).replace(/#{{index}}/g, index).replace('#{{img-src}}', act.attachment_link).replace('#{{created-at}}', act.created_at).replace('#{{image-preview}}', imagePreview.replace('#{{hide}}', '').replace(/#{{img-src}}/g, act.attachment_link).replace(/#{{img-alt}}/g, act.attachment_name).replace('#{{attachment-id}}', act.attachment_id)).replace('#{{hide}}', '').replace('#{{file}}', file_name.replace('#{{file-name}}', act.attachment_name)).replace('#{{hide-comment}}', function () {
+                    if (act.content.length) {
+                      return '';
+                    } else {
+                      return opts.hideClass;
+                    }
+                  });
+                } else {
+                  activityBlock += activityEditable.replace('#{{comment-id}}', act.id).replace('#{{short-name}}', act.short_name).replace('#{{full-name}}', act.full_name).replace('#{{comment-content}}', act.content.replace(/(?:\\r\\n|\\r|\\n|\n)/g, '<br/>')).replace(/#{{index}}/g, index).replace('#{{img-src}}', act.attachment_link).replace('#{{created-at}}', act.created_at).replace('#{{image-preview}}', '').replace('#{{hide}}', ' ' + opts.hideClass).replace('#{{file}}', '').replace('#{{hide-comment}}', function () {
+                    if (act.content.length) {
+                      return '';
+                    } else {
+                      return opts.hideClass;
+                    }
+                  });
+                }
+                if (act.created_at === act.modified_at) {
+                  activityBlock = activityBlock.replace('#{{edited}}', '');
+                } else {
+                  activityBlock = activityBlock.replace('#{{edited}}', '<span class="edited" title="' + act.modified_at + '"> (' + opts.editedText + ')</span>');
+                }
+                if (act.allow_edit) {
+                  activityBlock = activityBlock.replace('#{{edit-btn}}', editBtn);
+                } else {
+                  activityBlock = activityBlock.replace('#{{edit-btn}}', '');
+                }
+              }
+            });
+            that.vars.activityContainer.html(activityBlock);
+          }
+        },
+        error: function (xhr) {
+          that.vars.activityContainer.html('<p class="errorText">' + xhr.status + ' ' + xhr.statusText + '</p>');
+        }
+      });
     },
     destroy: function() {
       $.removeData(this.element[0], pluginName);
@@ -1139,6 +1247,7 @@
     downloadText: 'View',
     deleteText: 'Delete',
     updateCardDetailId: '#update-card-detail',
+    getCardDetail: '#get-card-detail',
     deadlineId: '#deadline-modal',
     board_id: '#board-id',
     isAdminId: '#is-admin',

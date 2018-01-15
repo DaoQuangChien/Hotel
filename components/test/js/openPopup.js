@@ -39,8 +39,12 @@
         if (that.offset().left + targetWidth > limitLeft) {
           target.css({left: limitLeft - targetWidth + 'px'});
         } else {
-          moveToMiddle = that.offset().left + (Math.round(that.outerWidth()) - target.outerWidth())/2;
-          target.css({left: moveToMiddle + 'px'});
+          if (opts.leftAligned) {
+            target.css({left: that.offset().left + 'px'});
+          } else {
+            moveToMiddle = that.offset().left + (Math.round(that.outerWidth()) - target.outerWidth())/2;
+            target.css({left: moveToMiddle + 'px'});
+          }
         }
 
         if (that.offset().top + targetHeight > limitBottom) {
@@ -80,14 +84,23 @@
         } else {
           var ele = $(this),
               memberEle = ele.is(opts.dataUserId) ? ele : ele.find(opts.dataUserId),
+              currentCardType = ele.closest('tr'),
               companyId = '',
               tableId = '',
-              memberItem = {};
+              phaseId = '',
+              memberItem = {},
+              typeItem = {};
   
           ele.closest(opts.dataCompanyId).length ? companyId = ele.closest(opts.dataCompanyId).data().companyId : null;
           ele.closest(opts.dataBroadId).length ? tableId = ele.closest(opts.dataBroadId).data().boardId : null;
+          ele.closest(opts.dataPhase).length ? phaseId = ele.closest(opts.dataPhase).data().phase : null;
+          if (currentCardType.length) {
+            typeItem.type_id = currentCardType.find('[data-type-id]').text();
+            typeItem.type_name = currentCardType.find('[data-type-name]').text();
+          }
           this.optsPrivate = $.extend({}, ele.data());
           var target = $('[data-target-popup="' + this.optsPrivate.target + '"]');
+
           if (memberEle.length) {
             memberItem.full_name = memberEle.attr('title');
             memberItem.id = memberEle.data().userId;
@@ -100,22 +113,38 @@
           }
           target.data('company-from', companyId);
           target.data('table-from', tableId);
+          target.data('phase-from', phaseId);
           target.data('member-from', memberItem);
+          target.data('type-from', typeItem);
           if (!opts.notClearInput) {
             target.find('input').eq(0).val('').focus();
           } else {
             target.find('input').eq(0).val(target.find('input').eq(0).data().cardType);
           }
-  
+          if ($('html').attr('class').indexOf(' ie') > -1) {
+            var contentContainer = $(this).siblings('[data-swap-content]');
+
+            contentContainer.css({'max-height': parseInt(contentContainer.css('max-height')) - 106});
+          }
           if (this.optsPrivate.target === opts.targets.update) {
             target.find('input').eq(0).val(ele.closest(opts.dataParent).attr('title')).select();
+          }
+          if (this.optsPrivate.target === opts.targets.filterCard) {
+            target.find('input').eq(0).val('');
           }
         }
       });
 
       $('body').off('click.not-focus').on('click.not-focus', function(e) {
         if ($(e.target).closest(opts.dataTargetPopup).length === 0) {
-          $(opts.dataTargetPopup).not(opts.modalClass).addClass(opts.hideClass);
+          if ($('html').attr('class').indexOf(' ie') > -1) {
+            var contentContainer = $(opts.dataTargetPopup).not('.hide').siblings('[data-swap-content]');
+
+            contentContainer.css({'max-height': parseInt(contentContainer.css('max-height')) + 106});
+          }
+          $(opts.dataTargetPopup).not(opts.modalClass)
+            .removeData('type-from')
+            .addClass(opts.hideClass);
           if ($(e.target).is(opts.overLayClass)) {
             $(e.target).addClass(opts.hideClass);
           }
@@ -147,10 +176,12 @@
     dataCompanyId: '[data-company-id]',
     dataBroadId: '[data-board-id]',
     dataUserId: '[data-user-id]',
+    dataPhase: '[data-phase]',
     overLayClass: '.screen-overlay',
     isAdminId: '#is-admin',
     targets: {
-      update: 'update'
+      update: 'update',
+      filterCard: 'filterCard'
     }
   };
 

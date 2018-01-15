@@ -31,6 +31,11 @@
             .find(opts.dataLimitWord + ':last')['limit-word']();
           that.vars.textArea.val('');
           that.element.addClass(opts.hideClass);
+          if ($('html').attr('class').indexOf(' ie') > -1) {
+            var contentContainer = that.element.siblings('[data-swap-content]');
+
+            contentContainer.css({ 'max-height': parseInt(contentContainer.css('max-height')) + 106 });
+          }
           $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
         }
       },

@@ -3,11 +3,10 @@
 
   var pluginName = 'get-detail',
       attachmentImgEle = '<div class="block-file clearfix" data-attachment-id="#{{id}}"><div class="preview"><a href="#{{link}}" data-caption="#{{file-name}}" data-fancybox="groupAttachment"><img src="#{{img-src}}" alt="#{{alt}}" class="preview-img"/></a></div><div class="file-info"><h4 class="file-name">#{{file-name}}</h4><span class="subtitle">#{{created-at}}</span><a href="#{{link}}" title="#{{downloadText}}" class="icon-image">#{{downloadText}}</a><a href="#" title="#{{removeText}}" class="icon-close" data-remove>#{{removeText}}</a></div></div>',
-      attachmentCommnEle = '<div class="block-file clearfix" data-attachment-id="#{{id}}"><div class="preview"><p class="file-type">#{{file-type}}</p></div><div class="file-info"><h4 class="file-name">#{{file-name}}</h4><span class="subtitle">#{{created-at}}</span><a href="#{{link}}" title="#{{downloadText}}" class="icon-image">#{{downloadText}}</a><a href="#" title="#{{removeText}}" class="icon-close" data-remove>#{{removeText}}</a></div></div>',
+      attachmentCommnEle = '<div class="block-file clearfix" data-attachment-id="#{{id}}"><div class="preview"><p class="file-type"><a class="application-file" data-fancybox="groupAttachment" href="#{{link}}">#{{file-type}}</a></p></div><div class="file-info"><h4 class="file-name">#{{file-name}}</h4><span class="subtitle">#{{created-at}}</span><a href="#{{link}}" title="#{{downloadText}}" class="icon-image">#{{downloadText}}</a><a href="#" title="#{{removeText}}" class="icon-close" data-remove>#{{removeText}}</a></div></div>',
       activityEditable = '<div class="block-activity" data-editable data-comment-id="#{{comment-id}}"><span class="member">#{{short-name}}</span><p class="member-name">#{{full-name}}</p><div class="comment-content #{{hide-comment}}">#{{comment-content}}</div><div class="edit-content hide"><div class="form-group"><div class="comment-box"><textarea data-fluid-height rows="3" data-min-rows="3" class="input-paragraph"></textarea><label for="comment-attachment-#{{index}}" class="icon-attachment"></label><input data-edit-attachment id="comment-attachment-#{{index}}" type="file" class="hide"></div><div data-file-name class="comment-file#{{hide}}">#{{file}}<span data-remove-edit-file class="icon-close"></span></div><button data-save-edit class="create">Save</button><button data-close-edit class="negative"><span class="icon-close"></span></button></div></div>#{{image-preview}}<div class="bottom-comment"><span class="date">#{{created-at}}</span>#{{edited}}#{{edit-btn}}</div></div>',
       activityNotEditable = '<div class="block-activity" data-comment-id="#{{comment-id}}"><span class="member">#{{short-name}}</span><p class="member-name">#{{full-name}}<span class="activity-no-comment"> #{{activity}}</span></p>#{{image-preview}}<div class="bottom-comment"><span class="date">#{{created-at}}</span></div></div>',
       imagePreview = '<div class="comment-img#{{hide}}"><a href="#{{img-src}}" data-caption="#{{img-alt}}" data-fancybox><img src="#{{img-src}}" alt="#{{img-alt}}" data-attachment-id="#{{attachment-id}}"/></a></div>',
-      // cardTypeItem = '<li data-card-type-item data-type-id="#{{type-id}}"><a href="#" title="#{{card-type}}">#{{card-type}}</a></li>',
       file_name = '<span class="file-name">#{{file-name}}</span>',
       editBtn = '<span class="edit split" data-edit-comment>Edit</span><span class="delete split" data-delete>Delete</span>';
   
@@ -49,12 +48,18 @@
           }).addClass('priority-' + result.data.priority).trigger('focus').trigger('input').trigger('blur');
           that.vars.phaseName.html(phaseName);
           that.vars.phaseName.html(result.data.creator);
+          that.vars.locationInput.val('');
           if (result.data.location && result.data.location.length) {
             that.vars.locationDetail.html(result.data.location);
+            that.vars.locationDetail.removeClass(opts.hideClass);
             that.vars.locationInput.addClass(opts.hideClass);
           } else {
             that.vars.locationDetail.addClass(opts.hideClass);
-            that.vars.locationInput.removeClass(opts.hideClass);
+            if ($(opts.isAdminId).val() === '1') {
+              that.vars.locationInput.removeClass(opts.hideClass);
+            } else {
+              that.vars.locationInput.addClass(opts.hideClass);
+            }
           }
           if (result.data.description) {
             that.vars.showDescriptionInput.addClass(opts.hideClass);
@@ -78,7 +83,7 @@
               if (attach.file_type.indexOf('image') > -1) {
                 attachmentBlock += attachmentImgEle.replace('#{{img-src}}', attach.link).replace('#{{alt}}', attach.file_name).replace(/#{{file-name}}/g, attach.file_name).replace('#{{created-at}}', attach.created_at).replace(/#{{downloadText}}/g, opts.downloadText).replace(/#{{removeText}}/g, opts.removeText).replace(/#{{link}}/g, attach.link).replace('#{{id}}', attach.id);
               } else {
-                attachmentBlock += attachmentCommnEle.replace('#{{file-type}}', attach.file_type).replace('#{{file-name}}', attach.file_name).replace('#{{created-at}}', attach.created_at).replace(/#{{downloadText}}/g, opts.downloadText).replace(/#{{removeText}}/g, opts.removeText).replace('#{{link}}', attach.link).replace('#{{id}}', attach.id);
+                attachmentBlock += attachmentCommnEle.replace('#{{file-type}}', attach.file_type).replace('#{{file-name}}', attach.file_name).replace('#{{created-at}}', attach.created_at).replace(/#{{downloadText}}/g, opts.downloadText).replace(/#{{removeText}}/g, opts.removeText).replace(/#{{link}}/g, attach.link).replace('#{{id}}', attach.id);
               }
             });
             that.vars.attachmentSection.html(attachmentBlock);
@@ -136,15 +141,6 @@
             });
             that.vars.activitySection.html(activityBlock);
           }
-          // that.vars.listCardType.find(opts.dataCardTypeItem).remove();
-          // if (result.data.list_type && result.data.list_type.length) {
-          //   var listTypeItem = '';
-          //   result.data.list_type.forEach(function (type) {
-          //     listTypeItem += cardTypeItem.replace(/#{{card-type}}/g, type.name).replace('#{{type-id}}', type.id);
-          //   });
-          //   that.vars.listCardType.append(listTypeItem);
-          //   that.vars.cardTypeEle['card-type']('getTypeItem');
-          // }
           that.vars.cardTypeEle.data('card-from', cardObj);
           if (result.data.type_id) {
             that.vars.cardTypeEle.filter(function() {
@@ -159,30 +155,15 @@
           }
           if (result.data.expired_at && result.data.expired_at.length) {
             var deadline = result.data.expired_at.split(' ');
-            that.vars.deadlineToggle.find('.hour').text(deadline[1]);
+            that.vars.deadlineToggle.find('.hour').text(deadline[1].substring(0, deadline[1].lastIndexOf(':')));
             that.vars.deadlineToggle.find('.date').text(deadline[0]);
+            that.vars.deadlineToggle.find('.detail').removeClass(opts.hideClass);
           } else {
-            // var now = new Date(),
-            //     date = $.datepicker.formatDate('dd/mm/yy', now),
-            //     time = addZero(now.getHours()) + ':' + addZero(now.getMinutes());
             that.vars.deadlineToggle.find('.detail').addClass(opts.hideClass);
             that.vars.deadlineToggle.find('.hour').text('');
             that.vars.deadlineToggle.find('.date').text('');
           }
           that.vars.editCard['edit-card']('resetDateTime');
-          // if (result.data.deadline && result.data.deadline.length) {
-          //   var deadline = result.data.deadline.split(' ');
-          //   that.vars.deadlineToggle.find('.hour').text(deadline[1]);
-          //   that.vars.deadlineToggle.find('.date').text(deadline[0]);
-          // } else {
-          //   var now = new Date(),
-          //       date = $.datepicker.formatDate('dd/mm/yy', now),
-          //       time = addZero(now.getHours()) + ':' + addZero(now.getMinutes());
-
-          //   that.vars.deadlineToggle.find('.hour').text(time);
-          //   that.vars.deadlineToggle.find('.date').text(date);
-          // }
-          // that.vars.editCard['edit-card']('resetDateTime');
         }
       },
       error: function(xhr) {
@@ -324,7 +305,8 @@
     hideClass: 'hide',
     disabledClass: 'disabled',
     textFail: 'An error occured',
-    removeText: 'Remove'
+    removeText: 'Remove',
+    isAdminId: '#is-admin'
   };
 
   $(function() {

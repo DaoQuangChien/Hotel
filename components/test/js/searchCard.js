@@ -64,10 +64,10 @@
   Plugin.prototype = {
     init: function() {
       var that = this,
-        ele = this.element,
-        opts = this.options,
-        input = '',
-        maxHeight = $(window).height() - 164;
+          ele = this.element,
+          opts = this.options,
+          input = '',
+          maxHeight = $(window).height() - 164;
       this.vars = {
         input: ele.find(opts.input),
         list: ele.find(opts.list),
@@ -86,7 +86,8 @@
         }
       });
       this.vars.input.off('keyup.' + pluginName).on('keyup.' + pluginName, function() {
-        input = $(this).val().toLowerCase();
+        input = $(this).val().toLowerCase().trim();
+        that.vars.showMore.addClass(opts.hideClass);
         if (input.length) {
           clearTimeout(that.vars.timeOutSearch);
           that.vars.timeOutSearch = setTimeout(function() {
