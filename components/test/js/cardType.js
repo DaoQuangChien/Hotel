@@ -296,29 +296,29 @@
         }
       });
     },
-    updateAfterAdded: function(data) {
-      var opts = this.options,
-          cardTypeItem = opts.mode === 'table' ? '<tr><td data-type-id>#{{type-id}}</td><td data-type-name>#{{card-type}}</td><td><div class="btn-group"><button class="btn btn-warning dropdown-toggle" data-open-popup, data-target="modifiedType", data-set-pos="true", data-left-aligned="true">#{{action-text}}&nbsp;<span class="caret"></span></button></div></td></tr>' : '<li data-card-type-item data-type-id="#{{type-id}}"><a href="#" title="#{{card-type}}">#{{card-type}}</a></li>';
+    // updateAfterAdded: function(data) {
+    //   var opts = this.options,
+    //       cardTypeItem = opts.mode === 'table' ? '<tr><td data-type-id>#{{type-id}}</td><td data-type-name>#{{card-type}}</td><td><div class="btn-group"><button class="btn btn-warning dropdown-toggle" data-open-popup, data-target="modifiedType", data-set-pos="true", data-left-aligned="true">#{{action-text}}&nbsp;<span class="caret"></span></button></div></td></tr>' : '<li data-card-type-item data-type-id="#{{type-id}}"><a href="#" title="#{{card-type}}">#{{card-type}}</a></li>';
 
-      if (opts.mode === 'table') {
-        this.vars.listTypeTable.prepend(cardTypeItem.replace('#{{card-type}}', data.name).replace('#{{type-id}}', data.id).replace('#{{action-text}}', opts.actionText).replace(/#{{modified-text}}/g, opts.modifiedText).replace(/#{{delete-text}}/g, opts.deleteText));
-        this.vars.listTypeTable.find('.dropdown-toggle:first')['open-popup']();
-      } else {
-        this.vars.listType.find('[data-card-type-item]').length ? this.vars.listType.find('[data-card-type-item]').first().before(cardTypeItem.replace(/#{{card-type}}/g, data.name).replace('#{{type-id}}', data.id)) : this.vars.listType.html(cardTypeItem.replace(/#{{card-type}}/g, data.name).replace('#{{type-id}}', data.id));
-        this.getTypeItem();
-      }
-    },
-    updateAfterModified: function(data) {
-      var opts = this.options;
+    //   if (opts.mode === 'table') {
+    //     this.vars.listTypeTable.prepend(cardTypeItem.replace('#{{card-type}}', data.name).replace('#{{type-id}}', data.id).replace('#{{action-text}}', opts.actionText).replace(/#{{modified-text}}/g, opts.modifiedText).replace(/#{{delete-text}}/g, opts.deleteText));
+    //     this.vars.listTypeTable.find('.dropdown-toggle:first')['open-popup']();
+    //   } else {
+    //     this.vars.listType.find('[data-card-type-item]').length ? this.vars.listType.find('[data-card-type-item]').first().before(cardTypeItem.replace(/#{{card-type}}/g, data.name).replace('#{{type-id}}', data.id)) : this.vars.listType.html(cardTypeItem.replace(/#{{card-type}}/g, data.name).replace('#{{type-id}}', data.id));
+    //     this.getTypeItem();
+    //   }
+    // },
+    // updateAfterModified: function(data) {
+    //   var opts = this.options;
 
-      if (opts.mode === 'table') {
-        this.vars.listTypeTable.find(opts.dataTypeId).filter(function() {
-          return $(this).text() === data.id;
-        }).next(opts.dataTypeName).text(data.name);
-      } else {
-        this.vars.listType.find('[data-type-id=' + data.id + '] a').text(data.name);
-      }
-    },
+    //   if (opts.mode === 'table') {
+    //     this.vars.listTypeTable.find(opts.dataTypeId).filter(function() {
+    //       return $(this).text() === data.id;
+    //     }).next(opts.dataTypeName).text(data.name);
+    //   } else {
+    //     this.vars.listType.find('[data-type-id=' + data.id + '] a').text(data.name);
+    //   }
+    // },
     deleteType: function(id) {
       var opts = this.options;
 
@@ -349,19 +349,20 @@
 
       inputType.data('type-selection', {id: id, name: this.vars.listType.find('[data-type-id=' + id + '] a').text()});
     },
-    updateTypeInput: function(id, isCreate) {
+    updateTypeInput: function(id) {
       var opts = this.options,
-          inputType = this.vars.typeSelect.filter(opts.typeSelectId),
-          inputData = inputType.data();
+          inputType = this.vars.typeSelect.filter(opts.typeSelectId);
+          // inputData = inputType.data();
 
-      if (isCreate === -1) {
-        inputType.data('card-type', {id: isCreate, name: this.vars.listType.find('[data-type-id=' + id + '] a').text()});
-        if (inputData && inputData.cardType) {
-          inputType.data('card-type', $.extend(inputType.data().cardType, {currentName: inputData.cardType.name}));
-        }
-      } else {
-        inputType.data('card-type', {id: id, name: this.vars.listType.find('[data-type-id=' + id + '] a').text()});
-      }
+      // if (isCreate === -1) {
+      //   inputType.data('card-type', {id: isCreate, name: this.vars.listType.find('[data-type-id=' + id + '] a').text()});
+      //   if (inputData && inputData.cardType) {
+      //     inputType.data('card-type', $.extend(inputType.data().cardType, {currentName: inputData.cardType.name}));
+      //   }
+      // } else {
+      //   inputType.data('card-type', {id: id, name: this.vars.listType.find('[data-type-id=' + id + '] a').text()});
+      // }
+      inputType.data('card-type', {id: id, name: this.vars.listType.find('[data-type-id=' + id + '] a').text()});
     },
     activeTypeItem: function(id) {
       var opts = this.options;
