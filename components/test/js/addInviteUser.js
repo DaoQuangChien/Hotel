@@ -13,6 +13,7 @@
       type: opts.method,
       url: $(opts.inviteMemberLink).val(),
       dataType: 'json',
+      cache: false,
       data: {
         board_id: $(opts.boardId).val(),
         member_id: that.vars.memberInfo.data().userId

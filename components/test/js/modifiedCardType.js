@@ -1,4 +1,4 @@
-; (function ($, window, undefined) {
+; (function($, window, undefined) {
   'use strict';
 
   var pluginName = 'modified-card-type';
@@ -10,7 +10,7 @@
   }
 
   Plugin.prototype = {
-    init: function () {
+    init: function() {
       var that = this,
           ele = this.element,
           opts = this.options;
@@ -24,10 +24,10 @@
           that.vars.typeInput.focus();
         } else {
           var cardType = that.vars.typeInput.data().cardType,
-              applyTypeModal = $(opts.dataCardType).filter(function () {
+              applyTypeModal = $(opts.dataCardType).filter(function() {
                 return $(this).data().activeItem;
               }),
-              // currentCardType = applyTypeModal.find('#typeSelect').data(),
+              currentCardType = applyTypeModal.find('#typeSelect').data().cardType,
               method = cardType ? opts.methodUpdate : opts.methodCreate,
               data = cardType ? {type_id: cardType.id, name: that.vars.typeInput.val()} : {name: that.vars.typeInput.val()};
 
@@ -39,30 +39,28 @@
             data: data,
             success: function(result) {
               if (result.status) {
-                result.data.id ?
-                  $(opts.dataCardType)['card-type']('getListType', '', result.data.id.toString())
-                :
-                  $(opts.dataCardType)['card-type']('getListType', '');
+                var requests = (result.data && result.data.id) ? $(opts.dataCardType)['card-type']('getListType', '', result.data.id.toString(), true) : $(opts.dataCardType)['card-type']('getListType', '', currentCardType ? currentCardType.tmpId ? currentCardType.tmpId : currentCardType.id : null, (currentCardType && currentCardType.tmpId) ? true : false),
+                    defer = $.when.apply($, requests);
                 if (cardType) {
-                  // $(opts.dataCardType)['card-type']('updateAfterModified', {id: cardType.id, name: that.vars.typeInput.val()});
                   $(opts.dataCardType).filter('[data-mode=search]').find('.card-type-input').val('');
-                  applyTypeModal['card-type']('updateTypeInput', cardType.id);
-                  // if (currentCardType && currentCardType.cardType) {
-                  //   currentCardType.cardType.id.toString() === cardType.id.toString() ?
-                  //   applyTypeModal
-                  //     ['card-type']('updateTypeInput', cardType.id)
-                  //     ['card-type']('updateTypeSelection', cardType.id)
-                  //     ['card-type']('activeTypeItem', cardType.id)
-                  //     ['card-type']('updateCardDetailType')
-                  //   : null;
-                  // }
+                  defer.done(function() {
+                    if (currentCardType && currentCardType.id.toString() === cardType.id.toString()) {
+                      applyTypeModal['card-type']('saveCurrentType', cardType.id);
+                      applyTypeModal['card-type']('updateCardDetailType', data.name);
+                    }
+                    if (currentCardType && currentCardType.tmpId) {
+                      applyTypeModal['card-type']('updateTypeInput', -1, currentCardType.tmpId);
+                    } else {
+                      applyTypeModal['card-type']('updateTypeInput', cardType.id);
+                    }
+                    applyTypeModal['card-type']('updateTypeSelection', cardType.id); 
+                  });
                 } else {
-                  // $(opts.dataCardType)['card-type']('updateAfterAdded', {id: result.data.id, name: that.vars.typeInput.val()});
-                  // applyTypeModal
-                    // ['card-type']('updateTypeInput', result.data.id)
-                    // ['card-type']('updateTypeSelection', result.data.id)
-                    // ['card-type']('activeTypeItem', result.data.id);
-                  applyTypeModal['card-type']('updateTypeInput', result.data.id);
+                  defer.done(function() {
+                    applyTypeModal['card-type']('updateTypeInput', -1, result.data.id);
+                    applyTypeModal['card-type']('updateTypeSelection', result.data.id);
+                    applyTypeModal['card-type']('activeTypeItem', result.data.id);
+                  });
                   ele.data('add-new', true);
                 }
                 that.vars.typeInput.val('');
@@ -73,13 +71,13 @@
         }
       });
     },
-    destroy: function () {
+    destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function (options, params) {
-    return this.each(function () {
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
@@ -99,7 +97,7 @@
     updateCardTypeId: '#update-card-type'
   };
 
-  $(function () {
+  $(function() {
     $('[data-' + pluginName + ']')[pluginName]();
   });
 

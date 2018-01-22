@@ -24,7 +24,7 @@
     result += member_cat.replace('#{{role}}', data.type).replace('#{{cat-name}}', data.type_name);
     result += renderMember(data, opts);
     if (data.users.length < data.total) {
-      result += '<a href="#" title="View more" data-viewmore class="view-more">' + opts.textViewmore + '</a></div>';
+      result += '<a href="#" title="' + opts.textViewmore + '" data-viewmore class="view-more">' + opts.textViewmore + '</a></div>';
     } else {
       result += '</div>';
     }
@@ -35,13 +35,13 @@
     var that = this,
         ele = this.element,
         opts = this.options,
-        // total = 0,
         listUser = '';
 
     $.ajax({
       type: opts.method,
       url: $(opts.getAvailableUserLink).val(),
       dataType: 'json',
+      cache: false,
       data: {
         board_id: $(opts.boardIdEle).val(),
         limit: that.vars.loadmoreObj.limit,
@@ -55,14 +55,9 @@
               limit: opts.limit,
               offset: opts.limit
             };
-            // total += dataList.users.length;
           });
           ele.prepend(listUser);
           ele.find(opts.dataUserId)['open-popup']();
-          // if (result.total > total) {
-          //   that.vars.viewmoreBtn.removeClass(opts.hideClass);
-          // }
-          // that.vars.loadmoreObj.offset += that.vars.loadmoreObj.limit;
         } else {
           ele.html('<p class="errorText">' + opts.errorText + '</p>');
         }
@@ -73,45 +68,41 @@
     });
   };
 
-  var loadmoreAjax = function(btn) {
+  var loadmoreAjax = function(btn, isDelete) {
     var that = this,
         opts = this.options,
         container = btn.parent(),
         type = container.data().role,
-        listUser = '';
+        listUser = '',
+        data = {
+          board_id: $(opts.boardIdEle).val(),
+          limit: isDelete ? 1 : that.vars['loadmore_' + type].limit,
+          offset: isDelete ? that.vars['loadmore_' + type].offset - 1 : that.vars['loadmore_' + type].offset,
+          type: type
+        };
 
     that.vars.is_Click = false;
     $.ajax({
       type: opts.method,
       url: $(opts.getAvailableUserLink).val(),
       dataType: 'json',
-      data: {
-        board_id: $(opts.boardIdEle).val(),
-        limit: that.vars['loadmore_' + type].limit,
-        offset: that.vars['loadmore_' + type].offset,
-        type: type
-      },
+      cache: false,
+      data: data,
       success: function(result) {
         if (result.status) {
-          // for(var n in result.data) {
-
-          // }
-          that.vars['loadmore_' + type].offset += that.vars['loadmore_' + type].limit;
+          if (!isDelete) {
+            that.vars['loadmore_' + type].offset += that.vars['loadmore_' + type].limit;
+          }
           result.data.forEach(function(dataList) {
             if (dataList.type.toString() !== container.data().role.toString()) {
               return;
             }
             listUser = renderMember(dataList, opts);
-            // container.find('[data-role=' + dataList.type + ']').append(listUser);
             btn.before(listUser);
-            // total += dataList.users.length;
             if (dataList.total <= that.vars['loadmore_' + type].offset) {
               btn.addClass(opts.hideClass);
             }
           });
-          // if (result.total <= total) {
-          //   that.vars.viewmoreBtn.addClass(opts.hideClass);
-          // }
           container.find(opts.dataUserId)['open-popup']();
         }
       },
@@ -140,7 +131,6 @@
           opts = this.options;
       this.vars = {
         is_Click: true,
-        // viewmoreBtn: ele.find(opts.dataViewmore),
         loadmoreObj: {
           offset: 0,
           limit: opts.limit
@@ -154,6 +144,9 @@
           loadmoreAjax.call(that, $(this));
         }
       });
+    },
+    loadOneMore: function(btn) {
+      loadmoreAjax.call(this, btn, true);
     },
     destroy: function() {
       $.removeData(this.element[0], pluginName);

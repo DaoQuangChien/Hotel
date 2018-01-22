@@ -47,11 +47,15 @@ block container
               input.invite-member.form-control(placeholder="Invite", data-input-autocomplete)
               ul.list-users.hide(data-list-invitable, data-error-text="Sorry, we can't invite this user")
             .block-member(data-get-list, data-show-list="list-available", data-error-text="Sorry, we can't get this list user")
+          // CHIEN EDIT 22/01
+          .block-email-action
+            a.icon-mail(href="#", title="Email management") Email management
+          // CHIEN EDIT 22/01
           .block-activities
             p.block-title 
               span.icon-activity
               | Activities
-            .list-activities(data-board-activity, data-method="get", data-url="data/getActivitiesLog.json", data-translation={"addText":"Added","failText":"An error has occured: "}, data-limit="10", data-trigger-before=20)
+            .list-activities(data-board-activity, data-method="get", data-url="data/getActivitiesLog.json", data-translation={"addText":"Added","failText":"An error has occured: "}, data-limit="10", data-trigger-before="20")
     .create-modal.hide(data-affect='list')
       header
         p.inline Thao tác
@@ -76,14 +80,24 @@ block container
           span.icon-news.icon-header
           textarea.card-detail-header(data-detail-name, data-fluid-height, data-min-rows="1", rows=1)
           div.subtitle.clearfix
+            // CHIEN EDIT 22/01
             p.author
-              | Create by 
-              span(data-phase-name) aaaaa
+              //- | Create by 
+              //- span(data-phase-name) aaaaa
+              a(href="#", title="aaa").user-tag AAAAA
+            // CHIEN EDIT 22/01
             div.location
               p.location-detail(data-location-detail)
               input.location-input.hide(name="location", placeholder="Enter location", data-location-input, data-method="get", data-url="data/addLocation.json", error-text="Sorry, we can't update location")
         .detail-container.clearfix
           .content-block
+            // CHIEN EDIT 22/01
+            .assignee-group
+              h4.card-detail-header Assigned users:
+              .list-member
+                a(href="#", title="aaa").user-tag AAAAA
+                //- a(href="#", title="aaa").member AA
+            // CHIEN EDIT 22/01
             .description-group
               h4.card-detail-header 
                 | Description 
@@ -122,6 +136,10 @@ block container
               h4.card-detail-header Activity
               .list-activities(data-list-activities, data-url-edit="data/edit-comment.json", data-url-delete="data/update-card.json", data-method-edit="get", data-method-delete="get")
           ul.action-block
+            // CHIEN EDIT 22/01
+            li(data-toggle="modal", data-target="#assign-user-modal")
+              span.icon-priority.card-action Affect to
+            // CHIEN EDIT 22/01
             li(data-change-priority)
               span.icon-priority.card-action Priority
               ul.priority-opt.hide(data-list-priority, data-url="data/update-card.json")
@@ -161,7 +179,7 @@ block container
                   .col-md-2.label-title
                     label(for="typeSelect").control-label Type:
                   .col-md-10
-                    .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true", data-limit="10", data-mode="update", data-type-text="Type")
+                    .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true", data-limit="10", data-mode="update", data-type-text="Type", tabindex="-1")
                       input.form-control.card-type-input#typeSelect
                       a.dropdown-toggle(href="#")
                         span.caret
@@ -183,11 +201,11 @@ block container
                 .text-errors.invalid.hide
                   .alert.alert-danger
                     a.close(data-hide-message,href="#") x
-                    * Please follow the format.
+                    | * Please follow the format.
                 .text-errors.fail.hide
                   .alert.alert-danger
                     a.close(data-hide-message,href="#") x
-                    * Something wrong happend.
+                    | * Something wrong happend.
                 .form-group.control-group.clearfix
                   .col-md-2
                     label.control-label(for="finish-day") Date
@@ -234,6 +252,53 @@ block container
               .modal-footer.button-group-center
                 a.btn.btn-success(data-delete) Yes
                 a.btn.btn-danger(data-dismiss="modal") No
+        // CHIEN EDIT 22/01
+        #assign-user-modal.confirm-modal.modal.fade
+          .modal-dialog
+            .modal-content
+              .modal-header
+                button.close(type="button",data-dismiss="modal",aria-label="Close")
+                  span(aria-hidden="true") ×
+                h4.modal-title Assign user to this card
+              .modal-body
+                .form-group.control-group.clearfix
+                  .col-md-2.label-title
+                    label(for="userSelect").control-label Type:
+                  .col-md-10
+                    .dropdown.dis-drop.open(data-assign-user, data-method="get", data-active-item="true", data-limit="10", data-mode="update", data-type-text="Type", tabindex="-1")
+                      input.form-control.card-type-input#userSelect(data-input)
+                      a.dropdown-toggle(href="#")
+                        span.caret
+                      ul.dropdown-menu.menu-scroll.hide(data-list-item)
+                        li.no-result No result found
+                        li(data-item)
+                          a(href="#", title="User 1") User 1
+                        li(data-item)
+                          a(href="#", title="User 2") User 2
+                        li(data-item)
+                          a(href="#", title="User 3") User 3
+                //- .table-responsive
+                //-   table.table
+                //-     thead
+                //-       tr
+                //-         th Id
+                //-         th Type
+                //-         th
+                //-           .checkbox-inline
+                //-             label
+                //-               | Action
+                //-               input(type="checkbox", value="")
+                //-     tbody
+                //-       tr
+                //-         td 1
+                //-         td User 1  
+                //-         td
+                //-           label.choose-user
+                //-             input(type="checkbox", value="", data-choosen)
+              .modal-footer.button-group-center
+                button.btn.btn-success(data-accept, data-url="data/update-card.json", data-method="get") Yes
+                button.btn.btn-danger(data-dismiss="modal") No
+        // CHIEN EDIT 22/01
     #access-denied-modal.confirm-modal.modal.fade
       .modal-dialog
         .modal-content
@@ -243,23 +308,6 @@ block container
             h4.modal-title You don't have permission for this action.
           .modal-footer.button-group-center
             a.btn.btn-success(data-dismiss="modal") Ok
-    //- CHIEN EDIT 09/01
-    //- .create-modal.card-type-modal.hide(data-target-popup="cardType", data-error-text="Sorry, we can't delete this comment")
-    //-   header
-    //-     p.inline Select card type
-    //-     span.icon-close(data-close-popup)
-    //-   .form-group.control-group
-    //-     label(for="typeSelect").control-label Type
-    //-     .dropdown.dis-drop.open(data-card-type, data-method="get", data-active-item="true", data-limit=10, data-mode="update")
-    //-       input.form-control.card-type-input#typeSelect
-    //-       a.dropdown-toggle(href="#")
-    //-         span.caret
-    //-       ul.dropdown-menu.menu-scroll.hide(data-list-type)
-    //-         li(data-create-modifield)
-    //-           a(href="#", title="Créer/Modifier", data-toggle="modal", data-target="#card-type-modal") Créer/Modifier
-    //-   .form-group.control-group.button-group-center
-    //-     button.btn.btn-success(data-delete) Yes
-    //-     button.btn.btn-danger(data-close-popup) No
     #card-type-modal.modal.fade
       .modal-dialog
         .modal-content
@@ -286,64 +334,6 @@ block container
                     th Type
                     th Action
                 tbody
-                  //- tr
-                  //-   td 01
-                  //-   td Cleaning
-                  //-   td
-                  //-     .btn-group
-                  //-       button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
-                  //-         | Action&nbsp;
-                  //-         span.caret
-                  //-       ul.dropdown-menu
-                  //-         li
-                  //-           a(href="#", title="Modifier", data-toggle="modal", data-target="#modified-type-modal") Modifier
-                  //-         li
-                  //-           a Supprimer
-                  //- tr
-                  //-   td 01
-                  //-   td Cleaning
-                  //-   td
-                  //-     .btn-group
-                  //-       button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
-                  //-         | Action&nbsp;
-                  //-         span.caret
-                  //-       ul.dropdown-menu
-                  //-         li
-                  //-           a Modifier
-                  //-         li
-                  //-           a Supprimer
-                  //- tr
-                  //-   td 01
-                  //-   td Cleaning
-                  //-   td
-                  //-     .btn-group
-                  //-       button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
-                  //-         | Action&nbsp;
-                  //-         span.caret
-                  //-       ul.dropdown-menu
-                  //-         li
-                  //-           a Modifier
-                  //-         li
-                  //-           a Supprimer
-                  //- tr
-                  //-   td 01
-                  //-   td Cleaning
-                  //-   td
-                  //-     .btn-group
-                  //-       button.btn.btn-warning.dropdown-toggle(data-toggle="dropdown")
-                  //-         | Action&nbsp;
-                  //-         span.caret
-                  //-       ul.dropdown-menu
-                  //-         li
-                  //-           a Modifier
-                  //-         li
-                  //-           a Supprimer
-          //- .modal-footer.button-group-center
-          //-   ul.pagination
-          //-     li.active
-          //-       a(href="#",title="1") 1
-          //-     li
-          //-       a(href="#",title="2") 2
     #modified-type-modal.modal.fade(data-modified-card-type, data-method-create="get", data-method-update="get")
       .modal-dialog
         .modal-content
@@ -400,13 +390,11 @@ block container
       .form-group
         button.btn.btn-success(data-delete) Yes
         button.btn.btn-danger(data-close-popup) No
-    // CHIEN EDIT 15/01
     .modified-type.dropdown-menu.hide(data-target-popup="modifiedType", data-modified-type)
       li
         a(href="#", title="Modifier", data-update-type) Modifier
       li
         a(href="#", title="Supprimer", data-delete-type) Supprimer
-    // CHIEN EDIT 15/01
     //- input(type='hidden', value='data/list-available-user.json')#get-available-user-link
     input(type='hidden', value='data/list-invitable-user.json')#get-user-link
     //- input(type='hidden', value='data/delete-member.json')#delete-member-link

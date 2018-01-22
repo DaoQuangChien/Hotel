@@ -60,7 +60,7 @@
             is_Click = true;
           }
         });
-        ele.off('hidden.bs.modal').on('hidden.bs.modal', function () {
+        ele.off('hidden.bs.modal').on('hidden.bs.modal', function() {
           ele.find('.modal-body').length ? ele.find('.modal-body').remove() : null;
         });
       });

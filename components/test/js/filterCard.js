@@ -1,4 +1,4 @@
-; (function ($, window, undefined) {
+; (function($, window, undefined) {
   'use strict';
 
   var pluginName = 'filter-card';
@@ -10,19 +10,10 @@
   }
 
   Plugin.prototype = {
-    init: function () {
+    init: function() {
       var ele = this.element,
           opts = this.options,
           filterOpt = ele.find(opts.dataFilter);
-      this.vars = {
-        loadmoreObj: {
-          can_loadmore: true,
-          offset: 0,
-          limit: opts.limit
-        },
-        permission: true,
-        is_Loadmore: true
-      };
 
       filterOpt.off('click.' + pluginName).on('click.' + pluginName, function(e) {
         e.preventDefault();
@@ -30,19 +21,20 @@
 
         filterOpt.parent().removeClass(opts.checkedClass);
         $(this).parent().addClass(opts.checkedClass);
-        $('[data-phase=' + ele.data().phaseFrom + '] ' + opts.dataGetListCard)
+        $('[data-phase=' + ele.data().phaseFrom.phaseId + '] ' + opts.dataGetListCard)
           .data('last-filter', data)
           ['get-list-card']('callAjax', data);
-        $(this).parents('[data-' + pluginName + ']').addClass(opts.hideClass);
+        ele.data().phaseFrom.sortItem.data('sort', {'type': data[0], 'direction': data[1]});
+        ele.addClass(opts.hideClass);
       });
     },
-    destroy: function () {
+    destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function (options, params) {
-    return this.each(function () {
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
@@ -61,7 +53,7 @@
     hideClass: 'hide'
   };
 
-  $(function () {
+  $(function() {
     $('[data-' + pluginName + ']')[pluginName]();
   });
 

@@ -1,11 +1,11 @@
-;(function($, window, undefined) {
+; (function($, window, undefined) {
   'use strict';
 
   var pluginName = 'sortable-content';
 
   function startSort(ui, options, opts) {
     if (options.setWidth) {
-      ui.placeholder.width(ui.item.width());  
+      ui.placeholder.width(ui.item.width());
     }
     if (options.setHeight) {
       if (options.followChildrenHeight) {
@@ -21,7 +21,7 @@
     ui.item.removeClass(opts.tiltClass);
   }
 
-  var updateUi = function(opts, ui, sortable) {
+  function updateUi(opts, ui, sortable) {
     $.ajax({
       type: opts.method,
       url: opts.url,
@@ -32,7 +32,7 @@
         position: ui.item.index() + 1
       },
       success: function() {
-        var sender = $(ui.sender).data('sender');
+        var sender = $(ui.sender).find(opts.dataSwapContent).data('sender');
 
         $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
         if (sender && sender.tmpEle) {
@@ -46,10 +46,10 @@
         sortable.sortable('cancel');
       },
       complete: function() {
-        $(opts.dataSwapContent).sortable('enable');
+        $('[sortable-content]').sortable('enable');
       }
     });
-  };
+  }
 
   function Plugin(element, options) {
     this.element = $(element);
@@ -70,30 +70,36 @@
         contentWrapper.css('max-height', ele.height() - ele.find(opts.listHeaderClass).innerHeight() - ele.find(opts.addCardClass).innerHeight() - parseInt(contentWrapper.css('margin-bottom')));
       }
       opts.connect.forEach(function(con) {
-        var tmpConnect = '[data-phase=' + con + '] ' + opts.dataSwapContent;
+        var tmpConnect = '[data-phase=' + con + ']';
         connect.push(tmpConnect);
       });
-      contentWrapper.sortable({
+      ele.sortable({
         connectWith: connect,
         placeholder: opts.placeholderContentClass,
+        items: ' [data-content]',
         tolerance: 'pointer',
         zIndex: 999,
         start: function(e, u) {
-          startSort(u, {setWidth: false, setHeight: true, followChildrenHeight: false}, opts);
-          $(opts.dataSwapContent).sortable('disable');
+          startSort(u, { setWidth: false, setHeight: true, followChildrenHeight: false }, opts);
+          $('[sortable-content]').sortable('disable');
           currentPos = u.item.index();
         },
         stop: function(e, u) {
           stopSort(u, opts);
           if (u.item.index() === currentPos) {
-            $(opts.dataSwapContent).sortable('enable');
+            $('[sortable-content]').sortable('enable');
+          }
+        },
+        over: function(e, u) {
+          if (!$(this).find('[data-content]').length || u.sender && $(this).is(u.sender)) {
+            contentWrapper.append(u.placeholder);
           }
         },
         update: function(e, u) {
-          if (this === u.item.parent()[0]) {
-            updateUi.call(that, opts, u, $(this), contentWrapper);
+          if ($(this).is(u.item.parents('[data-' + pluginName + ']'))) {
+            updateUi.call(that, opts, u, contentWrapper);
           } else {
-            $(this).data('sender', {'tmpEle': $(this), 'lastFilter': $(this).data().lastFilter});
+            contentWrapper.data('sender', { 'tmpEle': contentWrapper, 'lastFilter': contentWrapper.data().lastFilter });
           }
         }
       });

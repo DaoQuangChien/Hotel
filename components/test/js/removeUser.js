@@ -17,6 +17,8 @@
           header = ele.find('header'),
           idTableForm = '',
           deleteEle = null,
+          loadmoreBtn = null,
+          memberContainer = null,
           is_Click = true;
 
       execBtn.off('click.' + pluginName).on('click.' + pluginName, function() {
@@ -25,11 +27,14 @@
         }
         is_Click = false;
         idTableForm = ele.data().memberFrom.id;
-        deleteEle = $(opts.memberClass + '[data-user-id="' + idTableForm + '"]');
+        deleteEle = $(opts.memberClass + '[data-user-id="' + idTableForm + '"]'),
+        loadmoreBtn = deleteEle.siblings('[data-viewmore]'),
+        memberContainer = deleteEle.parents('[data-get-list]');
         $.ajax({
           type: opts.method,
           url: $(opts.deleteMemberLink).val(),
           dataType: 'json',
+          cache: false,
           data: {
             board_id: $(opts.boardId).val(),
             member_id: idTableForm
@@ -37,6 +42,7 @@
           success: function(data) {
             if (data.status) {
               deleteEle.remove();
+              loadmoreBtn.is(':visible') ? memberContainer['get-list']('loadOneMore', loadmoreBtn) : null;
               $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
               ele.addClass(opts.hideClass);
             } else {

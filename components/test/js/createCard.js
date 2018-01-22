@@ -6,6 +6,7 @@
 
   var callAjax = function() {
     var that = this,
+        ele = this.element,
         opts = this.options,
         parentEle = this.element.parents('[data-' + opts.dataParent + ']'),
         cardContainer = this.element.prev(),
@@ -36,6 +37,7 @@
 
             contentContainer.css({ 'max-height': parseInt(contentContainer.css('max-height')) + 106 });
           }
+          ele.trigger('hide.' + pluginName);
           $(opts.dataBoardActivity)['board-activity']('reLoadActivity');
         }
       },
@@ -79,11 +81,15 @@
         callAjax.call(that);
         that.vars.textArea[0].rows = that.vars.textArea.data().minRow;
       });
-
       this.vars.textArea.off('keydown.' + pluginName).on('keydown.' + pluginName, function(e) {
         if (e.keyCode === 13) {
           that.vars.addBtn.click();
           e.preventDefault();
+        }
+      });
+      ele.on('hide.' + pluginName, function() {
+        if ($(this).data().hideEvent) {
+          $(this).data().hideEvent.removeClass(opts.hideClass);
         }
       });
     },

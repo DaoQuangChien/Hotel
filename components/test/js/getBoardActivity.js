@@ -1,4 +1,4 @@
-; (function ($, window, undefined) {
+; (function($, window, undefined) {
   'use strict';
 
   var pluginName = 'board-activity',
@@ -13,7 +13,7 @@
   }
 
   Plugin.prototype = {
-    init: function () {
+    init: function() {
       var that = this,
           ele = this.element,
           opts = this.options;
@@ -58,6 +58,7 @@
         type: opts.method,
         url: opts.url,
         dataType: 'json',
+        cache: false,
         data: {
           board_id: $(opts.boardId).val(),
           limit: that.vars.loadmoreObj.limit,
@@ -100,13 +101,13 @@
         }
       });
     },
-    destroy: function () {
+    destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function (options, params) {
-    return this.each(function () {
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
@@ -124,7 +125,7 @@
     type: 2
   };
 
-  $(function () {
+  $(function() {
     $('[data-' + pluginName + ']')[pluginName]();
   });
 

@@ -1,4 +1,4 @@
-; (function ($, window, undefined) {
+; (function($, window, undefined) {
   'use strict';
 
   var pluginName = 'delete-card-type';
@@ -10,12 +10,12 @@
   }
 
   Plugin.prototype = {
-    init: function () {
+    init: function() {
       var ele = this.element,
           opts = this.options,
           deleteBtn = ele.find(opts.dataAccept);
 
-      deleteBtn.off('click.' + pluginName).on('click.' + pluginName, function () {
+      deleteBtn.off('click.' + pluginName).on('click.' + pluginName, function() {
         $.ajax({
           type: opts.method,
           url: opts.url,
@@ -24,7 +24,7 @@
           data: {
             type_id: ele.data().cardType.id
           },
-          success: function (result) {
+          success: function(result) {
             if (result.status) {
               $(opts.dataCardType)['card-type']('deleteType', ele.data().cardType.id);
               ele.modal('hide');
@@ -36,13 +36,13 @@
         $(this).removeData('card-type');
       });
     },
-    destroy: function () {
+    destroy: function() {
       $.removeData(this.element[0], pluginName);
     }
   };
 
-  $.fn[pluginName] = function (options, params) {
-    return this.each(function () {
+  $.fn[pluginName] = function(options, params) {
+    return this.each(function() {
       var instance = $.data(this, pluginName);
       if (!instance) {
         $.data(this, pluginName, new Plugin(this, options));
@@ -56,13 +56,10 @@
 
   $.fn[pluginName].defaults = {
     dataAccept: '[data-accept]',
-    dataCardType: '[data-card-type]',
-    modifiedCardTypeId: '#modified-card-type',
-    updateCardTypeId: '#add-card-type'
-    // updateCardTypeId: '#update-card-type'
+    dataCardType: '[data-card-type]'
   };
 
-  $(function () {
+  $(function() {
     $('[data-' + pluginName + ']')[pluginName]();
   });
 

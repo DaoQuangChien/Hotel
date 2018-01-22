@@ -4,15 +4,11 @@
   var pluginName = 'get-detail',
       attachmentImgEle = '<div class="block-file clearfix" data-attachment-id="#{{id}}"><div class="preview"><a href="#{{link}}" data-caption="#{{file-name}}" data-fancybox="groupAttachment"><img src="#{{img-src}}" alt="#{{alt}}" class="preview-img"/></a></div><div class="file-info"><h4 class="file-name">#{{file-name}}</h4><span class="subtitle">#{{created-at}}</span><a href="#{{link}}" title="#{{downloadText}}" class="icon-image">#{{downloadText}}</a><a href="#" title="#{{removeText}}" class="icon-close" data-remove>#{{removeText}}</a></div></div>',
       attachmentCommnEle = '<div class="block-file clearfix" data-attachment-id="#{{id}}"><div class="preview"><p class="file-type"><a class="application-file" data-fancybox="groupAttachment" href="#{{link}}">#{{file-type}}</a></p></div><div class="file-info"><h4 class="file-name">#{{file-name}}</h4><span class="subtitle">#{{created-at}}</span><a href="#{{link}}" title="#{{downloadText}}" class="icon-image">#{{downloadText}}</a><a href="#" title="#{{removeText}}" class="icon-close" data-remove>#{{removeText}}</a></div></div>',
-      activityEditable = '<div class="block-activity" data-editable data-comment-id="#{{comment-id}}"><span class="member">#{{short-name}}</span><p class="member-name">#{{full-name}}</p><div class="comment-content #{{hide-comment}}">#{{comment-content}}</div><div class="edit-content hide"><div class="form-group"><div class="comment-box"><textarea data-fluid-height rows="3" data-min-rows="3" class="input-paragraph"></textarea><label for="comment-attachment-#{{index}}" class="icon-attachment"></label><input data-edit-attachment id="comment-attachment-#{{index}}" type="file" class="hide"></div><div data-file-name class="comment-file#{{hide}}">#{{file}}<span data-remove-edit-file class="icon-close"></span></div><button data-save-edit class="create">Save</button><button data-close-edit class="negative"><span class="icon-close"></span></button></div></div>#{{image-preview}}<div class="bottom-comment"><span class="date">#{{created-at}}</span>#{{edited}}#{{edit-btn}}</div></div>',
+      activityEditable = '<div class="block-activity" data-editable data-comment-id="#{{comment-id}}"><span class="member">#{{short-name}}</span><p class="member-name">#{{full-name}}</p><div class="comment-content #{{hide-comment}}">#{{comment-content}}</div><div class="edit-content hide"><div class="form-group"><div class="comment-box"><textarea data-fluid-height rows="3" data-min-rows="3" class="input-paragraph"></textarea><label for="comment-attachment-#{{index}}" class="icon-attachment"></label><input data-edit-attachment id="comment-attachment-#{{index}}" type="file" class="hide"></div><div data-file-name class="comment-file#{{hide}}">#{{file}}<span data-remove-edit-file class="icon-close"></span></div><button data-save-edit class="create">#{{save-text}}</button><button data-close-edit class="negative"><span class="icon-close"></span></button></div></div>#{{image-preview}}<div class="bottom-comment"><span class="date">#{{created-at}}</span>#{{edited}}#{{edit-btn}}</div></div>',
       activityNotEditable = '<div class="block-activity" data-comment-id="#{{comment-id}}"><span class="member">#{{short-name}}</span><p class="member-name">#{{full-name}}<span class="activity-no-comment"> #{{activity}}</span></p>#{{image-preview}}<div class="bottom-comment"><span class="date">#{{created-at}}</span></div></div>',
       imagePreview = '<div class="comment-img#{{hide}}"><a href="#{{img-src}}" data-caption="#{{img-alt}}" data-fancybox><img src="#{{img-src}}" alt="#{{img-alt}}" data-attachment-id="#{{attachment-id}}"/></a></div>',
       file_name = '<span class="file-name">#{{file-name}}</span>',
-      editBtn = '<span class="edit split" data-edit-comment>Edit</span><span class="delete split" data-delete>Delete</span>';
-  
-  // function addZero(n) {
-  //   return (n < 10) ? '0' + n : n;
-  // }
+      editBtn = '<span class="edit split" data-edit-comment>#{{edit-text}}</span><span class="delete split" data-delete>#{{delete-text}}</span>';
 
   var callAjax = function(cardEle, phaseName) {
     var that = this,
@@ -42,7 +38,6 @@
         that.vars.editCard.data('card-from', cardObj);
         if (result.status) {
           that.vars.cardDetail.removeClass(opts.hideClass);
-          // that.vars.cardName['fluid-height']();
           that.vars.cardName.val(result.data.name).removeClass(function(index, className) {
             return (className.match(/(^|\s)priority-\S+/g) || []).join(' ');
           }).addClass('priority-' + result.data.priority).trigger('focus').trigger('input').trigger('blur');
@@ -111,7 +106,7 @@
                 }
               } else {
                 if (act.attachment_link !== null) {
-                  activityBlock += activityEditable.replace('#{{comment-id}}', act.id).replace('#{{short-name}}', act.short_name).replace('#{{full-name}}', act.full_name).replace('#{{comment-content}}', act.content.replace(/(?:\\r\\n|\\r|\\n|\n)/g, '<br/>')).replace(/#{{index}}/g, index).replace('#{{img-src}}', act.attachment_link).replace('#{{created-at}}', act.created_at).replace('#{{image-preview}}', imagePreview.replace('#{{hide}}', '').replace(/#{{img-src}}/g, act.attachment_link).replace(/#{{img-alt}}/g, act.attachment_name).replace('#{{attachment-id}}', act.attachment_id)).replace('#{{hide}}', '').replace('#{{file}}', file_name.replace('#{{file-name}}', act.attachment_name)).replace('#{{hide-comment}}', function() {
+                  activityBlock += activityEditable.replace('#{{comment-id}}', act.id).replace('#{{short-name}}', act.short_name).replace('#{{full-name}}', act.full_name).replace('#{{comment-content}}', act.content.replace(/(?:\\r\\n|\\r|\\n|\n)/g, '<br/>')).replace(/#{{index}}/g, index).replace('#{{save-text}}', opts.saveText).replace('#{{img-src}}', act.attachment_link).replace('#{{created-at}}', act.created_at).replace('#{{image-preview}}', imagePreview.replace('#{{hide}}', '').replace(/#{{img-src}}/g, act.attachment_link).replace(/#{{img-alt}}/g, act.attachment_name).replace('#{{attachment-id}}', act.attachment_id)).replace('#{{hide}}', '').replace('#{{file}}', file_name.replace('#{{file-name}}', act.attachment_name)).replace('#{{hide-comment}}', function() {
                     if (act.content.length) {
                       return '';
                     } else {
@@ -119,7 +114,7 @@
                     }
                   });
                 } else {
-                  activityBlock += activityEditable.replace('#{{comment-id}}', act.id).replace('#{{short-name}}', act.short_name).replace('#{{full-name}}', act.full_name).replace('#{{comment-content}}', act.content.replace(/(?:\\r\\n|\\r|\\n|\n)/g, '<br/>')).replace(/#{{index}}/g, index).replace('#{{img-src}}', act.attachment_link).replace('#{{created-at}}', act.created_at).replace('#{{image-preview}}', '').replace('#{{hide}}', ' ' + opts.hideClass).replace('#{{file}}', '').replace('#{{hide-comment}}', function() {
+                  activityBlock += activityEditable.replace('#{{comment-id}}', act.id).replace('#{{short-name}}', act.short_name).replace('#{{full-name}}', act.full_name).replace('#{{comment-content}}', act.content.replace(/(?:\\r\\n|\\r|\\n|\n)/g, '<br/>')).replace(/#{{index}}/g, index).replace('#{{save-text}}', opts.saveText).replace('#{{img-src}}', act.attachment_link).replace('#{{created-at}}', act.created_at).replace('#{{image-preview}}', '').replace('#{{hide}}', ' ' + opts.hideClass).replace('#{{file}}', '').replace('#{{hide-comment}}', function() {
                     if (act.content.length) {
                       return '';
                     } else {
@@ -133,7 +128,7 @@
                   activityBlock = activityBlock.replace('#{{edited}}', '<span class="edited" title="' + act.modified_at + '"> (' + opts.editedText + ')</span>');
                 }
                 if (act.allow_edit) {
-                  activityBlock = activityBlock.replace('#{{edit-btn}}', editBtn);
+                  activityBlock = activityBlock.replace('#{{edit-btn}}', editBtn.replace('#{{edit-text}}', opts.editText).replace('#{{delete-text}}', opts.deleteText));
                 } else {
                   activityBlock = activityBlock.replace('#{{edit-btn}}', '');
                 }
@@ -143,13 +138,15 @@
           }
           that.vars.cardTypeEle.data('card-from', cardObj);
           if (result.data.type_id) {
-            that.vars.cardTypeEle.filter(function() {
+            var applyModal = that.vars.cardTypeEle.filter(function() {
               return $(this).data().activeItem;
-            })
-              ['card-type']('updateTypeInput', result.data.type_id)
-              ['card-type']('updateTypeSelection', result.data.type_id)
-              ['card-type']('activeTypeItem', result.data.type_id)
-              ['card-type']('updateCardDetailType');
+            });
+
+            applyModal['card-type']('updateTypeInput', result.data.type_id);
+            applyModal['card-type']('updateTypeSelection', result.data.type_id);
+            applyModal['card-type']('activeTypeItem', result.data.type_id);
+            applyModal['card-type']('saveCurrentType', result.data.type_id);
+            applyModal['card-type']('updateCardDetailType');
           } else {
             $(opts.dataTypeToggle).text(opts.typeText);
           }
@@ -172,7 +169,6 @@
       },
       complete: function() {
         that.vars.editCard['edit-card']('getDeleteCommentBtn');
-        // that.vars.cardName['limit-word']('updateText');
         that.vars.activitySection.find(opts.dataFluidHeight)['fluid-height']();
         that.vars.is_Click = true;
       }
@@ -305,7 +301,10 @@
     hideClass: 'hide',
     disabledClass: 'disabled',
     textFail: 'An error occured',
+    editText: 'Edit',
+    deleteText: 'Delete',
     removeText: 'Remove',
+    saveText: 'Save',
     isAdminId: '#is-admin'
   };
 

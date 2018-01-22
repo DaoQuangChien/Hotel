@@ -683,7 +683,6 @@
 }
 .block-menu-action {
   padding-bottom: 10px;
-  margin-bottom: 15px;
   border-bottom: solid 1px @primary-gray;
   .form-group {
     margin-bottom: 10px;
@@ -758,6 +757,29 @@
     }
   }
 }
+.block-email-action {
+  padding: 10px 0;
+  margin-bottom: 15px;
+  border-bottom: solid 1px @primary-gray;
+  .icon-mail {
+    font-size: 17px;
+    display: block;
+    padding: 5px 10px;
+    font-weight: bold;
+    border-radius: 5px;
+    &:before {
+      margin-right: 15px;
+      color: @primary-font-color;
+    }
+    &:hover {
+      text-decoration: none;
+      background-color: @primary-gray;
+      &:before {
+        color: #000;
+      }
+    }
+  }
+}
 .block-activities {
   .block-title {
     text-align: center;
@@ -798,6 +820,34 @@
   vertical-align: bottom;
   &:hover {
     text-decoration: none;
+  }
+}
+.user-tag {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: @secondary-bg;
+  border-radius: 5px;
+  color: @primary-font-color;
+  border-bottom: solid 1px;
+  border-right: solid 1px;
+  &:hover {
+    background-color: @secondary-bg-hovered;
+    color: @primary-font-color-hovered;
+    text-decoration: none;
+  }
+}
+.btn-add {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  margin-bottom: 5px;
+  color: @primary-gray;
+  &:hover {
+    color: @primary-font-color;
+    text-decoration: none;
+  }
+  .icon-add {
+    font-size: 35px;
   }
 }
 .detail-modal {
@@ -846,6 +896,7 @@
       }
       .location-detail {
         padding-top: 4px;
+        word-wrap: break-word;
       }
     }
   }
@@ -1004,10 +1055,10 @@
     margin-right: 2px;
   }
 }
-.description-group, .attachment-group, .comment-group, .activity-group {
+.description-group, .attachment-group, .comment-group {
   margin-bottom: 40px;
 }
-.description-group, .attachment-group, .comment-group, .activity-group {
+.description-group, .attachment-group, .comment-group, .activity-group, .assignee-group {
   position: relative;
   .card-detail-header {
     font-size: 15px;
@@ -1020,6 +1071,9 @@
     left: -25px;
     font-size: 16px;
   }
+}
+.assignee-group {
+  margin-bottom: 10px;
 }
 .description-group {
   .add-description {
@@ -1104,7 +1158,6 @@
     position: relative;
     display: block;
     margin-bottom: 10px;
-    border-bottom: solid 1px @disabled-color;
     border-radius: 5px;
     background-color: @secondary-bg;
     color: @primary-font-color;
@@ -1165,6 +1218,8 @@
   .card-action {
     font-weight: bold;
     padding: 10px 6px 10px 20px;
+    border-bottom: solid 1px @disabled-color;
+    border-radius: 5px;
     display: block;
   }
 }
@@ -1188,6 +1243,7 @@
   &:last-child {
     border-bottom: none;
     margin-bottom: 0;
+    padding-bottom: 0;
   }
   .member {
     position: absolute;
@@ -1278,6 +1334,9 @@
   .btn-danger {
     margin-left: 0;
   }
+  
+}
+#card-type-modal, #assign-user-modal {
   .table-responsive {
     overflow-y: auto;
     max-height: 520px;
@@ -1314,12 +1373,35 @@
     padding: 15px 10px 10px 15px;
   }
 }
+// #assign-user-modal {
+//   .checkbox-inline {
+//     padding-left: 0;
+//     label {
+//       font-weight: bold;
+//     }
+//     input[type="checkbox"] {
+//       top: 0;
+//       right: 0;
+//       margin-right: -20px;
+//     }
+//   }
+//   .choose-user {
+//     display: block;
+//     text-align: center;
+//     input {
+//       margin-top: 0;
+//     }
+//   }
+//   tbody tr {
+//     cursor: pointer;
+//   }
+// }
 #apply-card-type-modal {
   .modal-header>.control-group {
     margin-right: 20px;
   }
 }
-#apply-card-type-modal, #modified-type-modal {
+#apply-card-type-modal, #modified-type-modal, #assign-user-modal {
   .label-title {
     text-align: right;
     padding-top: 8px;
